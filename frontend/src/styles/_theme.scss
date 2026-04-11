@@ -17,18 +17,18 @@ $color-accent-cyan: #5EAECD;      // Vibrant cyan - highlights and active states
 
 // Semantic Color Variables
 $color-sidebar-bg-start: $color-primary-dark;
-$color-sidebar-bg-end: darken($color-primary-dark, 3%);
+$color-sidebar-bg-end: color.adjust($color-primary-dark, $lightness: -3%);
 $color-sidebar-text: #FFFFFF;                    // Pure white for maximum contrast
-$color-sidebar-text-muted: lighten($color-primary-light, 8%);  // Lighter for better visibility
-$color-sidebar-hover: lighten($color-primary-dark, 10%);
+$color-sidebar-text-muted: color.adjust($color-primary-light, $lightness: 8%);  // Lighter for better visibility
+$color-sidebar-hover: color.adjust($color-primary-dark, $lightness: 10%);
 $color-sidebar-active: $color-accent-blue;
-$color-sidebar-border: lighten($color-primary-dark, 12%);
+$color-sidebar-border: color.adjust($color-primary-dark, $lightness: 12%);
 
 // Navbar Colors
 $color-navbar-bg: $color-primary-dark;
 $color-navbar-text: #FFFFFF;                     // Pure white for excellent readability
 $color-navbar-accent: $color-accent-cyan;        // Vibrant cyan for standout elements
-$color-navbar-hover: lighten($color-primary-dark, 8%);
+$color-navbar-hover: color.adjust($color-primary-dark, $lightness: 8%);
 
 // Button Colors - Modern and Vibrant
 $color-button-primary: $color-accent-blue;
