@@ -271,7 +271,7 @@ GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO your_user;
 ## Next Steps
 
 1. ✅ Database setup complete
-2. ⬜ Update backend.js to use PostgreSQL instead of JSON file
+2. ✅ Update backend.ts to use PostgreSQL for vendor APIs
 3. ⬜ Create API endpoints for vendors (GET, POST, PUT, DELETE)
 4. ⬜ Create API endpoints for items (GET, POST, PUT, DELETE)
 5. ⬜ Update frontend forms to work with new API

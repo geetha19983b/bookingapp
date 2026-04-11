@@ -113,6 +113,6 @@ DROP FUNCTION IF EXISTS update_vendors_updated_at();
 
 1. Set up your PostgreSQL database
 2. Run migrations in numerical order
-3. Update backend.js to connect to PostgreSQL
+3. Update backend.ts to connect to PostgreSQL
 4. Implement API endpoints for vendors and items CRUD operations
 5. Update frontend forms to work with the new database structure

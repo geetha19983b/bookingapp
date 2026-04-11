@@ -1,10 +1,11 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "backend.js",
+  "main": "dist/backend.js",
   "scripts": {
-    "start": "node backend.js",
-    "dev": "nodemon backend.js",
+    "build": "tsc -p tsconfig.json",
+    "start": "npm run build && node dist/backend.js",
+    "dev": "tsx watch backend.ts",
     "migrate": "node run_migrations.js",
     "seed": "node seed_db.js",
     "db:setup": "npm run migrate && npm run seed",
@@ -18,9 +19,16 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^5.2.1",
-    "pg": "^8.13.1"
+    "pg": "^8.13.1",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.6.0",
+    "@types/pg": "^8.20.0",
+    "nodemon": "^3.1.9",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2"
   }
 }

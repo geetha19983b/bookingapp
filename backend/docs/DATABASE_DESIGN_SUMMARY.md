@@ -67,7 +67,7 @@ A comprehensive PostgreSQL database design for a bookkeeping application similar
 
 ### 🔧 Application Files
 
-1. **backend/db.js**
+1. **backend/db.ts**
    - PostgreSQL connection pool
    - Query helper functions
    - Transaction support
@@ -231,7 +231,7 @@ npm run seed
 
 ### Immediate Next Steps
 
-1. **Update Backend API** (backend.js)
+1. **Update Backend API** (backend.ts)
    - Replace JSON file storage with PostgreSQL
    - Create API endpoints for vendors:
      - `GET /api/vendors` - List all vendors
@@ -314,8 +314,8 @@ BookKeepingApp/
 │   │   ├── db_setup.sql
 │   │   ├── rollback_all.sql
 │   │   └── README.md
-│   ├── backend.js                 # Main server file (to be updated)
-│   ├── db.js                      # Database connection module
+│   ├── backend.ts                 # Main server file
+│   ├── db.ts                      # Database connection module
 │   ├── run_migrations.js          # Migration runner
 │   ├── package.json               # Updated with pg dependencies
 │   ├── .env                       # Environment configuration

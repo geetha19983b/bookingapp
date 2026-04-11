@@ -8,7 +8,7 @@ npx tailwindcss init -p
 npm init -y
 npm install express
 
-node backend.js
+npm run dev
 
 
 npm run dev
