@@ -4,47 +4,53 @@
 // Modern dark blue theme with vibrant teal accents for a premium, polished look
 // High contrast ratios for excellent readability
 
-// Primary Colors - Dark Professional Palette
-$color-primary-dark: #1C344E;     // Deep navy - navigation and strong surfaces
-$color-primary-medium: #286A8C;   // Rich teal - secondary emphasis and depth
-$color-primary-light: #C4CDD2;    // Soft gray-blue - borders and supporting text
-$color-primary-lightest: #F0F4F8; // Clean light background - canvas backgrounds
 
-// Accent Colors - Vibrant and Modern
-$color-accent-light: #C4CDD2;     // Light gray-blue - subtle fills and muted states
-$color-accent-blue: #428BB5;      // Bright medium blue - CTAs and interactive focus
-$color-accent-cyan: #5EAECD;      // Vibrant cyan - highlights and active states
+// Primary Colors - Custom Palette
+$color-primary-dark: #1B4079;      // Yale Blue - navigation and strong surfaces
+$color-primary-medium: #4D7C8A;    // Air Force Blue - secondary emphasis and depth
+$color-primary-light: #7F9C96;     // Cambridge Blue - borders and supporting text
+$color-primary-lightest: #CBDF90;  // Mindaro - clean light backgrounds
+
+// Accent Colors - Custom Palette
+$color-accent-light: #8FAD88;      // Cambridge Blue - subtle fills and muted states
+$color-accent-blue: #4D7C8A;       // Air Force Blue - CTAs and interactive focus
+$color-accent-cyan: #CBDF90;       // Mindaro - highlights and active states
 
 // Semantic Color Variables
+
 $color-sidebar-bg-start: $color-primary-dark;
 $color-sidebar-bg-end: color.adjust($color-primary-dark, $lightness: -3%);
-$color-sidebar-text: #FFFFFF;                    // Pure white for maximum contrast
-$color-sidebar-text-muted: color.adjust($color-primary-light, $lightness: 8%);  // Lighter for better visibility
-$color-sidebar-hover: color.adjust($color-primary-dark, $lightness: 10%);
+$color-sidebar-text: #FFFFFF;
+$color-sidebar-text-muted: color.adjust($color-primary-light, $lightness: 8%);
+$color-sidebar-hover: $color-primary-medium;
 $color-sidebar-active: $color-accent-blue;
-$color-sidebar-border: color.adjust($color-primary-dark, $lightness: 12%);
+$color-sidebar-border: $color-primary-light;
 
 // Navbar Colors
+
 $color-navbar-bg: $color-primary-dark;
-$color-navbar-text: #FFFFFF;                     // Pure white for excellent readability
-$color-navbar-accent: $color-accent-cyan;        // Vibrant cyan for standout elements
-$color-navbar-hover: color.adjust($color-primary-dark, $lightness: 8%);
+$color-navbar-text: #FFFFFF;
+$color-navbar-accent: $color-accent-cyan;
+$color-navbar-hover: $color-primary-medium;
 
 // Button Colors - Modern and Vibrant
+
 $color-button-primary: $color-accent-blue;
-$color-button-primary-hover: $color-accent-cyan;  // Brighter on hover
+$color-button-primary-hover: $color-accent-cyan;
 $color-button-primary-text: #FFFFFF;
 
 // Background Colors
-$color-bg-main: #E8EEF3;                         // Slightly darker for depth
+
+$color-bg-main: #CBDF90;      // Mindaro - main background
 $color-bg-card: #FFFFFF;
-$color-bg-hover: #E3EBF2;                        // Subtle hover state
-$color-bg-input: #F5F8FB;                        // Light input backgrounds
+$color-bg-hover: #8FAD88;     // Cambridge Blue - hover state
+$color-bg-input: #F5F8FB;
 
 // Text Colors - High Contrast for Readability
-$color-text-primary: #1A2330;                    // Near-black for maximum readability
-$color-text-secondary: #3D5166;                  // Darker secondary text
-$color-text-muted: #5C7189;                      // Improved contrast for muted text
+
+$color-text-primary: #1B4079;      // Yale Blue - for maximum readability
+$color-text-secondary: #4D7C8A;    // Air Force Blue - secondary text
+$color-text-muted: #7F9C96;        // Cambridge Blue - muted text
 $color-text-white: #FFFFFF;
 
 // Border Colors - Refined and Softer

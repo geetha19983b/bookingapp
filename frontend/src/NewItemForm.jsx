@@ -62,14 +62,14 @@ export default function NewItemForm({ onSave }) {
 
   return (
     <div className="p-6">
-      <form onSubmit={handleSubmit} className="bg-card rounded-2xl shadow-lg border border-theme-light p-8">
+      <form onSubmit={handleSubmit} className="bg-bg-card rounded-2xl shadow-lg border border-theme-light p-8">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-3xl font-bold text-primary">New Item</h2>
           <div className="flex gap-3">
             <button type="submit" className="btn-theme-primary px-8 py-3 rounded-xl transition-all font-semibold" disabled={saving}>
               {saving ? "Saving..." : "Save"}
             </button>
-            <button type="button" className="bg-card border-2 border-theme-medium text-secondary px-8 py-3 rounded-xl hover:bg-hover hover:border-accent-blue transition-all font-semibold" onClick={() => navigate("/")}>
+            <button type="button" className="bg-bg-card border-2 border-theme-medium text-secondary px-8 py-3 rounded-xl hover:bg-hover hover:border-accent-blue transition-all font-semibold" onClick={() => navigate("/")}>
               Cancel
             </button>
           </div>
@@ -89,29 +89,29 @@ export default function NewItemForm({ onSave }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center gap-6 mb-2">
-              <label className="font-medium text-secondary">Type</label>
+              <label className="font-medium text-primary">Type</label>
               <label className="flex items-center gap-2">
                 <input type="radio" name="type" value="Goods" checked={form.type === "Goods"} onChange={handleChange} className="accent-theme-medium w-4 h-4" /> 
-                <span className="text-sm">Goods</span>
+                <span className="text-sm text-primary">Goods</span>
               </label>
               <label className="flex items-center gap-2">
                 <input type="radio" name="type" value="Service" checked={form.type === "Service"} onChange={handleChange} className="accent-theme-medium w-4 h-4" /> 
-                <span className="text-sm">Service</span>
+                <span className="text-sm text-primary">Service</span>
               </label>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-secondary mb-1">Name<span className="text-error">*</span></label>
+                <label className="block text-sm font-medium text-primary mb-1">Name<span className="text-error">*</span></label>
                 <input name="name" value={form.name} onChange={handleChange} required className="w-full border border-theme-medium rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-secondary mb-1">SKU</label>
+                <label className="block text-sm font-medium text-primary mb-1">SKU</label>
                 <input name="sku" value={form.sku} onChange={handleChange} className="w-full border border-theme-medium rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent" />
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-secondary mb-1">Unit</label>
+                <label className="block text-sm font-medium text-primary mb-1">Unit</label>
                 <select name="unit" value={form.unit} onChange={handleChange} className="w-full border border-theme-medium rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent">
                   <option value="">--Select--</option>
                   <option value="Nos">Nos</option>
@@ -120,13 +120,13 @@ export default function NewItemForm({ onSave }) {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-secondary mb-1">HSN Code</label>
+                <label className="block text-sm font-medium text-primary mb-1">HSN Code</label>
                 <input name="hsn" value={form.hsn} onChange={handleChange} className="w-full border border-theme-medium rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent" />
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-secondary mb-1">Tax Preference <span className="text-error">*</span></label>
+                <label className="block text-sm font-medium text-primary mb-1">Tax Preference <span className="text-error">*</span></label>
                 <select name="taxPreference" value={form.taxPreference} onChange={handleChange} className="w-full border border-theme-medium rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent">
                   <option value="Taxable">Taxable</option>
                   <option value="Non-Taxable">Non-Taxable</option>
@@ -139,7 +139,7 @@ export default function NewItemForm({ onSave }) {
             <svg className="w-12 h-12 text-muted mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
-            <span className="text-secondary text-sm mb-2">Drag image(s) here or</span>
+            <span className="text-primary text-sm mb-2">Drag image(s) here or</span>
             <button type="button" className="text-theme-medium hover:text-accent-blue font-medium text-sm">Browse images</button>
           </div>
         </div>
@@ -153,26 +153,26 @@ export default function NewItemForm({ onSave }) {
                 <span className="font-semibold text-primary">Sales Information</span>
                 <label className="flex items-center gap-2">
                   <input type="checkbox" name="sellable" checked={form.sellable} onChange={handleChange} className="accent-theme-medium w-4 h-4" /> 
-                  <span className="text-sm text-secondary">Sellable</span>
+                  <span className="text-sm text-primary">Sellable</span>
                 </label>
               </div>
               <div className="space-y-3">
                 <div>
-                  <label className="block text-sm font-medium text-secondary mb-1">Selling Price<span className="text-error">*</span></label>
+                  <label className="block text-sm font-medium text-primary mb-1">Selling Price<span className="text-error">*</span></label>
                   <div className="flex items-center gap-2">
-                    <span className="text-secondary text-sm font-medium">INR</span>
+                    <span className="text-primary text-sm font-medium">INR</span>
                     <input name="sellingPrice" value={form.sellingPrice} onChange={handleChange} className="flex-1 border border-theme-medium rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent" />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-secondary mb-1">Account<span className="text-error">*</span></label>
+                  <label className="block text-sm font-medium text-primary mb-1">Account<span className="text-error">*</span></label>
                   <select name="salesAccount" value={form.salesAccount} onChange={handleChange} className="w-full border border-theme-medium rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent">
                     <option value="Sales">Sales</option>
                     <option value="Other">Other</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-secondary mb-1">Description</label>
+                  <label className="block text-sm font-medium text-primary mb-1">Description</label>
                   <textarea name="salesDescription" value={form.salesDescription} onChange={handleChange} className="w-full border border-theme-medium rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent" rows={2}></textarea>
                 </div>
               </div>
@@ -183,30 +183,30 @@ export default function NewItemForm({ onSave }) {
                 <span className="font-semibold text-primary">Purchase Information</span>
                 <label className="flex items-center gap-2">
                   <input type="checkbox" name="purchasable" checked={form.purchasable} onChange={handleChange} className="accent-theme-medium w-4 h-4" /> 
-                  <span className="text-sm text-secondary">Purchasable</span>
+                  <span className="text-sm text-primary">Purchasable</span>
                 </label>
               </div>
               <div className="space-y-3">
                 <div>
-                  <label className="block text-sm font-medium text-secondary mb-1">Cost Price<span className="text-error">*</span></label>
+                  <label className="block text-sm font-medium text-primary mb-1">Cost Price<span className="text-error">*</span></label>
                   <div className="flex items-center gap-2">
-                    <span className="text-secondary text-sm font-medium">INR</span>
+                    <span className="text-primary text-sm font-medium">INR</span>
                     <input name="costPrice" value={form.costPrice} onChange={handleChange} className="flex-1 border border-theme-medium rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent" />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-secondary mb-1">Account<span className="text-error">*</span></label>
+                  <label className="block text-sm font-medium text-primary mb-1">Account<span className="text-error">*</span></label>
                   <select name="purchaseAccount" value={form.purchaseAccount} onChange={handleChange} className="w-full border border-theme-medium rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent">
                     <option value="Cost of Goods Sold">Cost of Goods Sold</option>
                     <option value="Other">Other</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-secondary mb-1">Description</label>
+                  <label className="block text-sm font-medium text-primary mb-1">Description</label>
                   <textarea name="purchaseDescription" value={form.purchaseDescription} onChange={handleChange} className="w-full border border-theme-medium rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent" rows={2}></textarea>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-secondary mb-1">Preferred Vendor</label>
+                  <label className="block text-sm font-medium text-primary mb-1">Preferred Vendor</label>
                   <select name="preferredVendor" value={form.preferredVendor} onChange={handleChange} className="w-full border border-theme-medium rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent">
                     <option value="">--Select--</option>
                     <option value="Vendor 1">Vendor 1</option>
@@ -222,7 +222,7 @@ export default function NewItemForm({ onSave }) {
         <div className="mt-8 bg-theme-lightest p-4 rounded-lg">
           <div className="font-medium mb-3 flex items-center gap-2 text-primary">
             Default Tax Rates
-            <button type="button" className="text-muted hover:text-secondary">
+            <button type="button" className="text-muted hover:text-primary">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
               </svg>
@@ -230,11 +230,11 @@ export default function NewItemForm({ onSave }) {
           </div>
           <div className="grid grid-cols-2 gap-6 text-sm">
             <div>
-              <span className="text-secondary">Intra State Tax Rate</span>
+              <span className="text-primary">Intra State Tax Rate</span>
               <div className="font-semibold text-primary mt-1">GST18 (18%)</div>
             </div>
             <div>
-              <span className="text-secondary">Inter State Tax Rate</span>
+              <span className="text-primary">Inter State Tax Rate</span>
               <div className="font-semibold text-primary mt-1">IGST18 (18%)</div>
             </div>
           </div>
@@ -243,7 +243,7 @@ export default function NewItemForm({ onSave }) {
         {/* Track Inventory */}
         <div className="mt-6 flex items-center gap-2">
           <input type="checkbox" name="trackInventory" checked={form.trackInventory} onChange={handleChange} className="accent-theme-medium w-4 h-4" id="track-inventory" />
-          <label htmlFor="track-inventory" className="text-sm text-secondary">Track Inventory for this item</label>
+          <label htmlFor="track-inventory" className="text-sm text-primary">Track Inventory for this item</label>
         </div>
       </form>
     </div>

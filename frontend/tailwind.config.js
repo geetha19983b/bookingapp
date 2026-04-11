@@ -7,35 +7,35 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Theme color palette - Professional Dark (Modern premium dark theme)
+        // Theme color palette - Custom Palette
         theme: {
-          'dark': '#1C344E',      // Deep navy - Dark surfaces
-          'medium': '#286A8C',    // Rich teal - Primary accents
-          'light': '#C4CDD2',     // Soft gray-blue - Borders and muted elements
-          'lightest': '#F0F4F8',  // Clean light background
+          'dark': '#1B4079',      // Yale Blue - Dark surfaces
+          'medium': '#4D7C8A',    // Air Force Blue - Primary accents
+          'light': '#7F9C96',     // Cambridge Blue - Borders and muted elements
+          'lightest': '#CBDF90',  // Mindaro - Clean light background
         },
-        // Accent colors - Vibrant and Modern
+        // Accent colors - Custom Palette
         accent: {
-          'blue': '#428BB5',      // Bright medium blue - Primary actions
-          'cyan': '#5EAECD',      // Vibrant cyan - Highlights and active states
-          'light': '#C4CDD2',     // Light gray-blue - Subtle accents
+          'blue': '#4D7C8A',      // Air Force Blue - Primary actions
+          'cyan': '#CBDF90',      // Mindaro - Highlights and active states
+          'light': '#8FAD88',     // Cambridge Blue - Subtle accents
           'mist': '#E3EBF2',      // Very light - Hover states
         },
-        // Sidebar colors - Dark and Professional
+        // Sidebar colors - Custom Palette
         sidebar: {
-          'bg': '#1C344E',        // Deep navy
+          'bg': '#1B4079',        // Yale Blue
           'text': '#FFFFFF',      // Pure white for maximum contrast
-          'muted': '#D8E2EA',     // Light gray-blue for muted text
-          'hover': '#254461',     // Slightly lighter on hover
-          'active': '#428BB5',    // Bright blue - Active state
-          DEFAULT: '#2A4A62',     // Border/sidebar separator
+          'muted': '#7F9C96',     // Cambridge Blue for muted text
+          'hover': '#4D7C8A',     // Air Force Blue - hover
+          'active': '#4D7C8A',    // Air Force Blue - Active state
+          DEFAULT: '#7F9C96',     // Cambridge Blue - Border/sidebar separator
         },
         // Navbar colors - Matching sidebar
         navbar: {
-          'bg': '#1C344E',        // Deep navy
+          'bg': '#1B4079',        // Yale Blue
           'text': '#FFFFFF',      // Pure white - Maximum readability
-          'accent': '#5EAECD',    // Vibrant cyan - Standout elements
-          'hover': '#254461',     // Slightly lighter - Hover states
+          'accent': '#CBDF90',    // Mindaro - Standout elements
+          'hover': '#4D7C8A',     // Air Force Blue - Hover states
         },
       },
       fontFamily: {
