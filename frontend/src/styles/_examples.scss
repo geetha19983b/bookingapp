@@ -1,0 +1,340 @@
+@import './styles/theme';
+
+/* 
+ * Example styles showing how to use the theme
+ * You can copy these patterns for your components
+ */
+
+/* Example 1: Using theme colors directly */
+.example-header {
+  background-color: $color-primary-dark;
+  color: $color-text-white;
+  padding: $spacing-lg;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-md;
+}
+
+/* Example 2: Using mixins for quick styling */
+.example-button {
+  @include button-primary;
+  /* That's it! All button styles are applied */
+}
+
+.example-card {
+  @include card;
+  padding: $spacing-xl;
+  
+  /* Add custom styles on top of the mixin */
+  transition: transform $transition-base;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+  }
+}
+
+/* Example 3: Form styling */
+.example-form {
+  .form-field {
+    margin-bottom: $spacing-lg;
+    
+    label {
+      display: block;
+      margin-bottom: $spacing-sm;
+      font-weight: $font-weight-medium;
+      color: $color-text-primary;
+    }
+    
+    input {
+      @include input-base;
+    }
+  }
+  
+  .submit-button {
+    @include button-primary;
+    width: 100%;
+  }
+}
+
+/* Example 4: Responsive layout with theme colors */
+.example-dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: $spacing-lg;
+  padding: $spacing-xl;
+  
+  .stat-card {
+    @include card;
+    padding: $spacing-lg;
+    
+    .stat-value {
+      font-size: $font-size-3xl;
+      font-weight: $font-weight-bold;
+      color: $color-primary-dark;
+      margin-bottom: $spacing-sm;
+    }
+    
+    .stat-label {
+      font-size: $font-size-sm;
+      color: $color-text-secondary;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+  }
+}
+
+/* Example 5: Status badges */
+.status-badge {
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-full;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  
+  &.active {
+    background-color: rgba($color-success, 0.1);
+    color: darken($color-success, 10%);
+  }
+  
+  &.pending {
+    background-color: rgba($color-warning, 0.1);
+    color: darken($color-warning, 10%);
+  }
+  
+  &.inactive {
+    background-color: rgba($color-text-muted, 0.1);
+    color: $color-text-muted;
+  }
+}
+
+/* Example 6: Navigation with hover effects */
+.custom-nav {
+  background: linear-gradient(to bottom, $color-sidebar-bg-start, $color-sidebar-bg-end);
+  padding: $spacing-md;
+  
+  .nav-item {
+    @include flex-between;
+    padding: $spacing-sm $spacing-md;
+    color: $color-sidebar-text;
+    border-radius: $radius-md;
+    transition: all $transition-fast;
+    cursor: pointer;
+    
+    &:hover {
+      background-color: $color-sidebar-hover;
+      transform: translateX(4px);
+    }
+    
+    &.active {
+      background-color: $color-sidebar-active;
+      border-left: 3px solid $color-primary-light;
+    }
+  }
+}
+
+/* Example 7: Data table with theme colors */
+.data-table {
+  @include card;
+  overflow: hidden;
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    
+    thead {
+      background-color: $color-primary-lightest;
+      
+      th {
+        padding: $spacing-md $spacing-lg;
+        text-align: left;
+        font-size: $font-size-xs;
+        font-weight: $font-weight-semibold;
+        color: $color-primary-dark;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 2px solid $color-primary-light;
+      }
+    }
+    
+    tbody {
+      tr {
+        border-bottom: 1px solid $color-border-light;
+        transition: background-color $transition-fast;
+        
+        &:hover {
+          background-color: $color-bg-hover;
+        }
+        
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+      
+      td {
+        padding: $spacing-md $spacing-lg;
+        color: $color-text-primary;
+      }
+    }
+  }
+}
+
+/* Example 8: Modal/Dialog */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba($color-primary-dark, 0.5);
+  @include flex-center;
+  z-index: $z-index-modal;
+  
+  .modal-content {
+    @include card;
+    max-width: 500px;
+    width: 90%;
+    padding: $spacing-xl;
+    animation: slideUp $transition-slow;
+    
+    .modal-header {
+      @include flex-between;
+      margin-bottom: $spacing-lg;
+      padding-bottom: $spacing-md;
+      border-bottom: 1px solid $color-border-light;
+      
+      h3 {
+        font-size: $font-size-xl;
+        font-weight: $font-weight-semibold;
+        color: $color-text-primary;
+      }
+      
+      .close-button {
+        color: $color-text-muted;
+        cursor: pointer;
+        transition: color $transition-fast;
+        
+        &:hover {
+          color: $color-text-primary;
+        }
+      }
+    }
+    
+    .modal-footer {
+      @include flex-between;
+      margin-top: $spacing-lg;
+      padding-top: $spacing-lg;
+      border-top: 1px solid $color-border-light;
+      gap: $spacing-sm;
+      
+      .btn-secondary {
+        @include button-base;
+        background-color: transparent;
+        color: $color-text-secondary;
+        border: 1px solid $color-border-medium;
+        
+        &:hover {
+          background-color: $color-bg-hover;
+        }
+      }
+    }
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Example 9: Loading state */
+.loading-container {
+  @include flex-center;
+  flex-direction: column;
+  padding: $spacing-2xl;
+  color: $color-text-muted;
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid $color-primary-lightest;
+    border-top-color: $color-primary-medium;
+    border-radius: $radius-full;
+    animation: spin 1s linear infinite;
+    margin-bottom: $spacing-md;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Example 10: Alert notifications */
+.notification {
+  padding: $spacing-md $spacing-lg;
+  border-radius: $radius-md;
+  box-shadow: $shadow-md;
+  @include flex-between;
+  margin-bottom: $spacing-md;
+  animation: slideInRight $transition-base;
+  
+  &.success {
+    background-color: rgba($color-success, 0.1);
+    border-left: 4px solid $color-success;
+    
+    .notification-icon {
+      color: $color-success;
+    }
+  }
+  
+  &.error {
+    background-color: rgba($color-error, 0.1);
+    border-left: 4px solid $color-error;
+    
+    .notification-icon {
+      color: $color-error;
+    }
+  }
+  
+  &.info {
+    background-color: rgba($color-info, 0.1);
+    border-left: 4px solid $color-info;
+    
+    .notification-icon {
+      color: $color-info;
+    }
+  }
+  
+  .notification-content {
+    flex: 1;
+    
+    .notification-title {
+      font-weight: $font-weight-semibold;
+      margin-bottom: $spacing-xs;
+    }
+    
+    .notification-message {
+      font-size: $font-size-sm;
+      color: $color-text-secondary;
+    }
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

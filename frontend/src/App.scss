@@ -1,0 +1,227 @@
+@use 'sass:color';
+@use './styles/theme' as theme;
+
+/* App-specific styles */
+.app-container {
+  min-height: 100vh;
+  background-color: theme.$color-bg-main;
+}
+
+/* Main background with subtle gradient for depth */
+.bg-main {
+  background: linear-gradient(135deg, #E8EEF3 0%, #F0F4F8 100%);
+}
+
+.sidebar {
+  width: 16rem;
+  background: linear-gradient(to bottom, theme.$color-sidebar-bg-start, theme.$color-sidebar-bg-end);
+  box-shadow: theme.$shadow-xl;
+  
+  &__logo {
+    padding: theme.$spacing-lg theme.$spacing-md;
+    border-bottom: 1px solid theme.$color-sidebar-border;
+  }
+  
+  &__nav-item {
+    padding: 0.625rem theme.$spacing-md;
+    font-size: theme.$font-size-sm;
+    transition: all theme.$transition-fast;
+    color: theme.$color-sidebar-text;
+    
+    &:hover {
+      background-color: theme.$color-sidebar-hover;
+      color: theme.$color-text-white;
+    }
+    
+    &--active {
+      background-color: theme.$color-sidebar-active;
+      color: theme.$color-text-white;
+      border-left: 4px solid theme.$color-primary-light;
+    }
+  }
+}
+
+.topnav {
+  background-color: theme.$color-bg-card;
+  border-bottom: 1px solid theme.$color-border-light;
+  box-shadow: theme.$shadow-sm;
+  
+  &__search {
+    @include theme.input-base;
+    max-width: 28rem;
+    background-color: theme.$color-bg-input;
+    
+    &:focus {
+      border-color: theme.$color-primary-medium;
+      box-shadow: 0 0 0 3px rgba(theme.$color-primary-medium, 0.1);
+    }
+  }
+  
+  &__button {
+    @include theme.button-primary;
+  }
+}
+
+.content-area {
+  flex: 1;
+  overflow: auto;
+  background-color: theme.$color-bg-main;
+}
+
+.page-header {
+  @include theme.flex-between;
+  margin-bottom: theme.$spacing-lg;
+  
+  h2 {
+    font-size: theme.$font-size-2xl;
+    font-weight: theme.$font-weight-semibold;
+    color: theme.$color-text-primary;
+  }
+}
+
+.table-container {
+  @include theme.card;
+  overflow: hidden;
+  
+  table {
+    width: 100%;
+    
+    thead {
+      background-color: theme.$color-bg-input;
+      
+      th {
+        padding: 0.75rem theme.$spacing-lg;
+        text-align: left;
+        font-size: theme.$font-size-xs;
+        font-weight: theme.$font-weight-semibold;
+        color: theme.$color-text-secondary;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+    }
+    
+    tbody {
+      tr {
+        border-top: 1px solid theme.$color-border-light;
+        transition: background-color theme.$transition-fast;
+        
+        &:hover {
+          background-color: theme.$color-bg-hover;
+        }
+      }
+      
+      td {
+        padding: theme.$spacing-md theme.$spacing-lg;
+        font-size: theme.$font-size-sm;
+        color: theme.$color-text-primary;
+      }
+    }
+  }
+}
+
+.empty-state {
+  @include theme.card;
+  @include theme.flex-center;
+  flex-direction: column;
+  padding: theme.$spacing-2xl * 2;
+  text-align: center;
+  
+  &__icon {
+    color: theme.$color-text-muted;
+    margin-bottom: theme.$spacing-md;
+  }
+  
+  &__title {
+    font-size: theme.$font-size-lg;
+    font-weight: theme.$font-weight-medium;
+    color: theme.$color-text-primary;
+    margin-bottom: theme.$spacing-sm;
+  }
+  
+  &__description {
+    color: theme.$color-text-muted;
+    margin-bottom: theme.$spacing-lg;
+  }
+}
+
+.form-group {
+  margin-bottom: theme.$spacing-lg;
+  
+  label {
+    display: block;
+    margin-bottom: theme.$spacing-sm;
+    font-size: theme.$font-size-sm;
+    font-weight: theme.$font-weight-medium;
+    color: theme.$color-text-primary;
+  }
+  
+  input,
+  textarea,
+  select {
+    @include theme.input-base;
+  }
+  
+  textarea {
+    min-height: 6rem;
+    resize: vertical;
+  }
+}
+
+.alert {
+  padding: theme.$spacing-md;
+  border-radius: theme.$radius-md;
+  font-size: theme.$font-size-sm;
+  
+  &--error {
+    background-color: rgba(theme.$color-error, 0.1);
+    border: 1px solid rgba(theme.$color-error, 0.3);
+    color: color.adjust(theme.$color-error, $lightness: -10%);
+  }
+  
+  &--success {
+    background-color: rgba(theme.$color-success, 0.1);
+    border: 1px solid rgba(theme.$color-success, 0.3);
+    color: color.adjust(theme.$color-success, $lightness: -10%);
+  }
+  
+  &--warning {
+    background-color: rgba(theme.$color-warning, 0.1);
+    border: 1px solid rgba(theme.$color-warning, 0.3);
+    color: color.adjust(theme.$color-warning, $lightness: -10%);
+  }
+  
+  &--info {
+    background-color: rgba(theme.$color-info, 0.1);
+    border: 1px solid rgba(theme.$color-info, 0.3);
+    color: color.adjust(theme.$color-info, $lightness: -10%);
+  }
+}
+
+.badge {
+  display: inline-block;
+  padding: theme.$spacing-xs theme.$spacing-sm;
+  border-radius: theme.$radius-full;
+  font-size: theme.$font-size-xs;
+  font-weight: theme.$font-weight-medium;
+  
+  &--success {
+    background-color: rgba(theme.$color-success, 0.1);
+    color: color.adjust(theme.$color-success, $lightness: -10%);
+  }
+  
+  &--warning {
+    background-color: rgba(theme.$color-warning, 0.1);
+    color: color.adjust(theme.$color-warning, $lightness: -10%);
+  }
+  
+  &--error {
+    background-color: rgba(theme.$color-error, 0.1);
+    color: color.adjust(theme.$color-error, $lightness: -10%);
+  }
+}
+
+.loading-spinner {
+  @include theme.flex-center;
+  height: 16rem;
+  color: theme.$color-text-muted;
+}

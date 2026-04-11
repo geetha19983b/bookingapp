@@ -3,13 +3,24 @@
   "version": "1.0.0",
   "main": "backend.js",
   "scripts": {
+    "start": "node backend.js",
+    "dev": "nodemon backend.js",
+    "migrate": "node run_migrations.js",
+    "seed": "node seed_db.js",
+    "db:setup": "npm run migrate && npm run seed",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Backend for BookKeeping application with PostgreSQL",
   "dependencies": {
-    "express": "^5.2.1"
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^5.2.1",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
   }
 }

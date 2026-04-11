@@ -1,0 +1,179 @@
+@use 'sass:color';
+
+// Color Palette - Professional Dark Theme
+// Modern dark blue theme with vibrant teal accents for a premium, polished look
+// High contrast ratios for excellent readability
+
+// Primary Colors - Dark Professional Palette
+$color-primary-dark: #1C344E;     // Deep navy - navigation and strong surfaces
+$color-primary-medium: #286A8C;   // Rich teal - secondary emphasis and depth
+$color-primary-light: #C4CDD2;    // Soft gray-blue - borders and supporting text
+$color-primary-lightest: #F0F4F8; // Clean light background - canvas backgrounds
+
+// Accent Colors - Vibrant and Modern
+$color-accent-light: #C4CDD2;     // Light gray-blue - subtle fills and muted states
+$color-accent-blue: #428BB5;      // Bright medium blue - CTAs and interactive focus
+$color-accent-cyan: #5EAECD;      // Vibrant cyan - highlights and active states
+
+// Semantic Color Variables
+$color-sidebar-bg-start: $color-primary-dark;
+$color-sidebar-bg-end: darken($color-primary-dark, 3%);
+$color-sidebar-text: #FFFFFF;                    // Pure white for maximum contrast
+$color-sidebar-text-muted: lighten($color-primary-light, 8%);  // Lighter for better visibility
+$color-sidebar-hover: lighten($color-primary-dark, 10%);
+$color-sidebar-active: $color-accent-blue;
+$color-sidebar-border: lighten($color-primary-dark, 12%);
+
+// Navbar Colors
+$color-navbar-bg: $color-primary-dark;
+$color-navbar-text: #FFFFFF;                     // Pure white for excellent readability
+$color-navbar-accent: $color-accent-cyan;        // Vibrant cyan for standout elements
+$color-navbar-hover: lighten($color-primary-dark, 8%);
+
+// Button Colors - Modern and Vibrant
+$color-button-primary: $color-accent-blue;
+$color-button-primary-hover: $color-accent-cyan;  // Brighter on hover
+$color-button-primary-text: #FFFFFF;
+
+// Background Colors
+$color-bg-main: #E8EEF3;                         // Slightly darker for depth
+$color-bg-card: #FFFFFF;
+$color-bg-hover: #E3EBF2;                        // Subtle hover state
+$color-bg-input: #F5F8FB;                        // Light input backgrounds
+
+// Text Colors - High Contrast for Readability
+$color-text-primary: #1A2330;                    // Near-black for maximum readability
+$color-text-secondary: #3D5166;                  // Darker secondary text
+$color-text-muted: #5C7189;                      // Improved contrast for muted text
+$color-text-white: #FFFFFF;
+
+// Border Colors - Refined and Softer
+$color-border-light: #D8E2EA;
+$color-border-medium: #B0BFCC;
+$color-border-dark: #8A9BAC;
+
+// Status Colors (muted to match the Ink Wash palette)
+$color-success: #4B8A70;
+$color-warning: #B78542;
+$color-error: #BE6060;
+$color-info: $color-accent-blue;
+
+// Shadow Definitions - Softer and More Polished
+$shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+$shadow-md: 0 4px 8px -2px rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.07);
+$shadow-lg: 0 12px 20px -4px rgba(0, 0, 0, 0.15), 0 4px 8px -2px rgba(0, 0, 0, 0.08);
+$shadow-xl: 0 24px 32px -8px rgba(0, 0, 0, 0.18), 0 12px 16px -4px rgba(0, 0, 0, 0.10);
+$shadow-2xl: 0 32px 48px -12px rgba(0, 0, 0, 0.22), 0 16px 24px -8px rgba(0, 0, 0, 0.12);
+
+// Border Radius - Smoother, More Rounded
+$radius-sm: 0.375rem;   // 6px - slightly more rounded
+$radius-md: 0.5rem;     // 8px - smooth standard radius
+$radius-lg: 0.75rem;    // 12px - noticeably rounded
+$radius-xl: 1rem;       // 16px - very rounded
+$radius-2xl: 1.5rem;    // 24px - extra rounded
+$radius-full: 9999px;
+
+// Spacing (complementing Tailwind)
+$spacing-xs: 0.25rem;   // 4px
+$spacing-sm: 0.5rem;    // 8px
+$spacing-md: 1rem;      // 16px
+$spacing-lg: 1.5rem;    // 24px
+$spacing-xl: 2rem;      // 32px
+$spacing-2xl: 3rem;     // 48px
+
+// Typography
+$font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+$font-size-xs: 0.75rem;     // 12px
+$font-size-sm: 0.875rem;    // 14px
+$font-size-base: 1rem;      // 16px
+$font-size-lg: 1.125rem;    // 18px
+$font-size-xl: 1.25rem;     // 20px
+$font-size-2xl: 1.5rem;     // 24px
+$font-size-3xl: 1.875rem;   // 30px
+
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// Transitions
+$transition-fast: 150ms ease-in-out;
+$transition-base: 200ms ease-in-out;
+$transition-slow: 300ms ease-in-out;
+
+// Z-index layers
+$z-index-dropdown: 1000;
+$z-index-modal: 1050;
+$z-index-tooltip: 1070;
+$z-index-notification: 1090;
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin card {
+  background-color: $color-bg-card;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
+  border: 1px solid $color-border-light;
+}
+
+@mixin button-base {
+  padding: 0.5rem 1rem;
+  border-radius: $radius-md;
+  font-weight: $font-weight-medium;
+  font-size: $font-size-sm;
+  transition: all $transition-base;
+  cursor: pointer;
+  border: none;
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($color-primary-medium, 0.2);
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@mixin button-primary {
+  @include button-base;
+  background-color: $color-button-primary;
+  color: $color-button-primary-text;
+  
+  &:hover:not(:disabled) {
+    background-color: $color-button-primary-hover;
+  }
+}
+
+@mixin input-base {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid $color-border-medium;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  background-color: $color-bg-input;
+  transition: border-color $transition-fast;
+  
+  &:focus {
+    outline: none;
+    border-color: $color-primary-medium;
+    background-color: $color-bg-card;
+    box-shadow: 0 0 0 3px rgba($color-primary-medium, 0.1);
+  }
+  
+  &::placeholder {
+    color: $color-text-muted;
+  }
+}

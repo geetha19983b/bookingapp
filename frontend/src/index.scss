@@ -1,0 +1,235 @@
+@use './styles/theme' as theme;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased;
+    font-family: theme.$font-family-base;
+    background-color: theme.$color-bg-main;
+    color: theme.$color-text-primary;
+  }
+}
+
+@layer components {
+  /* Custom scrollbar styling - Smooth and Modern */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #E8EEF3;
+    border-radius: theme.$radius-md;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, theme.$color-accent-blue 0%, theme.$color-primary-medium 100%);
+    border-radius: theme.$radius-md;
+    border: 2px solid #E8EEF3;
+    
+    &:hover {
+      background: linear-gradient(180deg, theme.$color-accent-cyan 0%, theme.$color-accent-blue 100%);
+    }
+  }
+  
+  /* Custom button classes */
+  .btn-primary {
+    @include theme.button-primary;
+  }
+  
+  .card {
+    @include theme.card;
+  }
+  
+  /* Input styles */
+  .input-base {
+    @include theme.input-base;
+  }
+}
+
+/* Utility classes for theme colors */
+.bg-theme-dark {
+  background-color: theme.$color-primary-dark;
+}
+
+.bg-theme-medium {
+  background-color: theme.$color-primary-medium;
+}
+
+.bg-theme-light {
+  background-color: theme.$color-primary-light;
+}
+
+.bg-theme-lightest {
+  background-color: theme.$color-primary-lightest;
+}
+
+.bg-accent-blue {
+  background-color: theme.$color-accent-blue;
+}
+
+.bg-accent-light {
+  background-color: theme.$color-accent-light;
+}
+
+.text-theme-dark {
+  color: theme.$color-primary-dark;
+}
+
+.text-theme-medium {
+  color: theme.$color-primary-medium;
+}
+
+.text-accent-blue {
+  color: theme.$color-accent-blue;
+}
+
+.text-accent-light {
+  color: theme.$color-accent-light;
+}
+
+.border-theme {
+  border-color: theme.$color-primary-light;
+}
+
+.border-theme-light {
+  border-color: theme.$color-border-light;
+}
+
+.border-theme-medium {
+  border-color: theme.$color-border-medium;
+}
+
+/* Sidebar colors */
+.bg-sidebar {
+  background: linear-gradient(to bottom, theme.$color-sidebar-bg-start, theme.$color-sidebar-bg-end);
+}
+
+.bg-sidebar-hover {
+  background-color: theme.$color-sidebar-hover;
+}
+
+.bg-sidebar-active {
+  background-color: theme.$color-sidebar-active;
+}
+
+.text-sidebar {
+  color: theme.$color-sidebar-text;
+}
+
+.text-sidebar-muted {
+  color: theme.$color-sidebar-text-muted;
+}
+
+.border-sidebar {
+  border-color: theme.$color-sidebar-border;
+}
+
+/* Navbar colors */
+.bg-navbar-bg {
+  background-color: theme.$color-navbar-bg;
+}
+
+.bg-navbar-hover {
+  background-color: theme.$color-navbar-hover;
+}
+
+.text-navbar-text {
+  color: theme.$color-navbar-text;
+}
+
+.text-navbar-accent {
+  color: theme.$color-navbar-accent;
+}
+
+/* Button colors - Modern and Polished */
+.btn-theme-primary {
+  background: linear-gradient(135deg, theme.$color-accent-blue 0%, theme.$color-primary-medium 100%);
+  color: theme.$color-button-primary-text;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(theme.$color-accent-blue, 0.3);
+  
+  &:hover {
+    background: linear-gradient(135deg, theme.$color-accent-cyan 0%, theme.$color-accent-blue 100%);
+    box-shadow: 0 6px 20px rgba(theme.$color-accent-cyan, 0.4);
+    transform: translateY(-1px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(theme.$color-accent-blue, 0.3);
+  }
+  
+  &:disabled {
+    background: theme.$color-border-medium;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+  }
+}
+
+/* Background colors */
+.bg-main {
+  background-color: theme.$color-bg-main;
+}
+
+.bg-card {
+  background-color: theme.$color-bg-card;
+}
+
+.bg-hover {
+  background-color: theme.$color-bg-hover;
+}
+
+.bg-input {
+  background-color: theme.$color-bg-input;
+}
+
+/* Text colors */
+.text-primary {
+  color: theme.$color-text-primary;
+}
+
+.text-secondary {
+  color: theme.$color-text-secondary;
+}
+
+.text-muted {
+  color: theme.$color-text-muted;
+}
+
+/* Status colors */
+.bg-success {
+  background-color: theme.$color-success;
+}
+
+.bg-warning {
+  background-color: theme.$color-warning;
+}
+
+.bg-error {
+  background-color: theme.$color-error;
+}
+
+.bg-info {
+  background-color: theme.$color-info;
+}
+
+.text-success {
+  color: theme.$color-success;
+}
+
+.text-warning {
+  color: theme.$color-warning;
+}
+
+.text-error {
+  color: theme.$color-error;
+}
+
+.text-info {
+  color: theme.$color-info;
+}

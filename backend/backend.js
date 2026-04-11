@@ -1,8 +1,14 @@
 // Simple Express.js backend for saving items to a JSON file
 const express = require('express');
+const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const app = express();
+// Enable CORS for frontend (localhost:5173)
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
 const PORT = 5174;
 
 const DATA_FILE = path.join(__dirname, 'items.json');
