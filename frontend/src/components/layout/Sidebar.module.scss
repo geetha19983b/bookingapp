@@ -1,10 +1,10 @@
-@use '../../styles/theme' as *;
+@use "../../styles/theme" as *;
 
 .sidebar {
   width: 18rem; // 288px - increased from 16rem (256px)
   min-width: 18rem; // Prevent shrinking
   max-width: 18rem; // Prevent expanding
-  background: linear-gradient(to bottom, $color-sidebar-bg-start, $color-sidebar-bg-end);
+  background: $color-sidebar-bg;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -26,7 +26,7 @@
   }
 
   .logoIcon {
-    background: linear-gradient(to bottom right, $color-accent-cyan, $color-accent-blue);
+    background: $color-teal;
     padding: $spacing-md;
     border-radius: $radius-xl;
     box-shadow: $shadow-lg;
@@ -53,7 +53,7 @@
     }
 
     .subtitle {
-      color: $color-sidebar-text-muted;
+      color: $color-eggshell;
       font-size: $font-size-xs;
     }
   }
@@ -98,19 +98,21 @@
   transition: all 0.3s ease-in-out;
   border-radius: $radius-lg;
   margin: 0 $spacing-sm;
-  color: $color-sidebar-text-muted;
+  color: $color-eggshell;
   text-decoration: none;
 
   &:hover {
     background-color: $color-sidebar-hover;
     color: $color-sidebar-text;
+    border-left: 4px solid $color-teal;
   }
-
   &.active {
-    background: linear-gradient(to right, $color-accent-blue, $color-accent-cyan);
-    color: $color-sidebar-text;
-    font-weight: 600;
+    background: $color-teal;
+    color: $color-sidebar-bg;
+    font-weight: 700;
     box-shadow: $shadow-lg;
+    border-left: 6px solid $color-teal;
+    z-index: 2;
   }
 
   .navLinkContent {
@@ -157,28 +159,27 @@
 
 .submenuWrapper {
   margin: $spacing-xs $spacing-sm 0;
-  background-color: rgba(255, 255, 255, 0.08); // More visible background
+  background-color: $color-sidebar-submenu-bg;
   border-radius: $radius-lg;
   padding: $spacing-xs 0;
   position: relative;
-  border-left: 2px solid rgba(255, 255, 255, 0.1); // Subtle left border
+  border-left: 2px solid rgba(129, 178, 154, 0.2);
 
   // Dotted line indicator on the left
   &::before {
-    content: '';
+    content: "";
     position: absolute;
-    left: calc(#{$spacing-lg} + 2px); // Account for border
+    left: calc(#{$spacing-lg} + 2px);
     top: $spacing-sm;
     bottom: $spacing-sm;
-    width: 2px; // Thicker line
+    width: 2px;
     background-image: repeating-linear-gradient(
       to bottom,
-      $color-sidebar-text-muted,
-      $color-sidebar-text-muted 4px,
+      rgba(244, 241, 222, 0.3),
+      rgba(244, 241, 222, 0.3) 4px,
       transparent 4px,
       transparent 8px
     );
-    opacity: 0.6; // More visible
   }
 }
 
@@ -189,10 +190,10 @@
   font-size: $font-size-sm;
   transition: all 0.2s ease;
   border-radius: $radius-md;
-  color: $color-sidebar-text-muted;
+  color: $color-eggshell;
   text-decoration: none;
   position: relative;
-  margin: 2px $spacing-xs; // Add margin for better spacing
+  margin: 2px $spacing-xs;
 
   &:hover {
     color: $color-sidebar-text;
@@ -200,37 +201,37 @@
   }
 
   &.active {
-    color: $color-accent-cyan;
-    font-weight: 600;
-    background: linear-gradient(to right, rgba($color-accent-blue, 0.3), rgba($color-accent-cyan, 0.2));
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: $color-sidebar-submenu-active-text;
+    font-weight: 700;
+    background: $color-peach;
+    box-shadow: 0 2px 8px rgba($color-peach, 0.25);
+    border: none;
   }
 
   .submenuLabel {
-    margin-left: calc(#{$spacing-xl} + #{$spacing-xs}); // More indent to show hierarchy
+    margin-left: calc(#{$spacing-xl} + #{$spacing-xs});
     position: relative;
 
     // Connecting dot
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       left: -#{$spacing-lg};
       top: 50%;
       transform: translateY(-50%);
-      width: 7px;
-      height: 7px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
-      background-color: $color-sidebar-text-muted;
-      opacity: 0.6;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background-color: rgba(244, 241, 222, 0.5);
+      border: 1px solid rgba(244, 241, 222, 0.3);
     }
   }
 
   &.active .submenuLabel::before {
-    background-color: $color-accent-cyan;
+    background-color: #ffffff;
     opacity: 1;
-    box-shadow: 0 0 6px rgba($color-accent-cyan, 0.5);
-    border-color: $color-accent-cyan;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+    border-color: #ffffff;
   }
 
   &:hover .submenuLabel::before {
@@ -244,7 +245,7 @@
   justify-content: space-between;
   margin: 2px $spacing-xs; // Add margin for better spacing
 
-  .submenuLink {
+  .submenuItem {
     flex: 1;
     display: flex;
     align-items: center;
@@ -252,7 +253,7 @@
     font-size: $font-size-sm;
     transition: all 0.2s ease;
     border-radius: $radius-md;
-    color: $color-sidebar-text-muted;
+    color: $color-eggshell;
     text-decoration: none;
     position: relative;
 
@@ -262,19 +263,22 @@
     }
 
     &.active {
-      color: $color-accent-cyan;
-      font-weight: 600;
-      background: linear-gradient(to right, rgba($color-accent-blue, 0.3), rgba($color-accent-cyan, 0.2));
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      color: $color-sidebar-submenu-active-text;
+      font-weight: 700;
+      background: $color-peach;
+      box-shadow: 0 2px 8px rgba($color-peach, 0.25);
+      border: none;
     }
 
     .submenuLabel {
-      margin-left: calc(#{$spacing-xl} + #{$spacing-xs}); // More indent to show hierarchy
+      margin-left: calc(
+        #{$spacing-xl} + #{$spacing-xs}
+      ); // More indent to show hierarchy
       position: relative;
 
       // Connecting dot
       &::before {
-        content: '';
+        content: "";
         position: absolute;
         left: -#{$spacing-lg};
         top: 50%;
@@ -282,17 +286,17 @@
         width: 7px;
         height: 7px;
         border-radius: 50%;
-        background-color: $color-sidebar-text-muted;
+        background-color: $color-eggshell;
         opacity: 0.6;
         border: 1px solid rgba(255, 255, 255, 0.2);
       }
     }
 
     &.active .submenuLabel::before {
-      background-color: $color-accent-cyan;
+      background-color: #ffffff;
       opacity: 1;
-      box-shadow: 0 0 6px rgba($color-accent-cyan, 0.5);
-      border-color: $color-accent-cyan;
+      box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+      border-color: #ffffff;
     }
 
     &:hover .submenuLabel::before {
@@ -310,13 +314,13 @@
     transition: all 0.2s ease;
 
     &:hover {
-      background-color: rgba($color-accent-blue, 0.3);
+      background-color: rgba($color-peach, 0.3);
     }
 
     svg {
       width: 0.875rem;
       height: 0.875rem;
-      color: $color-accent-cyan;
+      color: $color-teal;
     }
   }
 }
@@ -327,7 +331,7 @@
 
   .appsSectionTitle {
     font-size: $font-size-xs;
-    color: $color-sidebar-text-muted;
+    color: $color-eggshell;
     font-weight: 600;
     margin-bottom: $spacing-md;
     text-transform: uppercase;
@@ -338,12 +342,12 @@
 .configureSection {
   border-top: 1px solid $color-sidebar-border;
   padding: $spacing-md;
-  background: linear-gradient(to bottom, $color-sidebar-bg-start, $color-sidebar-bg-end);
+  background: $color-sidebar-bg;
   flex-shrink: 0; // Prevent shrinking
 
   .configureButton {
     font-size: $font-size-sm;
-    color: $color-sidebar-text-muted;
+    color: $color-eggshell;
     background: transparent;
     border: none;
     border-radius: $radius-xl;

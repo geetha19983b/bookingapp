@@ -198,7 +198,7 @@ export default function VendorForm() {
 
       {/* Form */}
       <form onSubmit={handleSubmit} className="flex flex-col" style={{ maxHeight: 'calc(100vh - 10rem)' }}>
-        <div className="bg-card rounded-2xl shadow-lg border border-theme-light overflow-hidden flex flex-col" style={{ maxHeight: '100%' }}>
+        <div className={styles.formBody + " rounded-2xl shadow-lg border border-theme-light overflow-hidden flex flex-col"} style={{ maxHeight: '100%' }}>
           {/* Tabs */}
           <div className={styles.formHeaderTabs}>
             <div className="flex gap-1 p-2">
@@ -623,18 +623,18 @@ export default function VendorForm() {
           </div>
 
           {/* Form Actions */}
-          <div className="bg-gradient-to-r from-theme-lightest to-accent-mist px-6 py-3 border-t border-border-light flex justify-end gap-2 flex-shrink-0">
+          <div className={styles.formFooter}>
             <button
               type="button"
               onClick={handleCancel}
-              className="px-3 py-1.5 rounded-lg text-xs font-medium text-secondary hover:bg-hover transition-all"
+              className="px-4 py-2 rounded-lg text-sm font-medium text-white bg-transparent border border-teal hover:bg-opacity-20 hover:bg-teal transition-all"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="btn-theme-primary px-4 py-1.5 rounded-lg text-xs font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="btn-theme-primary px-5 py-2 rounded-lg text-sm font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Saving...' : isEditMode ? 'Update Vendor' : 'Create Vendor'}
             </button>

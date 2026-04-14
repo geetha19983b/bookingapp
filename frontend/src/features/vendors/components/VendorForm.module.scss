@@ -1,37 +1,45 @@
 @use '../../../styles/_theme.scss' as theme;
 
 .formHeaderTabs {
-  background: theme.$color-primary-dark;
-  border-bottom: 1px solid theme.$color-border-light;
+  background: theme.$color-theme-primary;
+  border-bottom: 1px solid rgba(129, 178, 154, 0.3);
+  padding: theme.$spacing-sm theme.$spacing-md 0;
+}
+
+.formBody {
+  background: theme.$color-bg-form;
+  border-radius: theme.$radius-lg;
 }
 
 .formTabButton {
-  color: theme.$color-text-white;
+  color: rgba(244, 241, 222, 0.8);
   background: transparent;
   font-weight: theme.$font-weight-medium;
-  font-size: theme.$font-size-xs;
-  border-radius: theme.$radius-md;
-  padding: theme.$spacing-xs theme.$spacing-md;
+  font-size: theme.$font-size-sm;
+  border-radius: theme.$radius-md theme.$radius-md 0 0;
+  padding: theme.$spacing-sm theme.$spacing-lg;
   transition: background theme.$transition-fast, color theme.$transition-fast;
   border: none;
   outline: none;
   cursor: pointer;
+  position: relative;
 
   &:hover:not(.active) {
-    background: theme.$color-primary-medium;
+    background: rgba(129, 178, 154, 0.15);
     color: theme.$color-text-white;
   }
 }
 
 .formTabButton.active {
-  background: theme.$color-accent-blue;
-  color: theme.$color-text-white;
+  background: theme.$color-theme-accent;
+  color: #FFFFFF;
   box-shadow: theme.$shadow-sm;
+  font-weight: theme.$font-weight-semibold;
 }
 
 .formFooter {
-  background: theme.$color-primary-dark;
-  border-top: 1px solid theme.$color-border-light;
+  background: theme.$color-theme-primary;
+  border-top: 1px solid rgba(129, 178, 154, 0.3);
   padding: theme.$spacing-md theme.$spacing-lg;
   display: flex;
   justify-content: flex-end;

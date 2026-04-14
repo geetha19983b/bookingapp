@@ -12,14 +12,14 @@
 .app-grid-layout {
   display: grid;
   grid-template-columns: 18rem 1fr; // Sidebar width + remaining space
-  grid-template-rows: 4.5rem 1fr; // TopNavbar fixed height + remaining space
+  grid-template-rows: 3.75rem 1fr; // TopNavbar fixed height + remaining space
   grid-template-areas:
     "sidebar topnav"
     "sidebar main";
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background: linear-gradient(135deg, #E8EEF3 0%, #F0F4F8 100%);
+  background: theme.$color-bg-main;
 
   // Target direct children by position
   > :nth-child(1) {
@@ -31,9 +31,9 @@
 
   > :nth-child(2) {
     grid-area: topnav;
-    height: 4.5rem;
-    min-height: 4.5rem;
-    max-height: 4.5rem;
+    height: 3.75rem;
+    min-height: 3.75rem;
+    max-height: 3.75rem;
     overflow: visible;
     z-index: 5;
     position: relative;
@@ -74,14 +74,14 @@
   }
 }
 
-/* Main background with subtle gradient for depth */
+/* Main background with solid color */
 .bg-main {
-  background: linear-gradient(135deg, #E8EEF3 0%, #F0F4F8 100%);
+  background: theme.$color-bg-main;
 }
 
 .sidebar {
   width: 16rem;
-  background: linear-gradient(to bottom, theme.$color-sidebar-bg-start, theme.$color-sidebar-bg-end);
+  background: theme.$color-sidebar-bg;
   box-shadow: theme.$shadow-xl;
   
   &__logo {
@@ -103,7 +103,7 @@
     &--active {
       background-color: theme.$color-sidebar-active;
       color: theme.$color-text-white;
-      border-left: 4px solid theme.$color-primary-light;
+      border-left: 4px solid theme.$color-teal;
     }
   }
 }
@@ -119,8 +119,8 @@
     background-color: theme.$color-bg-input;
     
     &:focus {
-      border-color: theme.$color-primary-medium;
-      box-shadow: 0 0 0 3px rgba(theme.$color-primary-medium, 0.1);
+      border-color: theme.$color-theme-secondary;
+      box-shadow: 0 0 0 3px rgba(theme.$color-theme-secondary, 0.1);
     }
   }
   

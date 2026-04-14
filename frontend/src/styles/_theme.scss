@@ -5,53 +5,64 @@
 // High contrast ratios for excellent readability
 
 
-// Primary Colors - Custom Palette
-$color-primary-dark: #1B4079;      // Yale Blue - navigation and strong surfaces
-$color-primary-medium: #4D7C8A;    // Air Force Blue - secondary emphasis and depth
-$color-primary-light: #7F9C96;     // Cambridge Blue - borders and supporting text
-$color-primary-lightest: #CBDF90;  // Mindaro - clean light backgrounds
+// Coolors Palette
+$color-eggshell: #F4F1DE;      // Eggshell - backgrounds
+$color-peach: #E07A5F;         // Burnt Peach - accents, buttons
+$color-indigo: #3D405B;        // Twilight Indigo - dark surfaces, text
+$color-teal: #81B29A;          // Muted Teal - highlights, secondary
+$color-apricot: #F2CC8F;       // Apricot Cream - highlights, cards
 
-// Accent Colors - Custom Palette
-$color-accent-light: #8FAD88;      // Cambridge Blue - subtle fills and muted states
-$color-accent-blue: #4D7C8A;       // Air Force Blue - CTAs and interactive focus
-$color-accent-cyan: #CBDF90;       // Mindaro - highlights and active states
+// Semantic Color Variables
+$color-theme-bg: $color-eggshell;
+$color-theme-primary: $color-indigo;
+$color-theme-accent: $color-peach;
+$color-theme-secondary: $color-teal;
+$color-theme-highlight: $color-apricot;
 
 // Semantic Color Variables
 
-$color-sidebar-bg-start: $color-primary-dark;
-$color-sidebar-bg-end: color.adjust($color-primary-dark, $lightness: -3%);
-$color-sidebar-text: #FFFFFF;
-$color-sidebar-text-muted: color.adjust($color-primary-light, $lightness: 8%);
-$color-sidebar-hover: $color-primary-medium;
-$color-sidebar-active: $color-accent-blue;
-$color-sidebar-border: $color-primary-light;
+// Sidebar Colors
+$color-sidebar-bg: $color-indigo;
+$color-sidebar-text: $color-eggshell;
+$color-sidebar-active: $color-peach;
+$color-sidebar-hover: rgba(129, 178, 154, 0.15);
+$color-sidebar-border: rgba(129, 178, 154, 0.3);
+$color-sidebar-submenu-bg: rgba(255, 255, 255, 0.08);
+$color-sidebar-submenu-active-bg: $color-peach;
+$color-sidebar-submenu-active-text: #FFFFFF;
 
 // Navbar Colors
-
-$color-navbar-bg: $color-primary-dark;
-$color-navbar-text: #FFFFFF;
-$color-navbar-accent: $color-accent-cyan;
-$color-navbar-hover: $color-primary-medium;
+$color-navbar-bg: $color-indigo;
+$color-navbar-text: $color-eggshell;
+$color-navbar-accent: $color-peach;
+$color-navbar-hover: $color-teal;
 
 // Button Colors - Modern and Vibrant
 
-$color-button-primary: $color-accent-blue;
-$color-button-primary-hover: $color-accent-cyan;
+// Button Colors
+$color-button-primary: $color-peach;
+$color-button-primary-hover: darken($color-peach, 8%);
 $color-button-primary-text: #FFFFFF;
+$color-button-secondary: $color-teal;
+$color-button-secondary-hover: color.scale($color-teal, $lightness: -10%);
+$color-button-secondary-text: #FFFFFF;
 
 // Background Colors
 
-$color-bg-main: #CBDF90;      // Mindaro - main background
-$color-bg-card: #FFFFFF;
-$color-bg-hover: #8FAD88;     // Cambridge Blue - hover state
+// Background Colors
+$color-bg-main: $color-eggshell;
+$color-bg-card: $color-apricot;
+$color-bg-form: #FAF6EF; // Antique white for forms/tables
+$color-bg-hover: $color-teal;
 $color-bg-input: #F5F8FB;
 
 // Text Colors - High Contrast for Readability
 
-$color-text-primary: #1B4079;      // Yale Blue - for maximum readability
-$color-text-secondary: #4D7C8A;    // Air Force Blue - secondary text
-$color-text-muted: #7F9C96;        // Cambridge Blue - muted text
-$color-text-white: #FFFFFF;
+// Text Colors
+$color-text-primary: $color-indigo;
+$color-text-secondary: $color-teal;
+$color-text-muted: $color-apricot;
+$color-text-white: $color-eggshell;
 
 // Border Colors - Refined and Softer
 $color-border-light: #D8E2EA;
@@ -62,7 +73,7 @@ $color-border-dark: #8A9BAC;
 $color-success: #4B8A70;
 $color-warning: #B78542;
 $color-error: #BE6060;
-$color-info: $color-accent-blue;
+$color-info: $color-teal;
 
 // Shadow Definitions - Softer and More Polished
 $shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
@@ -144,7 +155,7 @@ $z-index-notification: 1090;
   
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba($color-primary-medium, 0.2);
+    box-shadow: 0 0 0 3px rgba($color-theme-secondary, 0.2);
   }
   
   &:disabled {
@@ -174,9 +185,9 @@ $z-index-notification: 1090;
   
   &:focus {
     outline: none;
-    border-color: $color-primary-medium;
+    border-color: $color-theme-secondary;
     background-color: $color-bg-card;
-    box-shadow: 0 0 0 3px rgba($color-primary-medium, 0.1);
+    box-shadow: 0 0 0 3px rgba($color-theme-secondary, 0.1);
   }
   
   &::placeholder {

@@ -7,35 +7,31 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Theme color palette - Custom Palette
+        // Coolors Palette
+        eggshell: '#F4F1DE',      // Eggshell - backgrounds
+        peach: '#E07A5F',         // Burnt Peach - accents, buttons
+        indigo: '#3D405B',        // Twilight Indigo - dark surfaces, text
+        teal: '#81B29A',          // Muted Teal - highlights, secondary
+        apricot: '#F2CC8F',       // Apricot Cream - highlights, cards
+        // Semantic groupings for convenience
         theme: {
-          'dark': '#1B4079',      // Yale Blue - Dark surfaces
-          'medium': '#4D7C8A',    // Air Force Blue - Primary accents
-          'light': '#7F9C96',     // Cambridge Blue - Borders and muted elements
-          'lightest': '#CBDF90',  // Mindaro - Clean light background
+          'bg': '#F4F1DE',        // Main background
+          'primary': '#3D405B',   // Main text, dark surfaces
+          'accent': '#E07A5F',    // Accent, buttons
+          'secondary': '#81B29A', // Secondary, highlights
+          'highlight': '#F2CC8F', // Cards, highlights
         },
-        // Accent colors - Custom Palette
-        accent: {
-          'blue': '#4D7C8A',      // Air Force Blue - Primary actions
-          'cyan': '#CBDF90',      // Mindaro - Highlights and active states
-          'light': '#8FAD88',     // Cambridge Blue - Subtle accents
-          'mist': '#E3EBF2',      // Very light - Hover states
-        },
-        // Sidebar colors - Custom Palette
         sidebar: {
-          'bg': '#1B4079',        // Yale Blue
-          'text': '#FFFFFF',      // Pure white for maximum contrast
-          'muted': '#7F9C96',     // Cambridge Blue for muted text
-          'hover': '#4D7C8A',     // Air Force Blue - hover
-          'active': '#4D7C8A',    // Air Force Blue - Active state
-          DEFAULT: '#7F9C96',     // Cambridge Blue - Border/sidebar separator
+          'bg': '#3D405B',        // Sidebar background
+          'text': '#F4F1DE',      // Sidebar text
+          'active': '#E07A5F',    // Active/selected
+          'hover': '#81B29A',     // Hover state
         },
-        // Navbar colors - Matching sidebar
         navbar: {
-          'bg': '#1B4079',        // Yale Blue
-          'text': '#FFFFFF',      // Pure white - Maximum readability
-          'accent': '#CBDF90',    // Mindaro - Standout elements
-          'hover': '#4D7C8A',     // Air Force Blue - Hover states
+          'bg': '#3D405B',        // Navbar background
+          'text': '#F4F1DE',      // Navbar text
+          'accent': '#E07A5F',    // Navbar accent
+          'hover': '#81B29A',     // Navbar hover
         },
       },
       fontFamily: {

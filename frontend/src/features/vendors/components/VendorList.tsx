@@ -138,7 +138,7 @@ export default function VendorList() {
           )}
         </div>
       ) : (
-        <div className="bg-card rounded-2xl shadow-lg border border-theme-light overflow-hidden max-w-full">
+        <div className={styles.tableBody + " rounded-2xl shadow-lg border border-theme-light overflow-hidden max-w-full"}>
           <div className="overflow-x-auto max-w-full">
             <table className="min-w-full divide-y divide-border-light">
               <thead className={styles.tableHeader}>
@@ -161,9 +161,9 @@ export default function VendorList() {
                   <th className={styles.tableHeaderCell} style={{ textAlign: 'center' }}>ACTIONS</th>
                 </tr>
               </thead>
-              <tbody className="bg-card divide-y divide-border-light">
+              <tbody className={styles.tableBody + " divide-y divide-border-light"}>
                 {filteredVendors.map((vendor) => (
-                  <tr key={vendor.id} className="hover:bg-hover transition">
+                  <tr key={vendor.id} className={styles.tableBody + " hover:bg-hover transition"}>
                     <td className="px-3 py-4">
                       <input
                         type="checkbox"

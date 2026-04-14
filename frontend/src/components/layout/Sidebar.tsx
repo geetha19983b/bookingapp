@@ -143,7 +143,7 @@ export default function Sidebar() {
             <div className={styles.submenuItemWithButton}>
               <Link
                 to="/vendors"
-                className={`${styles.submenuLink} ${
+                className={`${styles.submenuItem} ${
                   isActive('/vendors') || location.pathname.startsWith('/vendors') ? styles.active : ''
                 }`}
               >

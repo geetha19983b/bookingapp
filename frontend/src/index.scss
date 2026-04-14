@@ -26,12 +26,13 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, theme.$color-accent-blue 0%, theme.$color-primary-medium 100%);
+    background: theme.$color-theme-secondary;
     border-radius: theme.$radius-md;
     border: 2px solid #E8EEF3;
+    transition: background 0.2s ease;
     
     &:hover {
-      background: linear-gradient(180deg, theme.$color-accent-cyan 0%, theme.$color-accent-blue 100%);
+      background: darken(theme.$color-theme-secondary, 10%);
     }
   }
   
@@ -52,47 +53,47 @@
 
 /* Utility classes for theme colors */
 .bg-theme-dark {
-  background-color: theme.$color-primary-dark;
+  background-color: theme.$color-theme-primary;
 }
 
 .bg-theme-medium {
-  background-color: theme.$color-primary-medium;
+  background-color: theme.$color-theme-secondary;
 }
 
 .bg-theme-light {
-  background-color: theme.$color-primary-light;
+  background-color: theme.$color-teal;
 }
 
 .bg-theme-lightest {
-  background-color: theme.$color-primary-lightest;
+  background-color: theme.$color-apricot;
 }
 
 .bg-accent-blue {
-  background-color: theme.$color-accent-blue;
+  background-color: theme.$color-theme-accent;
 }
 
 .bg-accent-light {
-  background-color: theme.$color-accent-light;
+  background-color: theme.$color-teal;
 }
 
 .text-theme-dark {
-  color: theme.$color-primary-dark;
+  color: theme.$color-theme-primary;
 }
 
 .text-theme-medium {
-  color: theme.$color-primary-medium;
+  color: theme.$color-theme-secondary;
 }
 
 .text-accent-blue {
-  color: theme.$color-accent-blue;
+  color: theme.$color-theme-accent;
 }
 
 .text-accent-light {
-  color: theme.$color-accent-light;
+  color: theme.$color-teal;
 }
 
 .border-theme {
-  border-color: theme.$color-primary-light;
+  border-color: theme.$color-teal;
 }
 
 .border-theme-light {
@@ -105,7 +106,7 @@
 
 /* Sidebar colors */
 .bg-sidebar {
-  background: linear-gradient(to bottom, theme.$color-sidebar-bg-start, theme.$color-sidebar-bg-end);
+  background: theme.$color-sidebar-bg;
 }
 
 .bg-sidebar-hover {
@@ -121,7 +122,7 @@
 }
 
 .text-sidebar-muted {
-  color: theme.$color-sidebar-text-muted;
+  color: theme.$color-eggshell;
 }
 
 .border-sidebar {
@@ -147,20 +148,21 @@
 
 /* Button colors - Modern and Polished */
 .btn-theme-primary {
-  background: linear-gradient(135deg, theme.$color-accent-blue 0%, theme.$color-primary-medium 100%);
-  color: theme.$color-button-primary-text;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(theme.$color-accent-blue, 0.3);
+  background: theme.$color-theme-accent;
+  color: #FFFFFF;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 8px rgba(theme.$color-theme-accent, 0.25);
+  border: none;
   
   &:hover {
-    background: linear-gradient(135deg, theme.$color-accent-cyan 0%, theme.$color-accent-blue 100%);
-    box-shadow: 0 6px 20px rgba(theme.$color-accent-cyan, 0.4);
+    background: darken(theme.$color-theme-accent, 8%);
+    box-shadow: 0 4px 12px rgba(theme.$color-theme-accent, 0.35);
     transform: translateY(-1px);
   }
   
   &:active {
     transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(theme.$color-accent-blue, 0.3);
+    box-shadow: 0 2px 6px rgba(theme.$color-theme-accent, 0.25);
   }
   
   &:disabled {
