@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import styles from './Sidebar.module.scss';
 
 interface NavItemProps {
   to: string;
@@ -18,25 +19,19 @@ function NavItem({ to, icon, label, hasSubmenu, onClick, children, isActive, exp
   const isExpanded = expandedItems[label.toLowerCase()];
 
   return (
-    <div className="mb-1">
+    <div className={styles.navItem}>
       <Link
         to={to}
         onClick={onClick}
-        className={`flex items-center justify-between px-4 py-3 text-sm transition-all duration-300 ease-in-out rounded-lg mx-2 ${
-          active
-            ? 'bg-gradient-to-r from-accent-blue to-accent-cyan text-sidebar-text font-semibold shadow-lg'
-            : 'text-sidebar-muted hover:bg-sidebar-hover hover:text-sidebar-text'
-        }`}
+        className={`${styles.navLink} ${active ? styles.active : ''}`}
       >
-        <div className="flex items-center gap-3">
-          <span className="text-lg transition-transform duration-300">{icon}</span>
-          <span className="font-medium">{label}</span>
+        <div className={styles.navLinkContent}>
+          <span className={styles.navIcon}>{icon}</span>
+          <span className={styles.navLabel}>{label}</span>
         </div>
         {hasSubmenu && (
           <svg
-            className={`w-4 h-4 transition-transform duration-300 ease-in-out ${
-              isExpanded ? 'rotate-180' : 'rotate-0'
-            }`}
+            className={`${styles.chevron} ${isExpanded ? styles.expanded : ''}`}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -64,13 +59,20 @@ export default function Sidebar() {
 
   const isActive = (path: string) => location.pathname === path;
 
+  // Check if parent should be highlighted based on active child routes
+  const isParentActive = (childPaths: string[]) => {
+    return childPaths.some(childPath => 
+      location.pathname === childPath || location.pathname.startsWith(childPath + '/')
+    );
+  };
+
   return (
-    <div className="w-64 bg-sidebar-bg min-h-screen flex flex-col shadow-2xl border-r border-sidebar">
+    <div className={styles.sidebar}>
       {/* Logo Section */}
-      <div className="px-6 py-6 border-b border-sidebar">
-        <div className="flex items-center gap-3">
-          <div className="bg-gradient-to-br from-accent-cyan to-accent-blue p-3 rounded-xl shadow-lg transition-transform duration-300 hover:scale-105">
-            <svg className="w-6 h-6 text-sidebar-text" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className={styles.logoSection}>
+        <div className={styles.logoContainer}>
+          <div className={styles.logoIcon}>
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -79,15 +81,15 @@ export default function Sidebar() {
               />
             </svg>
           </div>
-          <div>
-            <span className="text-sidebar-text font-bold text-xl tracking-tight block">Books</span>
-            <span className="text-sidebar-muted text-xs">Pro Edition</span>
+          <div className={styles.logoText}>
+            <span className={styles.title}>Books</span>
+            <span className={styles.subtitle}>Pro Edition</span>
           </div>
         </div>
       </div>
 
-      {/* Navigation Items */}
-      <nav className="flex-1 py-4 overflow-y-auto">
+      {/* Navigation Items - Scrollable */}
+      <nav className={styles.navContent}>
         <NavItem to="/home" icon="🏠" label="Home" isActive={isActive} expandedItems={expandedItems} />
 
         {/* Items Section */}
@@ -100,34 +102,22 @@ export default function Sidebar() {
             e.preventDefault();
             toggleExpand('items');
           }}
-          isActive={isActive}
+          isActive={(path) => isActive(path) || isParentActive(['/', '/add'])}
           expandedItems={expandedItems}
         />
-        <div
-          className={`overflow-hidden transition-all duration-300 ease-in-out ${
-            expandedItems.items ? 'max-h-32 opacity-100 mb-2' : 'max-h-0 opacity-0'
-          }`}
-        >
-          <div className="ml-2 mr-2 mt-1 bg-sidebar-hover bg-opacity-30 rounded-lg">
+        <div className={`${styles.submenuContainer} ${expandedItems.items ? styles.expanded : styles.collapsed}`}>
+          <div className={styles.submenuWrapper}>
             <Link
               to="/"
-              className={`flex items-center px-6 py-2.5 text-sm transition-all duration-200 rounded-lg ${
-                isActive('/')
-                  ? 'text-accent-cyan font-semibold bg-sidebar-hover bg-opacity-50'
-                  : 'text-sidebar-muted hover:text-sidebar-text hover:bg-sidebar-hover hover:bg-opacity-50'
-              }`}
+              className={`${styles.submenuItem} ${isActive('/') ? styles.active : ''}`}
             >
-              <span className="ml-6">Items</span>
+              <span className={styles.submenuLabel}>Items</span>
             </Link>
             <Link
               to="/add"
-              className={`flex items-center px-6 py-2.5 text-sm transition-all duration-200 rounded-lg ${
-                isActive('/add')
-                  ? 'text-accent-cyan font-semibold bg-sidebar-hover bg-opacity-50'
-                  : 'text-sidebar-muted hover:text-sidebar-text hover:bg-sidebar-hover hover:bg-opacity-50'
-              }`}
+              className={`${styles.submenuItem} ${isActive('/add') ? styles.active : ''}`}
             >
-              <span className="ml-6">New Item</span>
+              <span className={styles.submenuLabel}>New Item</span>
             </Link>
           </div>
         </div>
@@ -145,32 +135,26 @@ export default function Sidebar() {
             e.preventDefault();
             toggleExpand('purchases');
           }}
-          isActive={isActive}
+          isActive={(path) => isActive(path) || isParentActive(['/vendors'])}
           expandedItems={expandedItems}
         />
-        <div
-          className={`overflow-hidden transition-all duration-300 ease-in-out ${
-            expandedItems.purchases ? 'max-h-32 opacity-100 mb-2' : 'max-h-0 opacity-0'
-          }`}
-        >
-          <div className="ml-2 mr-2 mt-1 bg-sidebar-hover bg-opacity-30 rounded-lg">
-            <div className="flex items-center justify-between group">
+        <div className={`${styles.submenuContainer} ${expandedItems.purchases ? styles.expanded : styles.collapsed}`}>
+          <div className={styles.submenuWrapper}>
+            <div className={styles.submenuItemWithButton}>
               <Link
                 to="/vendors"
-                className={`flex-1 flex items-center px-6 py-2.5 text-sm transition-all duration-200 rounded-lg ${
-                  isActive('/vendors') || location.pathname.startsWith('/vendors')
-                    ? 'text-accent-cyan font-semibold bg-sidebar-hover bg-opacity-50'
-                    : 'text-sidebar-muted hover:text-sidebar-text hover:bg-sidebar-hover hover:bg-opacity-50'
+                className={`${styles.submenuLink} ${
+                  isActive('/vendors') || location.pathname.startsWith('/vendors') ? styles.active : ''
                 }`}
               >
-                <span className="ml-6">Vendors</span>
+                <span className={styles.submenuLabel}>Vendors</span>
               </Link>
               <button
                 onClick={() => navigate('/vendors/new')}
-                className="mr-2 p-1.5 rounded-md hover:bg-accent-blue hover:bg-opacity-30 transition-all duration-200"
+                className={styles.addButton}
                 title="Add New Vendor"
               >
-                <svg className="w-3.5 h-3.5 text-accent-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
                 </svg>
               </button>
@@ -186,19 +170,19 @@ export default function Sidebar() {
         <NavItem to="/documents" icon="📄" label="Documents" isActive={isActive} expandedItems={expandedItems} />
 
         {/* Apps Section */}
-        <div className="mt-6 px-4">
-          <div className="text-xs text-sidebar-muted font-semibold mb-3 uppercase tracking-wider">Apps</div>
+        <div className={styles.appsSection}>
+          <div className={styles.appsSectionTitle}>Apps</div>
           <NavItem to="/payroll" icon="💵" label="Zoho Payroll" isActive={isActive} expandedItems={expandedItems} />
           <NavItem to="/payments" icon="💳" label="Zoho Payments" isActive={isActive} expandedItems={expandedItems} />
         </div>
       </nav>
 
-      {/* Configure Features */}
-      <div className="border-t border-sidebar p-4">
-        <button className="text-sm text-sidebar-muted hover:text-sidebar-text hover:bg-sidebar-hover rounded-xl px-4 py-3 transition-all duration-300 ease-in-out flex items-center gap-3 w-full group">
-          <span className="text-lg transition-transform duration-300 group-hover:rotate-90">⚙️</span>
-          <span className="font-medium">Configure Features</span>
-          <span className="ml-auto text-xs transition-transform duration-300 group-hover:translate-x-1">›</span>
+      {/* Configure Features - Frozen at bottom */}
+      <div className={styles.configureSection}>
+        <button className={styles.configureButton}>
+          <span className={styles.configureIcon}>⚙️</span>
+          <span className={styles.configureLabel}>Configure Features</span>
+          <span className={styles.configureArrow}>›</span>
         </button>
       </div>
     </div>

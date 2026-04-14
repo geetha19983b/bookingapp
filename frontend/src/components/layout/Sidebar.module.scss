@@ -1,0 +1,386 @@
+@use '../../styles/theme' as *;
+
+.sidebar {
+  width: 18rem; // 288px - increased from 16rem (256px)
+  min-width: 18rem; // Prevent shrinking
+  max-width: 18rem; // Prevent expanding
+  background: linear-gradient(to bottom, $color-sidebar-bg-start, $color-sidebar-bg-end);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: $shadow-2xl;
+  border-right: 1px solid $color-sidebar-border;
+  position: sticky;
+  top: 0;
+  overflow: hidden; // Prevent body scroll
+}
+
+.logoSection {
+  padding: $spacing-lg $spacing-lg;
+  border-bottom: 1px solid $color-sidebar-border;
+
+  .logoContainer {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  .logoIcon {
+    background: linear-gradient(to bottom right, $color-accent-cyan, $color-accent-blue);
+    padding: $spacing-md;
+    border-radius: $radius-xl;
+    box-shadow: $shadow-lg;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      color: $color-sidebar-text;
+    }
+  }
+
+  .logoText {
+    .title {
+      color: $color-sidebar-text;
+      font-weight: 700;
+      font-size: $font-size-xl;
+      letter-spacing: -0.025em;
+      display: block;
+    }
+
+    .subtitle {
+      color: $color-sidebar-text-muted;
+      font-size: $font-size-xs;
+    }
+  }
+}
+
+.navContent {
+  flex: 1;
+  padding: $spacing-md 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  // Custom scrollbar styling
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: $radius-full;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $color-sidebar-hover;
+    border-radius: $radius-full;
+
+    &:hover {
+      background: $color-sidebar-active;
+    }
+  }
+}
+
+.navItem {
+  margin-bottom: $spacing-xs;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-md $spacing-md;
+  font-size: $font-size-sm;
+  transition: all 0.3s ease-in-out;
+  border-radius: $radius-lg;
+  margin: 0 $spacing-sm;
+  color: $color-sidebar-text-muted;
+  text-decoration: none;
+
+  &:hover {
+    background-color: $color-sidebar-hover;
+    color: $color-sidebar-text;
+  }
+
+  &.active {
+    background: linear-gradient(to right, $color-accent-blue, $color-accent-cyan);
+    color: $color-sidebar-text;
+    font-weight: 600;
+    box-shadow: $shadow-lg;
+  }
+
+  .navLinkContent {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  .navIcon {
+    font-size: $font-size-lg;
+    transition: transform 0.3s ease;
+  }
+
+  .navLabel {
+    font-weight: 500;
+  }
+
+  .chevron {
+    width: 1rem;
+    height: 1rem;
+    transition: transform 0.3s ease-in-out;
+
+    &.expanded {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.submenuContainer {
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+
+  &.collapsed {
+    max-height: 0;
+    opacity: 0;
+  }
+
+  &.expanded {
+    max-height: 8rem;
+    opacity: 1;
+    margin-bottom: $spacing-sm;
+  }
+}
+
+.submenuWrapper {
+  margin: $spacing-xs $spacing-sm 0;
+  background-color: rgba(255, 255, 255, 0.08); // More visible background
+  border-radius: $radius-lg;
+  padding: $spacing-xs 0;
+  position: relative;
+  border-left: 2px solid rgba(255, 255, 255, 0.1); // Subtle left border
+
+  // Dotted line indicator on the left
+  &::before {
+    content: '';
+    position: absolute;
+    left: calc(#{$spacing-lg} + 2px); // Account for border
+    top: $spacing-sm;
+    bottom: $spacing-sm;
+    width: 2px; // Thicker line
+    background-image: repeating-linear-gradient(
+      to bottom,
+      $color-sidebar-text-muted,
+      $color-sidebar-text-muted 4px,
+      transparent 4px,
+      transparent 8px
+    );
+    opacity: 0.6; // More visible
+  }
+}
+
+.submenuItem {
+  display: flex;
+  align-items: center;
+  padding: $spacing-sm $spacing-lg;
+  font-size: $font-size-sm;
+  transition: all 0.2s ease;
+  border-radius: $radius-md;
+  color: $color-sidebar-text-muted;
+  text-decoration: none;
+  position: relative;
+  margin: 2px $spacing-xs; // Add margin for better spacing
+
+  &:hover {
+    color: $color-sidebar-text;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  &.active {
+    color: $color-accent-cyan;
+    font-weight: 600;
+    background: linear-gradient(to right, rgba($color-accent-blue, 0.3), rgba($color-accent-cyan, 0.2));
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .submenuLabel {
+    margin-left: calc(#{$spacing-xl} + #{$spacing-xs}); // More indent to show hierarchy
+    position: relative;
+
+    // Connecting dot
+    &::before {
+      content: '';
+      position: absolute;
+      left: -#{$spacing-lg};
+      top: 50%;
+      transform: translateY(-50%);
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: $color-sidebar-text-muted;
+      opacity: 0.6;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  &.active .submenuLabel::before {
+    background-color: $color-accent-cyan;
+    opacity: 1;
+    box-shadow: 0 0 6px rgba($color-accent-cyan, 0.5);
+    border-color: $color-accent-cyan;
+  }
+
+  &:hover .submenuLabel::before {
+    opacity: 0.8;
+  }
+}
+
+.submenuItemWithButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 2px $spacing-xs; // Add margin for better spacing
+
+  .submenuLink {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: $spacing-sm $spacing-lg;
+    font-size: $font-size-sm;
+    transition: all 0.2s ease;
+    border-radius: $radius-md;
+    color: $color-sidebar-text-muted;
+    text-decoration: none;
+    position: relative;
+
+    &:hover {
+      color: $color-sidebar-text;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    &.active {
+      color: $color-accent-cyan;
+      font-weight: 600;
+      background: linear-gradient(to right, rgba($color-accent-blue, 0.3), rgba($color-accent-cyan, 0.2));
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .submenuLabel {
+      margin-left: calc(#{$spacing-xl} + #{$spacing-xs}); // More indent to show hierarchy
+      position: relative;
+
+      // Connecting dot
+      &::before {
+        content: '';
+        position: absolute;
+        left: -#{$spacing-lg};
+        top: 50%;
+        transform: translateY(-50%);
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background-color: $color-sidebar-text-muted;
+        opacity: 0.6;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+    }
+
+    &.active .submenuLabel::before {
+      background-color: $color-accent-cyan;
+      opacity: 1;
+      box-shadow: 0 0 6px rgba($color-accent-cyan, 0.5);
+      border-color: $color-accent-cyan;
+    }
+
+    &:hover .submenuLabel::before {
+      opacity: 0.8;
+    }
+  }
+
+  .addButton {
+    margin-right: $spacing-sm;
+    padding: $spacing-xs;
+    border-radius: $radius-md;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: rgba($color-accent-blue, 0.3);
+    }
+
+    svg {
+      width: 0.875rem;
+      height: 0.875rem;
+      color: $color-accent-cyan;
+    }
+  }
+}
+
+.appsSection {
+  margin-top: $spacing-xl;
+  padding: 0 $spacing-md;
+
+  .appsSectionTitle {
+    font-size: $font-size-xs;
+    color: $color-sidebar-text-muted;
+    font-weight: 600;
+    margin-bottom: $spacing-md;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
+
+.configureSection {
+  border-top: 1px solid $color-sidebar-border;
+  padding: $spacing-md;
+  background: linear-gradient(to bottom, $color-sidebar-bg-start, $color-sidebar-bg-end);
+  flex-shrink: 0; // Prevent shrinking
+
+  .configureButton {
+    font-size: $font-size-sm;
+    color: $color-sidebar-text-muted;
+    background: transparent;
+    border: none;
+    border-radius: $radius-xl;
+    padding: $spacing-md $spacing-md;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    width: 100%;
+    cursor: pointer;
+
+    &:hover {
+      color: $color-sidebar-text;
+      background-color: $color-sidebar-hover;
+
+      .configureIcon {
+        transform: rotate(90deg);
+      }
+
+      .configureArrow {
+        transform: translateX(0.25rem);
+      }
+    }
+
+    .configureIcon {
+      font-size: $font-size-lg;
+      transition: transform 0.3s ease;
+    }
+
+    .configureLabel {
+      font-weight: 500;
+    }
+
+    .configureArrow {
+      margin-left: auto;
+      font-size: $font-size-xs;
+      transition: transform 0.3s ease;
+    }
+  }
+}

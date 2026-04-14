@@ -80,7 +80,7 @@ export default function VendorList() {
   }
 
   return (
-    <div className="p-6">
+    <div className="p-6 max-w-full">
       {/* Success Message */}
       {successMessage && (
         <div
@@ -100,13 +100,13 @@ export default function VendorList() {
       )}
 
       {/* Header Section */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
         <div className="flex items-center gap-4">
           <h2 className="text-2xl font-semibold text-primary">Active Vendors</h2>
         </div>
 
         {/* Search Bar */}
-        <div className="relative max-w-md flex-1 mx-8">
+        <div className="relative max-w-md w-full sm:w-auto flex-1 sm:flex-initial sm:min-w-[20rem]">
           <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
             <svg
               className="h-5 w-5 text-accent-light transition-colors duration-200"
@@ -170,8 +170,8 @@ export default function VendorList() {
           )}
         </div>
       ) : (
-        <div className="bg-card rounded-2xl shadow-lg border border-theme-light overflow-hidden">
-          <div className="overflow-x-auto">
+        <div className="bg-card rounded-2xl shadow-lg border border-theme-light overflow-hidden max-w-full">
+          <div className="overflow-x-auto max-w-full">
             <table className="min-w-full divide-y divide-border-light">
               <thead className="bg-gradient-to-r from-theme-lightest to-accent-mist">
                 <tr>
