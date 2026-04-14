@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import styles from './VendorList.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { fetchVendors, deleteVendor, clearSuccessMessage, clearError } from '../store/vendorSlice';
@@ -99,39 +100,6 @@ export default function VendorList() {
         </div>
       )}
 
-      {/* Header Section */}
-      <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
-        <div className="flex items-center gap-4">
-          <h2 className="text-2xl font-semibold text-primary">Active Vendors</h2>
-        </div>
-
-        {/* Search Bar */}
-        <div className="relative max-w-md w-full sm:w-auto flex-1 sm:flex-initial sm:min-w-[20rem]">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-            <svg
-              className="h-5 w-5 text-accent-light transition-colors duration-200"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-          </div>
-          <input
-            type="text"
-            placeholder="Search in Vendors ( / )"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="block w-full pl-11 pr-4 py-2.5 border border-sidebar rounded-xl leading-5 bg-sidebar-hover bg-opacity-50 text-navbar-text placeholder-sidebar-muted focus:outline-none focus:placeholder-accent-light focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm transition-all duration-300 ease-in-out"
-          />
-        </div>
-      </div>
-
       {filteredVendors.length === 0 ? (
         <div className="bg-card rounded-2xl shadow-lg border border-theme-light p-16 text-center">
           <div className="text-muted mb-5">
@@ -173,9 +141,9 @@ export default function VendorList() {
         <div className="bg-card rounded-2xl shadow-lg border border-theme-light overflow-hidden max-w-full">
           <div className="overflow-x-auto max-w-full">
             <table className="min-w-full divide-y divide-border-light">
-              <thead className="bg-gradient-to-r from-theme-lightest to-accent-mist">
+              <thead className={styles.tableHeader}>
                 <tr>
-                  <th className="px-3 py-4 text-left">
+                  <th className={styles.tableHeaderCheckbox}>
                     <input
                       type="checkbox"
                       checked={selectedVendors.size === filteredVendors.length && filteredVendors.length > 0}
@@ -183,30 +151,14 @@ export default function VendorList() {
                       className="rounded-md border-theme-medium text-accent-blue focus:ring-accent-cyan"
                     />
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-secondary uppercase tracking-wider">
-                    NAME
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-secondary uppercase tracking-wider">
-                    COMPANY NAME
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-secondary uppercase tracking-wider">
-                    EMAIL
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-secondary uppercase tracking-wider">
-                    WORK PHONE
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-secondary uppercase tracking-wider">
-                    SOURCE OF SUPPLY
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-secondary uppercase tracking-wider">
-                    PAYABLES (BCY)
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-secondary uppercase tracking-wider">
-                    UNUSED CREDITS (BCY)
-                  </th>
-                  <th className="px-6 py-4 text-center text-xs font-bold text-secondary uppercase tracking-wider">
-                    ACTIONS
-                  </th>
+                  <th className={styles.tableHeaderCell}>NAME</th>
+                  <th className={styles.tableHeaderCell}>COMPANY NAME</th>
+                  <th className={styles.tableHeaderCell}>EMAIL</th>
+                  <th className={styles.tableHeaderCell}>WORK PHONE</th>
+                  <th className={styles.tableHeaderCell}>SOURCE OF SUPPLY</th>
+                  <th className={styles.tableHeaderCell}>PAYABLES (BCY)</th>
+                  <th className={styles.tableHeaderCell}>UNUSED CREDITS (BCY)</th>
+                  <th className={styles.tableHeaderCell} style={{ textAlign: 'center' }}>ACTIONS</th>
                 </tr>
               </thead>
               <tbody className="bg-card divide-y divide-border-light">

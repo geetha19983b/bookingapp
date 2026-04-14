@@ -13,17 +13,15 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-        <div className="flex min-h-screen bg-main overflow-hidden">
+        <div className="app-grid-layout">
           {/* Sidebar */}
           <Sidebar />
 
-          {/* Main Content Area */}
-          <div className="flex-1 flex flex-col min-w-0">
-            {/* Top Navbar */}
-            <TopNavbar />
+          {/* Top Navbar */}
+          <TopNavbar />
 
-            {/* Page Content */}
-            <main className="flex-1 overflow-auto min-w-0">
+          {/* Page Content */}
+          <main className="app-main-content">
               <Routes>
                 {/* Items Routes */}
                 <Route path="/" element={<ItemList />} />
@@ -134,7 +132,6 @@ function App() {
                 />
               </Routes>
             </main>
-          </div>
         </div>
       </Router>
     </Provider>

@@ -1,0 +1,26 @@
+
+
+@use '../../../styles/_theme.scss' as theme;
+
+
+.tableHeader {
+  background: theme.$color-primary-dark;
+  background-color: theme.$color-primary-dark;
+}
+
+
+.tableHeaderCell {
+  color: theme.$color-text-white;
+  font-weight: theme.$font-weight-bold;
+  text-transform: uppercase;
+  font-size: theme.$font-size-sm;
+  letter-spacing: 0.05em;
+  padding: theme.$spacing-sm theme.$spacing-md;
+  text-align: left;
+}
+
+
+.tableHeaderCheckbox {
+  padding-left: theme.$spacing-sm;
+  padding-right: theme.$spacing-sm;
+}

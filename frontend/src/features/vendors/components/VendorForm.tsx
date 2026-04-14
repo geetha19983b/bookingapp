@@ -1,4 +1,5 @@
 import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
+import styles from './VendorForm.module.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import {
@@ -162,9 +163,9 @@ export default function VendorForm() {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 max-h-full">
       {/* Header */}
-      <div className="mb-6">
+      <div className="mb-4">
         <div className="flex items-center gap-3 mb-2">
           <button
             onClick={handleCancel}
@@ -196,10 +197,10 @@ export default function VendorForm() {
       )}
 
       {/* Form */}
-      <form onSubmit={handleSubmit}>
-        <div className="bg-card rounded-2xl shadow-lg border border-theme-light overflow-hidden">
+      <form onSubmit={handleSubmit} className="flex flex-col" style={{ maxHeight: 'calc(100vh - 10rem)' }}>
+        <div className="bg-card rounded-2xl shadow-lg border border-theme-light overflow-hidden flex flex-col" style={{ maxHeight: '100%' }}>
           {/* Tabs */}
-          <div className="bg-gradient-to-r from-theme-lightest to-accent-mist border-b border-border-light">
+          <div className={styles.formHeaderTabs}>
             <div className="flex gap-1 p-2">
               {[
                 { key: 'basic', label: 'Basic Details' },
@@ -211,11 +212,10 @@ export default function VendorForm() {
                   key={tab.key}
                   type="button"
                   onClick={() => setActiveTab(tab.key as typeof activeTab)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                    activeTab === tab.key
-                      ? 'bg-accent-blue text-white shadow-md'
-                      : 'text-secondary hover:bg-hover hover:text-primary'
-                  }`}
+                  className={
+                    styles.formTabButton +
+                    (activeTab === tab.key ? ' ' + styles.active : '')
+                  }
                 >
                   {tab.label}
                 </button>
@@ -224,7 +224,7 @@ export default function VendorForm() {
           </div>
 
           {/* Form Content */}
-          <div className="p-6">
+          <div className="p-6 overflow-y-auto flex-1">
             {/* Basic Details Tab */}
             {activeTab === 'basic' && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -623,7 +623,7 @@ export default function VendorForm() {
           </div>
 
           {/* Form Actions */}
-          <div className="bg-gradient-to-r from-theme-lightest to-accent-mist px-6 py-3 border-t border-border-light flex justify-end gap-2">
+          <div className="bg-gradient-to-r from-theme-lightest to-accent-mist px-6 py-3 border-t border-border-light flex justify-end gap-2 flex-shrink-0">
             <button
               type="button"
               onClick={handleCancel}

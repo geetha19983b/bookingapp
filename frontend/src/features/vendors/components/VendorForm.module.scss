@@ -1,0 +1,39 @@
+@use '../../../styles/_theme.scss' as theme;
+
+.formHeaderTabs {
+  background: theme.$color-primary-dark;
+  border-bottom: 1px solid theme.$color-border-light;
+}
+
+.formTabButton {
+  color: theme.$color-text-white;
+  background: transparent;
+  font-weight: theme.$font-weight-medium;
+  font-size: theme.$font-size-xs;
+  border-radius: theme.$radius-md;
+  padding: theme.$spacing-xs theme.$spacing-md;
+  transition: background theme.$transition-fast, color theme.$transition-fast;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  &:hover:not(.active) {
+    background: theme.$color-primary-medium;
+    color: theme.$color-text-white;
+  }
+}
+
+.formTabButton.active {
+  background: theme.$color-accent-blue;
+  color: theme.$color-text-white;
+  box-shadow: theme.$shadow-sm;
+}
+
+.formFooter {
+  background: theme.$color-primary-dark;
+  border-top: 1px solid theme.$color-border-light;
+  padding: theme.$spacing-md theme.$spacing-lg;
+  display: flex;
+  justify-content: flex-end;
+  gap: theme.$spacing-md;
+}
