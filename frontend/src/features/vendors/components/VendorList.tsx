@@ -83,14 +83,18 @@ export default function VendorList() {
     <div className="p-6">
       {/* Success Message */}
       {successMessage && (
-        <div className="mb-4 bg-success bg-opacity-10 border border-success text-success px-4 py-3 rounded-lg">
+        <div
+          className="mb-4 px-4 py-3 rounded-lg border border-success bg-success text-white font-semibold shadow-lg"
+        >
           {successMessage}
         </div>
       )}
 
       {/* Error Message */}
       {error && (
-        <div className="mb-4 bg-error bg-opacity-10 border border-error text-error px-4 py-3 rounded-lg">
+        <div
+          className="mb-4 px-4 py-3 rounded-lg border border-error bg-error text-white font-semibold shadow-lg"
+        >
           {error}
         </div>
       )}

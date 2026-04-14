@@ -28,7 +28,8 @@ class VendorService {
       const error: ApiError = await response.json();
       throw new Error(error.message || 'Failed to fetch vendor');
     }
-    return response.json();
+     const result = await response.json();
+     return result.data; ;
   }
 
   async createVendor(payload: CreateVendorPayload): Promise<Vendor> {

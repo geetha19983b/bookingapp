@@ -233,3 +233,9 @@
 .text-info {
   color: theme.$color-info;
 }
+
+@layer utilities {
+  .toast-text-white {
+    color: #fff !important;
+  }
+}

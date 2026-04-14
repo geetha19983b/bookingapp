@@ -183,14 +183,14 @@ export default function VendorForm() {
 
       {/* Success Message */}
       {successMessage && (
-        <div className="mb-4 bg-success bg-opacity-10 border border-success text-success px-4 py-3 rounded-lg">
+        <div className="mb-4 bg-success bg-opacity-10 border border-success toast-text-white text-success px-4 py-3 rounded-lg">
           {successMessage}
         </div>
       )}
 
       {/* Error Message */}
       {error && (
-        <div className="mb-4 bg-error bg-opacity-10 border border-error text-error px-4 py-3 rounded-lg">
+        <div className="mb-4 bg-error bg-opacity-10 border border-error toast-text-white text-error px-4 py-3 rounded-lg">
           {error}
         </div>
       )}
