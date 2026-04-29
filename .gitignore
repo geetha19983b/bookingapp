@@ -3,3 +3,7 @@ node_modules/
 items.json
 .DS_Store
 *.log
+
+# Prisma
+backend/.env
+backend/prisma/.env

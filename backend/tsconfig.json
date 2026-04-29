@@ -14,9 +14,12 @@
   "include": [
     "backend.ts",
     "db.ts",
+    "config/**/*.ts",
+    "middleware/**/*.ts",
     "routes/**/*.ts",
     "services/**/*.ts",
-    "schemas/**/*.ts"
+    "schemas/**/*.ts",
+    "utils/**/*.ts"
   ],
   "exclude": [
     "node_modules",

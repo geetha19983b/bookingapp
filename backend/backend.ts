@@ -1,87 +1,158 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 import fs from 'fs';
-import path from 'path';
-import { ZodError } from 'zod';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import config from './config';
+import logger from './utils/logger';
+import prisma from './db';
+import { requestLogger } from './middleware/requestLogger';
+import { errorHandler } from './middleware/errorHandler';
 import vendorRoutes from './routes/vendors';
 
 const app = express();
-const PORT = 5174;
-const DATA_FILE = path.resolve(__dirname, '../items.json');
 
+// Security middleware
+app.use(helmet());
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: config.rateLimit.windowMs,
+  max: config.rateLimit.maxRequests,
+  message: 'Too many requests from this IP, please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use('/api/', limiter);
+
+// CORS configuration
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: config.corsOrigin,
     credentials: true,
   })
 );
 
+// Request logging
+app.use(requestLogger);
+
+// Body parsing
+// Body parsing
 app.use(express.json());
+
+// Health check endpoint
+app.get('/health', async (_req: Request, res: Response) => {
+  try {
+    // Check database connection
+    await prisma.$queryRaw`SELECT 1`;
+    res.status(200).json({
+      status: 'healthy',
+      timestamp: new Date().toISOString(),
+      database: 'connected',
+    });
+  } catch (error) {
+    logger.error('Health check failed', { error });
+    res.status(503).json({
+      status: 'unhealthy',
+      timestamp: new Date().toISOString(),
+      database: 'disconnected',
+    });
+  }
+});
+
+// API v1 routes
+app.use('/api/v1/vendors', vendorRoutes);
+
+// Legacy routes (deprecated - consider removing in future)
 app.use('/api/vendors', vendorRoutes);
 
+// Legacy routes (deprecated - consider removing in future)
+app.use('/api/vendors', vendorRoutes);
+
+// Legacy file-based endpoints (deprecated - will be removed in future versions)
 app.post('/api/items', (req: Request, res: Response) => {
+  logger.warn('Using deprecated /api/items endpoint - please migrate to new API');
   const item = req.body;
   let items: unknown[] = [];
 
-  if (fs.existsSync(DATA_FILE)) {
-    items = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8')) as unknown[];
+  if (fs.existsSync(config.dataFile)) {
+    items = JSON.parse(fs.readFileSync(config.dataFile, 'utf8')) as unknown[];
   }
 
   items.push(item);
-  fs.writeFileSync(DATA_FILE, JSON.stringify(items, null, 2));
+  fs.writeFileSync(config.dataFile, JSON.stringify(items, null, 2));
   res.status(201).json({ success: true });
 });
 
 app.get('/api/items', (_req: Request, res: Response) => {
+  logger.warn('Using deprecated /api/items endpoint - please migrate to new API');
   let items: unknown[] = [];
 
-  if (fs.existsSync(DATA_FILE)) {
-    items = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8')) as unknown[];
+  if (fs.existsSync(config.dataFile)) {
+    items = JSON.parse(fs.readFileSync(config.dataFile, 'utf8')) as unknown[];
   }
 
   res.json(items);
 });
 
-app.use((error: unknown, _req: Request, res: Response, _next: NextFunction) => {
-  if (error instanceof ZodError) {
-    res.status(400).json({
-      message: 'Validation failed',
-      errors: error.issues.map((issue) => ({
-        path: issue.path.join('.') || 'body',
-        message: issue.message,
-      })),
-    });
-    return;
-  }
+// Error handling middleware (must be last)
+app.use(errorHandler);
 
-  if (isPgUniqueViolation(error)) {
-    res.status(409).json({
-      message: 'Duplicate value violates a unique constraint',
-      detail: error.detail,
-    });
-    return;
-  }
+// Error handling middleware (must be last)
+app.use(errorHandler);
 
-  console.error('Unhandled error:', error);
-  res.status(500).json({
-    message: 'Internal server error',
+// Start server with graceful shutdown
+const server = app.listen(config.port, async () => {
+  logger.info(`Server starting on http://localhost:${config.port}`, {
+    nodeEnv: config.nodeEnv,
+    port: config.port,
   });
-});
 
-app.listen(PORT, () => {
-  console.log(`Backend running on http://localhost:${PORT}`);
-});
-
-interface PgUniqueViolation {
-  code: string;
-  detail?: string;
-}
-
-const isPgUniqueViolation = (value: unknown): value is PgUniqueViolation => {
-  if (!value || typeof value !== 'object') {
-    return false;
+  // Verify database connection on startup
+  try {
+    await prisma.$connect();
+    logger.info('Database connection established successfully');
+  } catch (error) {
+    logger.error('Failed to connect to database', { error });
+    process.exit(1);
   }
+});
 
-  const maybeError = value as Record<string, unknown>;
-  return maybeError.code === '23505';
+// Graceful shutdown handler
+const gracefulShutdown = async (signal: string) => {
+  logger.info(`${signal} received, starting graceful shutdown`);
+
+  server.close(async () => {
+    logger.info('HTTP server closed');
+
+    try {
+      await prisma.$disconnect();
+      logger.info('Database connection closed');
+      process.exit(0);
+    } catch (error) {
+      logger.error('Error during graceful shutdown', { error });
+      process.exit(1);
+    }
+  });
+
+  // Force shutdown after 10 seconds
+  setTimeout(() => {
+    logger.error('Forced shutdown after timeout');
+    process.exit(1);
+  }, 10000);
 };
+
+// Listen for termination signals
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+
+// Handle uncaught exceptions and rejections
+process.on('uncaughtException', (error) => {
+  logger.error('Uncaught exception', { error });
+  gracefulShutdown('uncaughtException');
+});
+
+process.on('unhandledRejection', (reason) => {
+  logger.error('Unhandled rejection', { reason });
+  gracefulShutdown('unhandledRejection');
+});

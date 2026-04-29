@@ -1,7 +1,11 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { createVendor, updateVendor, deleteVendor } from '../services/vendorService';
-import { VendorRecord } from '../services/vendorService';
-import { query } from '../db';
+import {
+  getAllVendors,
+  getVendorById,
+  createVendor,
+  updateVendor,
+  deleteVendor,
+} from '../services/vendorService';
 import {
   createVendorBodySchema,
   updateVendorBodySchema,
@@ -29,11 +33,10 @@ const asyncHandler = (
 router.get(
   '/',
   asyncHandler(async (_req, res) => {
-    // You may want to select only specific columns
-    const result = await query<VendorRecord>('SELECT * FROM vendors ORDER BY id ASC');
+    const vendors = await getAllVendors();
     res.status(200).json({
       message: 'Vendors fetched successfully',
-      data: result.rows,
+      data: vendors,
     });
   })
 );
@@ -42,19 +45,17 @@ router.get(
 router.get(
   '/:id',
   asyncHandler(async (req, res) => {
-    const id = Number(req.params.id);
-    if (isNaN(id)) {
-      res.status(400).json({ message: 'Invalid vendor id' });
-      return;
-    }
-    const result = await query<VendorRecord>('SELECT * FROM vendors WHERE id = $1', [id]);
-    if (result.rows.length === 0) {
+    const params = parseParams(vendorIdParamsSchema, req.params);
+    const vendor = await getVendorById(params.id);
+    
+    if (!vendor) {
       res.status(404).json({ message: 'Vendor not found' });
       return;
     }
+    
     res.status(200).json({
       message: 'Vendor fetched successfully',
-      data: result.rows[0],
+      data: vendor,
     });
   })
 );

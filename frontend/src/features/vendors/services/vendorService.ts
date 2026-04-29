@@ -1,6 +1,6 @@
 import type { Vendor, CreateVendorPayload, UpdateVendorPayload } from '../types/vendor.types';
 
-const API_BASE_URL = 'http://localhost:5174/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5174/api/v1';
 
 export interface ApiError {
   message: string;
@@ -45,7 +45,8 @@ class VendorService {
       const error: ApiError = await response.json();
       throw error;
     }
-    return response.json();
+    const result = await response.json();
+    return result.data;
   }
 
   async updateVendor(id: number, payload: UpdateVendorPayload): Promise<Vendor> {
@@ -61,7 +62,8 @@ class VendorService {
       const error: ApiError = await response.json();
       throw error;
     }
-    return response.json();
+    const result = await response.json();
+    return result.data;
   }
 
   async deleteVendor(id: number): Promise<void> {

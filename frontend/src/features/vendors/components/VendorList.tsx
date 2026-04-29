@@ -65,10 +65,10 @@ export default function VendorList() {
   const filteredVendors = vendors.filter((vendor) => {
     const query = searchQuery.toLowerCase();
     return (
-      vendor.display_name?.toLowerCase().includes(query) ||
-      vendor.company_name?.toLowerCase().includes(query) ||
+      vendor.displayName?.toLowerCase().includes(query) ||
+      vendor.companyName?.toLowerCase().includes(query) ||
       vendor.email?.toLowerCase().includes(query) ||
-      vendor.source_of_supply?.toLowerCase().includes(query)
+      vendor.sourceOfSupply?.toLowerCase().includes(query)
     );
   });
 
@@ -177,18 +177,18 @@ export default function VendorList() {
                         onClick={() => handleEdit(vendor.id)}
                         className="text-sm font-medium text-theme-medium hover:text-accent-blue cursor-pointer transition"
                       >
-                        {vendor.display_name}
+                        {vendor.displayName}
                       </button>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-primary">
-                      {vendor.company_name || '-'}
+                      {vendor.companyName || '-'}
                     </td>
                     <td className="px-6 py-4 text-sm text-secondary">{vendor.email || '-'}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-primary">
-                      {vendor.work_phone || '-'}
+                      {vendor.workPhone || '-'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-primary">
-                      {vendor.source_of_supply || '-'}
+                      {vendor.sourceOfSupply || '-'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-primary">₹0.00</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-primary">₹0.00</td>

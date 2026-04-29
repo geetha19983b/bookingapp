@@ -13,37 +13,37 @@ import {
 import type { VendorFormData } from '../types/vendor.types';
 
 const initialFormState: VendorFormData = {
-  display_name: '',
-  company_name: '',
+  displayName: '',
+  companyName: '',
   email: '',
-  work_phone: '',
-  mobile_phone: '',
-  billing_address_line1: '',
-  billing_address_line2: '',
-  billing_city: '',
-  billing_state: '',
-  billing_country: '',
-  billing_zip_code: '',
-  shipping_address_line1: '',
-  shipping_address_line2: '',
-  shipping_city: '',
-  shipping_state: '',
-  shipping_country: '',
-  shipping_zip_code: '',
-  gst_treatment: '',
+  workPhone: '',
+  mobilePhone: '',
+  billingAddressLine1: '',
+  billingAddressLine2: '',
+  billingCity: '',
+  billingState: '',
+  billingCountry: '',
+  billingZipCode: '',
+  shippingAddressLine1: '',
+  shippingAddressLine2: '',
+  shippingCity: '',
+  shippingState: '',
+  shippingCountry: '',
+  shippingZipCode: '',
+  gstTreatment: '',
   gstin: '',
-  source_of_supply: '',
+  sourceOfSupply: '',
   pan: '',
-  is_msme_registered: false,
+  isMsmeRegistered: false,
   currency: 'INR',
-  opening_balance: 0,
-  payment_terms: '',
-  bank_name: '',
-  bank_account_number: '',
-  bank_ifsc_code: '',
-  bank_branch: '',
+  openingBalance: 0,
+  paymentTerms: '',
+  bankName: '',
+  bankAccountNumber: '',
+  bankIfscCode: '',
+  bankBranch: '',
   remarks: '',
-  is_active: true,
+  isActive: true,
 };
 
 export default function VendorForm() {
@@ -72,37 +72,37 @@ export default function VendorForm() {
   useEffect(() => {
     if (selectedVendor && isEditMode) {
       setFormData({
-        display_name: selectedVendor.display_name || '',
-        company_name: selectedVendor.company_name || '',
+        displayName: selectedVendor.displayName || '',
+        companyName: selectedVendor.companyName || '',
         email: selectedVendor.email || '',
-        work_phone: selectedVendor.work_phone || '',
-        mobile_phone: selectedVendor.mobile_phone || '',
-        billing_address_line1: selectedVendor.billing_address_line1 || '',
-        billing_address_line2: selectedVendor.billing_address_line2 || '',
-        billing_city: selectedVendor.billing_city || '',
-        billing_state: selectedVendor.billing_state || '',
-        billing_country: selectedVendor.billing_country || '',
-        billing_zip_code: selectedVendor.billing_zip_code || '',
-        shipping_address_line1: selectedVendor.shipping_address_line1 || '',
-        shipping_address_line2: selectedVendor.shipping_address_line2 || '',
-        shipping_city: selectedVendor.shipping_city || '',
-        shipping_state: selectedVendor.shipping_state || '',
-        shipping_country: selectedVendor.shipping_country || '',
-        shipping_zip_code: selectedVendor.shipping_zip_code || '',
-        gst_treatment: selectedVendor.gst_treatment || '',
+        workPhone: selectedVendor.workPhone || '',
+        mobilePhone: selectedVendor.mobilePhone || '',
+        billingAddressLine1: selectedVendor.billingAddressLine1 || '',
+        billingAddressLine2: selectedVendor.billingAddressLine2 || '',
+        billingCity: selectedVendor.billingCity || '',
+        billingState: selectedVendor.billingState || '',
+        billingCountry: selectedVendor.billingCountry || '',
+        billingZipCode: selectedVendor.billingZipCode || '',
+        shippingAddressLine1: selectedVendor.shippingAddressLine1 || '',
+        shippingAddressLine2: selectedVendor.shippingAddressLine2 || '',
+        shippingCity: selectedVendor.shippingCity || '',
+        shippingState: selectedVendor.shippingState || '',
+        shippingCountry: selectedVendor.shippingCountry || '',
+        shippingZipCode: selectedVendor.shippingZipCode || '',
+        gstTreatment: selectedVendor.gstTreatment || '',
         gstin: selectedVendor.gstin || '',
-        source_of_supply: selectedVendor.source_of_supply || '',
+        sourceOfSupply: selectedVendor.sourceOfSupply || '',
         pan: selectedVendor.pan || '',
-        is_msme_registered: selectedVendor.is_msme_registered || false,
+        isMsmeRegistered: selectedVendor.isMsmeRegistered || false,
         currency: selectedVendor.currency || 'INR',
-        opening_balance: selectedVendor.opening_balance || 0,
-        payment_terms: selectedVendor.payment_terms || '',
-        bank_name: selectedVendor.bank_name || '',
-        bank_account_number: selectedVendor.bank_account_number || '',
-        bank_ifsc_code: selectedVendor.bank_ifsc_code || '',
-        bank_branch: selectedVendor.bank_branch || '',
+        openingBalance: selectedVendor.openingBalance || 0,
+        paymentTerms: selectedVendor.paymentTerms || '',
+        bankName: selectedVendor.bankName || '',
+        bankAccountNumber: selectedVendor.bankAccountNumber || '',
+        bankIfscCode: selectedVendor.bankIfscCode || '',
+        bankBranch: selectedVendor.bankBranch || '',
         remarks: selectedVendor.remarks || '',
-        is_active: selectedVendor.is_active ?? true,
+        isActive: selectedVendor.isActive ?? true,
       });
     }
   }, [selectedVendor, isEditMode]);
@@ -120,12 +120,12 @@ export default function VendorForm() {
     if (copyBillingToShipping) {
       setFormData((prev) => ({
         ...prev,
-        shipping_address_line1: prev.billing_address_line1,
-        shipping_address_line2: prev.billing_address_line2,
-        shipping_city: prev.billing_city,
-        shipping_state: prev.billing_state,
-        shipping_country: prev.billing_country,
-        shipping_zip_code: prev.billing_zip_code,
+        shippingAddressLine1: prev.billingAddressLine1,
+        shippingAddressLine2: prev.billingAddressLine2,
+        shippingCity: prev.billingCity,
+        shippingState: prev.billingState,
+        shippingCountry: prev.billingCountry,
+        shippingZipCode: prev.billingZipCode,
       }));
     }
   }, [copyBillingToShipping]);
@@ -234,10 +234,11 @@ export default function VendorForm() {
                   </label>
                   <input
                     type="text"
-                    name="display_name"
-                    value={formData.display_name}
+                    name="displayName"
+                    value={formData.displayName}
                     onChange={handleChange}
                     required
+                    maxLength={255}
                     className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                   />
                 </div>
@@ -246,9 +247,10 @@ export default function VendorForm() {
                   <label className="block text-sm font-medium text-primary mb-2">Company Name</label>
                   <input
                     type="text"
-                    name="company_name"
-                    value={formData.company_name || ''}
+                    name="companyName"
+                    value={formData.companyName || ''}
                     onChange={handleChange}
+                    maxLength={255}
                     className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                   />
                 </div>
@@ -260,6 +262,7 @@ export default function VendorForm() {
                     name="email"
                     value={formData.email || ''}
                     onChange={handleChange}
+                    maxLength={255}
                     className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                   />
                 </div>
@@ -268,9 +271,10 @@ export default function VendorForm() {
                   <label className="block text-sm font-medium text-primary mb-2">Work Phone</label>
                   <input
                     type="tel"
-                    name="work_phone"
-                    value={formData.work_phone || ''}
+                    name="workPhone"
+                    value={formData.workPhone || ''}
                     onChange={handleChange}
+                    maxLength={20}
                     className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                   />
                 </div>
@@ -279,9 +283,10 @@ export default function VendorForm() {
                   <label className="block text-sm font-medium text-primary mb-2">Mobile Phone</label>
                   <input
                     type="tel"
-                    name="mobile_phone"
-                    value={formData.mobile_phone || ''}
+                    name="mobilePhone"
+                    value={formData.mobilePhone || ''}
                     onChange={handleChange}
+                    maxLength={20}
                     className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                   />
                 </div>
@@ -293,7 +298,7 @@ export default function VendorForm() {
                     name="currency"
                     value={formData.currency || ''}
                     onChange={handleChange}
-                    placeholder="INR"
+                    placeholder="INR (default)"
                     maxLength={3}
                     className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm uppercase"
                   />
@@ -303,8 +308,8 @@ export default function VendorForm() {
                   <label className="block text-sm font-medium text-primary mb-2">Opening Balance</label>
                   <input
                     type="number"
-                    name="opening_balance"
-                    value={formData.opening_balance}
+                    name="openingBalance"
+                    value={formData.openingBalance}
                     onChange={handleChange}
                     step="0.01"
                     className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
@@ -315,9 +320,11 @@ export default function VendorForm() {
                   <label className="block text-sm font-medium text-primary mb-2">Payment Terms</label>
                   <input
                     type="text"
-                    name="payment_terms"
-                    value={formData.payment_terms || ''}
+                    name="paymentTerms"
+                    value={formData.paymentTerms || ''}
                     onChange={handleChange}
+                    placeholder="Due on Receipt (default)"
+                    maxLength={100}
                     className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                   />
                 </div>
@@ -336,8 +343,8 @@ export default function VendorForm() {
                 <div className="flex items-center">
                   <input
                     type="checkbox"
-                    name="is_active"
-                    checked={formData.is_active}
+                    name="isActive"
+                    checked={formData.isActive}
                     onChange={handleChange}
                     className="rounded border-theme-medium text-accent-blue focus:ring-accent-cyan mr-2"
                   />
@@ -357,9 +364,10 @@ export default function VendorForm() {
                       <label className="block text-sm font-medium text-primary mb-2">Address Line 1</label>
                       <input
                         type="text"
-                        name="billing_address_line1"
-                        value={formData.billing_address_line1 || ''}
+                        name="billingAddressLine1"
+                        value={formData.billingAddressLine1 || ''}
                         onChange={handleChange}
+                        maxLength={255}
                         className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                       />
                     </div>
@@ -368,9 +376,10 @@ export default function VendorForm() {
                       <label className="block text-sm font-medium text-primary mb-2">Address Line 2</label>
                       <input
                         type="text"
-                        name="billing_address_line2"
-                        value={formData.billing_address_line2 || ''}
+                        name="billingAddressLine2"
+                        value={formData.billingAddressLine2 || ''}
                         onChange={handleChange}
+                        maxLength={255}
                         className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                       />
                     </div>
@@ -379,9 +388,10 @@ export default function VendorForm() {
                       <label className="block text-sm font-medium text-primary mb-2">City</label>
                       <input
                         type="text"
-                        name="billing_city"
-                        value={formData.billing_city || ''}
+                        name="billingCity"
+                        value={formData.billingCity || ''}
                         onChange={handleChange}
+                        maxLength={100}
                         className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                       />
                     </div>
@@ -390,9 +400,10 @@ export default function VendorForm() {
                       <label className="block text-sm font-medium text-primary mb-2">State</label>
                       <input
                         type="text"
-                        name="billing_state"
-                        value={formData.billing_state || ''}
+                        name="billingState"
+                        value={formData.billingState || ''}
                         onChange={handleChange}
+                        maxLength={100}
                         className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                       />
                     </div>
@@ -401,9 +412,10 @@ export default function VendorForm() {
                       <label className="block text-sm font-medium text-primary mb-2">Country</label>
                       <input
                         type="text"
-                        name="billing_country"
-                        value={formData.billing_country || ''}
+                        name="billingCountry"
+                        value={formData.billingCountry || ''}
                         onChange={handleChange}
+                        maxLength={100}
                         className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                       />
                     </div>
@@ -412,9 +424,10 @@ export default function VendorForm() {
                       <label className="block text-sm font-medium text-primary mb-2">Zip Code</label>
                       <input
                         type="text"
-                        name="billing_zip_code"
-                        value={formData.billing_zip_code || ''}
+                        name="billingZipCode"
+                        value={formData.billingZipCode || ''}
                         onChange={handleChange}
+                        maxLength={20}
                         className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                       />
                     </div>
@@ -440,9 +453,10 @@ export default function VendorForm() {
                       <label className="block text-sm font-medium text-primary mb-2">Address Line 1</label>
                       <input
                         type="text"
-                        name="shipping_address_line1"
-                        value={formData.shipping_address_line1 || ''}
+                        name="shippingAddressLine1"
+                        value={formData.shippingAddressLine1 || ''}
                         onChange={handleChange}
+                        maxLength={255}
                         className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                       />
                     </div>
@@ -451,9 +465,10 @@ export default function VendorForm() {
                       <label className="block text-sm font-medium text-primary mb-2">Address Line 2</label>
                       <input
                         type="text"
-                        name="shipping_address_line2"
-                        value={formData.shipping_address_line2 || ''}
+                        name="shippingAddressLine2"
+                        value={formData.shippingAddressLine2 || ''}
                         onChange={handleChange}
+                        maxLength={255}
                         className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                       />
                     </div>
@@ -462,9 +477,10 @@ export default function VendorForm() {
                       <label className="block text-sm font-medium text-primary mb-2">City</label>
                       <input
                         type="text"
-                        name="shipping_city"
-                        value={formData.shipping_city || ''}
+                        name="shippingCity"
+                        value={formData.shippingCity || ''}
                         onChange={handleChange}
+                        maxLength={100}
                         className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                       />
                     </div>
@@ -473,9 +489,10 @@ export default function VendorForm() {
                       <label className="block text-sm font-medium text-primary mb-2">State</label>
                       <input
                         type="text"
-                        name="shipping_state"
-                        value={formData.shipping_state || ''}
+                        name="shippingState"
+                        value={formData.shippingState || ''}
                         onChange={handleChange}
+                        maxLength={100}
                         className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                       />
                     </div>
@@ -484,9 +501,10 @@ export default function VendorForm() {
                       <label className="block text-sm font-medium text-primary mb-2">Country</label>
                       <input
                         type="text"
-                        name="shipping_country"
-                        value={formData.shipping_country || ''}
+                        name="shippingCountry"
+                        value={formData.shippingCountry || ''}
                         onChange={handleChange}
+                        maxLength={100}
                         className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                       />
                     </div>
@@ -495,9 +513,10 @@ export default function VendorForm() {
                       <label className="block text-sm font-medium text-primary mb-2">Zip Code</label>
                       <input
                         type="text"
-                        name="shipping_zip_code"
-                        value={formData.shipping_zip_code || ''}
+                        name="shippingZipCode"
+                        value={formData.shippingZipCode || ''}
                         onChange={handleChange}
+                        maxLength={20}
                         className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                       />
                     </div>
@@ -513,9 +532,10 @@ export default function VendorForm() {
                   <label className="block text-sm font-medium text-primary mb-2">GST Treatment</label>
                   <input
                     type="text"
-                    name="gst_treatment"
-                    value={formData.gst_treatment || ''}
+                    name="gstTreatment"
+                    value={formData.gstTreatment || ''}
                     onChange={handleChange}
+                    maxLength={100}
                     className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                   />
                 </div>
@@ -537,9 +557,10 @@ export default function VendorForm() {
                   <label className="block text-sm font-medium text-primary mb-2">Source of Supply</label>
                   <input
                     type="text"
-                    name="source_of_supply"
-                    value={formData.source_of_supply || ''}
+                    name="sourceOfSupply"
+                    value={formData.sourceOfSupply || ''}
                     onChange={handleChange}
+                    maxLength={100}
                     className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                   />
                 </div>
@@ -560,8 +581,8 @@ export default function VendorForm() {
                 <div className="flex items-center">
                   <input
                     type="checkbox"
-                    name="is_msme_registered"
-                    checked={formData.is_msme_registered}
+                    name="isMsmeRegistered"
+                    checked={formData.isMsmeRegistered}
                     onChange={handleChange}
                     className="rounded border-theme-medium text-accent-blue focus:ring-accent-cyan mr-2"
                   />
@@ -577,9 +598,10 @@ export default function VendorForm() {
                   <label className="block text-sm font-medium text-primary mb-2">Bank Name</label>
                   <input
                     type="text"
-                    name="bank_name"
-                    value={formData.bank_name || ''}
+                    name="bankName"
+                    value={formData.bankName || ''}
                     onChange={handleChange}
+                    maxLength={255}
                     className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                   />
                 </div>
@@ -588,9 +610,10 @@ export default function VendorForm() {
                   <label className="block text-sm font-medium text-primary mb-2">Account Number</label>
                   <input
                     type="text"
-                    name="bank_account_number"
-                    value={formData.bank_account_number || ''}
+                    name="bankAccountNumber"
+                    value={formData.bankAccountNumber || ''}
                     onChange={handleChange}
+                    maxLength={50}
                     className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                   />
                 </div>
@@ -599,8 +622,8 @@ export default function VendorForm() {
                   <label className="block text-sm font-medium text-primary mb-2">IFSC Code</label>
                   <input
                     type="text"
-                    name="bank_ifsc_code"
-                    value={formData.bank_ifsc_code || ''}
+                    name="bankIfscCode"
+                    value={formData.bankIfscCode || ''}
                     onChange={handleChange}
                     placeholder="ABCD0123456"
                     maxLength={11}
@@ -612,9 +635,10 @@ export default function VendorForm() {
                   <label className="block text-sm font-medium text-primary mb-2">Branch</label>
                   <input
                     type="text"
-                    name="bank_branch"
-                    value={formData.bank_branch || ''}
+                    name="bankBranch"
+                    value={formData.bankBranch || ''}
                     onChange={handleChange}
+                    maxLength={255}
                     className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                   />
                 </div>
