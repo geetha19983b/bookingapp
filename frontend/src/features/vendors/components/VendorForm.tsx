@@ -1,4 +1,6 @@
-import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import styles from './VendorForm.module.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
@@ -11,49 +13,44 @@ import {
   clearSuccessMessage,
 } from '../store/vendorSlice';
 import { Input, TextArea, Button, Alert } from '@components/ui';
-import type { VendorFormData, Vendor } from '../types/vendor.types';
+import { vendorFormSchema, type VendorFormValues } from '../schemas/vendorValidation';
 
 /**
- * Helper function to convert vendor data to form data with defaults
- * This eliminates repetition between initialFormState and setFormData calls
+ * Default form values
  */
-const getFormDataFromVendor = (vendor?: Partial<Vendor>): VendorFormData => {
-  return {
-    displayName: vendor?.displayName || '',
-    companyName: vendor?.companyName || '',
-    email: vendor?.email || '',
-    workPhone: vendor?.workPhone || '',
-    mobilePhone: vendor?.mobilePhone || '',
-    billingAddressLine1: vendor?.billingAddressLine1 || '',
-    billingAddressLine2: vendor?.billingAddressLine2 || '',
-    billingCity: vendor?.billingCity || '',
-    billingState: vendor?.billingState || '',
-    billingCountry: vendor?.billingCountry || '',
-    billingZipCode: vendor?.billingZipCode || '',
-    shippingAddressLine1: vendor?.shippingAddressLine1 || '',
-    shippingAddressLine2: vendor?.shippingAddressLine2 || '',
-    shippingCity: vendor?.shippingCity || '',
-    shippingState: vendor?.shippingState || '',
-    shippingCountry: vendor?.shippingCountry || '',
-    shippingZipCode: vendor?.shippingZipCode || '',
-    gstTreatment: vendor?.gstTreatment || '',
-    gstin: vendor?.gstin || '',
-    sourceOfSupply: vendor?.sourceOfSupply || '',
-    pan: vendor?.pan || '',
-    isMsmeRegistered: vendor?.isMsmeRegistered || false,
-    currency: vendor?.currency || 'INR',
-    openingBalance: vendor?.openingBalance || 0,
-    paymentTerms: vendor?.paymentTerms || '',
-    bankName: vendor?.bankName || '',
-    bankAccountNumber: vendor?.bankAccountNumber || '',
-    bankIfscCode: vendor?.bankIfscCode || '',
-    bankBranch: vendor?.bankBranch || '',
-    remarks: vendor?.remarks || '',
-    isActive: vendor?.isActive ?? true,
-  };
+const defaultValues: VendorFormValues = {
+  displayName: '',
+  companyName: '',
+  email: '',
+  workPhone: '',
+  mobilePhone: '',
+  billingAddressLine1: '',
+  billingAddressLine2: '',
+  billingCity: '',
+  billingState: '',
+  billingCountry: '',
+  billingZipCode: '',
+  shippingAddressLine1: '',
+  shippingAddressLine2: '',
+  shippingCity: '',
+  shippingState: '',
+  shippingCountry: '',
+  shippingZipCode: '',
+  gstTreatment: '',
+  gstin: '',
+  sourceOfSupply: '',
+  pan: '',
+  isMsmeRegistered: false,
+  currency: 'INR',
+  openingBalance: 0,
+  paymentTerms: '',
+  bankName: '',
+  bankAccountNumber: '',
+  bankIfscCode: '',
+  bankBranch: '',
+  remarks: '',
+  isActive: true,
 };
-
-const initialFormState: VendorFormData = getFormDataFromVendor();
 
 export default function VendorForm() {
   const navigate = useNavigate();
@@ -61,11 +58,31 @@ export default function VendorForm() {
   const dispatch = useAppDispatch();
   const { selectedVendor, loading, error, successMessage } = useAppSelector((state) => state.vendors);
 
-  const [formData, setFormData] = useState<VendorFormData>(initialFormState);
   const [activeTab, setActiveTab] = useState<'basic' | 'address' | 'tax' | 'bank'>('basic');
   const [copyBillingToShipping, setCopyBillingToShipping] = useState(false);
 
   const isEditMode = Boolean(id);
+
+  // Initialize React Hook Form
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm<VendorFormValues>({
+    resolver: zodResolver(vendorFormSchema),
+    defaultValues,
+  });
+
+  // Watch billing address fields for copy functionality
+  const billingAddressLine1 = watch('billingAddressLine1');
+  const billingAddressLine2 = watch('billingAddressLine2');
+  const billingCity = watch('billingCity');
+  const billingState = watch('billingState');
+  const billingCountry = watch('billingCountry');
+  const billingZipCode = watch('billingZipCode');
 
   useEffect(() => {
     if (isEditMode && id) {
@@ -78,11 +95,44 @@ export default function VendorForm() {
     };
   }, [id, isEditMode, dispatch]);
 
+  // Populate form when editing
   useEffect(() => {
     if (selectedVendor && isEditMode) {
-      setFormData(getFormDataFromVendor(selectedVendor));
+      reset({
+        displayName: selectedVendor.displayName || '',
+        companyName: selectedVendor.companyName || '',
+        email: selectedVendor.email || '',
+        workPhone: selectedVendor.workPhone || '',
+        mobilePhone: selectedVendor.mobilePhone || '',
+        billingAddressLine1: selectedVendor.billingAddressLine1 || '',
+        billingAddressLine2: selectedVendor.billingAddressLine2 || '',
+        billingCity: selectedVendor.billingCity || '',
+        billingState: selectedVendor.billingState || '',
+        billingCountry: selectedVendor.billingCountry || '',
+        billingZipCode: selectedVendor.billingZipCode || '',
+        shippingAddressLine1: selectedVendor.shippingAddressLine1 || '',
+        shippingAddressLine2: selectedVendor.shippingAddressLine2 || '',
+        shippingCity: selectedVendor.shippingCity || '',
+        shippingState: selectedVendor.shippingState || '',
+        shippingCountry: selectedVendor.shippingCountry || '',
+        shippingZipCode: selectedVendor.shippingZipCode || '',
+        gstTreatment: selectedVendor.gstTreatment || '',
+        gstin: selectedVendor.gstin || '',
+        sourceOfSupply: selectedVendor.sourceOfSupply || '',
+        pan: selectedVendor.pan || '',
+        isMsmeRegistered: selectedVendor.isMsmeRegistered || false,
+        currency: selectedVendor.currency || 'INR',
+        openingBalance: selectedVendor.openingBalance || 0,
+        paymentTerms: selectedVendor.paymentTerms || '',
+        bankName: selectedVendor.bankName || '',
+        bankAccountNumber: selectedVendor.bankAccountNumber || '',
+        bankIfscCode: selectedVendor.bankIfscCode || '',
+        bankBranch: selectedVendor.bankBranch || '',
+        remarks: selectedVendor.remarks || '',
+        isActive: selectedVendor.isActive ?? true,
+      });
     }
-  }, [selectedVendor, isEditMode]);
+  }, [selectedVendor, isEditMode, reset]);
 
   useEffect(() => {
     if (successMessage && !loading) {
@@ -93,41 +143,33 @@ export default function VendorForm() {
     }
   }, [successMessage, loading, navigate]);
 
+  // Copy billing address to shipping when checkbox is checked
   useEffect(() => {
     if (copyBillingToShipping) {
-      setFormData((prev) => ({
-        ...prev,
-        shippingAddressLine1: prev.billingAddressLine1,
-        shippingAddressLine2: prev.billingAddressLine2,
-        shippingCity: prev.billingCity,
-        shippingState: prev.billingState,
-        shippingCountry: prev.billingCountry,
-        shippingZipCode: prev.billingZipCode,
-      }));
+      setValue('shippingAddressLine1', billingAddressLine1 || '');
+      setValue('shippingAddressLine2', billingAddressLine2 || '');
+      setValue('shippingCity', billingCity || '');
+      setValue('shippingState', billingState || '');
+      setValue('shippingCountry', billingCountry || '');
+      setValue('shippingZipCode', billingZipCode || '');
     }
-  }, [copyBillingToShipping]);
+  }, [
+    copyBillingToShipping,
+    billingAddressLine1,
+    billingAddressLine2,
+    billingCity,
+    billingState,
+    billingCountry,
+    billingZipCode,
+    setValue,
+  ]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value, type } = e.target;
-
-    if (type === 'checkbox') {
-      const checked = (e.target as HTMLInputElement).checked;
-      setFormData((prev) => ({ ...prev, [name]: checked }));
-    } else if (type === 'number') {
-      setFormData((prev) => ({ ...prev, [name]: value === '' ? undefined : Number(value) }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value === '' ? null : value }));
-    }
-  };
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-
+  const onSubmit = async (data: VendorFormValues) => {
     try {
       if (isEditMode && id) {
-        await dispatch(updateVendor({ id: Number(id), payload: formData })).unwrap();
+        await dispatch(updateVendor({ id: Number(id), payload: data })).unwrap();
       } else {
-        await dispatch(createVendor(formData)).unwrap();
+        await dispatch(createVendor(data)).unwrap();
       }
     } catch (err) {
       // Error is handled in Redux slice
@@ -180,7 +222,7 @@ export default function VendorForm() {
       )}
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="flex flex-col max-h-[calc(100vh-10rem)]">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col max-h-[calc(100vh-10rem)]">
         <div className={`${styles.formBody} rounded-2xl shadow-lg border border-theme-light overflow-hidden flex flex-col max-h-full`}>
           {/* Tabs */}
           <div className={styles.formHeaderTabs}>
@@ -211,53 +253,46 @@ export default function VendorForm() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Input
                   label="Display Name"
-                  name="displayName"
-                  value={formData.displayName}
-                  onChange={handleChange}
-                  required
+                  {...register('displayName')}
+                  error={errors.displayName?.message}
                   maxLength={255}
                 />
 
                 <Input
                   label="Company Name"
-                  name="companyName"
-                  value={formData.companyName || ''}
-                  onChange={handleChange}
+                  {...register('companyName')}
+                  error={errors.companyName?.message}
                   maxLength={255}
                 />
 
                 <Input
                   label="Email"
                   type="email"
-                  name="email"
-                  value={formData.email || ''}
-                  onChange={handleChange}
+                  {...register('email')}
+                  error={errors.email?.message}
                   maxLength={255}
                 />
 
                 <Input
                   label="Work Phone"
                   type="tel"
-                  name="workPhone"
-                  value={formData.workPhone || ''}
-                  onChange={handleChange}
+                  {...register('workPhone')}
+                  error={errors.workPhone?.message}
                   maxLength={20}
                 />
 
                 <Input
                   label="Mobile Phone"
                   type="tel"
-                  name="mobilePhone"
-                  value={formData.mobilePhone || ''}
-                  onChange={handleChange}
+                  {...register('mobilePhone')}
+                  error={errors.mobilePhone?.message}
                   maxLength={20}
                 />
 
                 <Input
                   label="Currency"
-                  name="currency"
-                  value={formData.currency || ''}
-                  onChange={handleChange}
+                  {...register('currency')}
+                  error={errors.currency?.message}
                   placeholder="INR (default)"
                   maxLength={3}
                   className="uppercase"
@@ -266,17 +301,15 @@ export default function VendorForm() {
                 <Input
                   label="Opening Balance"
                   type="number"
-                  name="openingBalance"
-                  value={formData.openingBalance}
-                  onChange={handleChange}
+                  {...register('openingBalance', { valueAsNumber: true })}
+                  error={errors.openingBalance?.message}
                   step="0.01"
                 />
 
                 <Input
                   label="Payment Terms"
-                  name="paymentTerms"
-                  value={formData.paymentTerms || ''}
-                  onChange={handleChange}
+                  {...register('paymentTerms')}
+                  error={errors.paymentTerms?.message}
                   placeholder="Due on Receipt (default)"
                   maxLength={100}
                 />
@@ -284,9 +317,8 @@ export default function VendorForm() {
                 <div className="md:col-span-2">
                   <TextArea
                     label="Remarks"
-                    name="remarks"
-                    value={formData.remarks || ''}
-                    onChange={handleChange}
+                    {...register('remarks')}
+                    error={errors.remarks?.message}
                     rows={3}
                     resize="none"
                   />
@@ -295,9 +327,7 @@ export default function VendorForm() {
                 <div className="flex items-center">
                   <input
                     type="checkbox"
-                    name="isActive"
-                    checked={formData.isActive}
-                    onChange={handleChange}
+                    {...register('isActive')}
                     className="rounded border-theme-medium text-accent-blue focus:ring-accent-cyan mr-2"
                   />
                   <label className="text-sm font-medium text-primary">Active</label>
@@ -315,9 +345,8 @@ export default function VendorForm() {
                     <div className="md:col-span-2">
                       <Input
                         label="Address Line 1"
-                        name="billingAddressLine1"
-                        value={formData.billingAddressLine1 || ''}
-                        onChange={handleChange}
+                        {...register('billingAddressLine1')}
+                        error={errors.billingAddressLine1?.message}
                         maxLength={255}
                       />
                     </div>
@@ -325,42 +354,37 @@ export default function VendorForm() {
                     <div className="md:col-span-2">
                       <Input
                         label="Address Line 2"
-                        name="billingAddressLine2"
-                        value={formData.billingAddressLine2 || ''}
-                        onChange={handleChange}
+                        {...register('billingAddressLine2')}
+                        error={errors.billingAddressLine2?.message}
                         maxLength={255}
                       />
                     </div>
 
                     <Input
                       label="City"
-                      name="billingCity"
-                      value={formData.billingCity || ''}
-                      onChange={handleChange}
+                      {...register('billingCity')}
+                      error={errors.billingCity?.message}
                       maxLength={100}
                     />
 
                     <Input
                       label="State"
-                      name="billingState"
-                      value={formData.billingState || ''}
-                      onChange={handleChange}
+                      {...register('billingState')}
+                      error={errors.billingState?.message}
                       maxLength={100}
                     />
 
                     <Input
                       label="Country"
-                      name="billingCountry"
-                      value={formData.billingCountry || ''}
-                      onChange={handleChange}
+                      {...register('billingCountry')}
+                      error={errors.billingCountry?.message}
                       maxLength={100}
                     />
 
                     <Input
                       label="Zip Code"
-                      name="billingZipCode"
-                      value={formData.billingZipCode || ''}
-                      onChange={handleChange}
+                      {...register('billingZipCode')}
+                      error={errors.billingZipCode?.message}
                       maxLength={20}
                     />
                   </div>
@@ -384,9 +408,8 @@ export default function VendorForm() {
                     <div className="md:col-span-2">
                       <Input
                         label="Address Line 1"
-                        name="shippingAddressLine1"
-                        value={formData.shippingAddressLine1 || ''}
-                        onChange={handleChange}
+                        {...register('shippingAddressLine1')}
+                        error={errors.shippingAddressLine1?.message}
                         maxLength={255}
                       />
                     </div>
@@ -394,42 +417,37 @@ export default function VendorForm() {
                     <div className="md:col-span-2">
                       <Input
                         label="Address Line 2"
-                        name="shippingAddressLine2"
-                        value={formData.shippingAddressLine2 || ''}
-                        onChange={handleChange}
+                        {...register('shippingAddressLine2')}
+                        error={errors.shippingAddressLine2?.message}
                         maxLength={255}
                       />
                     </div>
 
                     <Input
                       label="City"
-                      name="shippingCity"
-                      value={formData.shippingCity || ''}
-                      onChange={handleChange}
+                      {...register('shippingCity')}
+                      error={errors.shippingCity?.message}
                       maxLength={100}
                     />
 
                     <Input
                       label="State"
-                      name="shippingState"
-                      value={formData.shippingState || ''}
-                      onChange={handleChange}
+                      {...register('shippingState')}
+                      error={errors.shippingState?.message}
                       maxLength={100}
                     />
 
                     <Input
                       label="Country"
-                      name="shippingCountry"
-                      value={formData.shippingCountry || ''}
-                      onChange={handleChange}
+                      {...register('shippingCountry')}
+                      error={errors.shippingCountry?.message}
                       maxLength={100}
                     />
 
                     <Input
                       label="Zip Code"
-                      name="shippingZipCode"
-                      value={formData.shippingZipCode || ''}
-                      onChange={handleChange}
+                      {...register('shippingZipCode')}
+                      error={errors.shippingZipCode?.message}
                       maxLength={20}
                     />
                   </div>
@@ -442,17 +460,15 @@ export default function VendorForm() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Input
                   label="GST Treatment"
-                  name="gstTreatment"
-                  value={formData.gstTreatment || ''}
-                  onChange={handleChange}
+                  {...register('gstTreatment')}
+                  error={errors.gstTreatment?.message}
                   maxLength={100}
                 />
 
                 <Input
                   label="GSTIN"
-                  name="gstin"
-                  value={formData.gstin || ''}
-                  onChange={handleChange}
+                  {...register('gstin')}
+                  error={errors.gstin?.message}
                   placeholder="22AAAAA0000A1Z5"
                   maxLength={15}
                   className="uppercase"
@@ -460,17 +476,15 @@ export default function VendorForm() {
 
                 <Input
                   label="Source of Supply"
-                  name="sourceOfSupply"
-                  value={formData.sourceOfSupply || ''}
-                  onChange={handleChange}
+                  {...register('sourceOfSupply')}
+                  error={errors.sourceOfSupply?.message}
                   maxLength={100}
                 />
 
                 <Input
                   label="PAN"
-                  name="pan"
-                  value={formData.pan || ''}
-                  onChange={handleChange}
+                  {...register('pan')}
+                  error={errors.pan?.message}
                   placeholder="AAAAA0000A"
                   maxLength={10}
                   className="uppercase"
@@ -479,9 +493,7 @@ export default function VendorForm() {
                 <div className="flex items-center">
                   <input
                     type="checkbox"
-                    name="isMsmeRegistered"
-                    checked={formData.isMsmeRegistered}
-                    onChange={handleChange}
+                    {...register('isMsmeRegistered')}
                     className="rounded border-theme-medium text-accent-blue focus:ring-accent-cyan mr-2"
                   />
                   <label className="text-sm font-medium text-primary">MSME Registered</label>
@@ -495,26 +507,23 @@ export default function VendorForm() {
                 <div className="md:col-span-2">
                   <Input
                     label="Bank Name"
-                    name="bankName"
-                    value={formData.bankName || ''}
-                    onChange={handleChange}
+                    {...register('bankName')}
+                    error={errors.bankName?.message}
                     maxLength={255}
                   />
                 </div>
 
                 <Input
                   label="Account Number"
-                  name="bankAccountNumber"
-                  value={formData.bankAccountNumber || ''}
-                  onChange={handleChange}
+                  {...register('bankAccountNumber')}
+                  error={errors.bankAccountNumber?.message}
                   maxLength={50}
                 />
 
                 <Input
                   label="IFSC Code"
-                  name="bankIfscCode"
-                  value={formData.bankIfscCode || ''}
-                  onChange={handleChange}
+                  {...register('bankIfscCode')}
+                  error={errors.bankIfscCode?.message}
                   placeholder="ABCD0123456"
                   maxLength={11}
                   className="uppercase"
@@ -523,9 +532,8 @@ export default function VendorForm() {
                 <div className="md:col-span-2">
                   <Input
                     label="Branch"
-                    name="bankBranch"
-                    value={formData.bankBranch || ''}
-                    onChange={handleChange}
+                    {...register('bankBranch')}
+                    error={errors.bankBranch?.message}
                     maxLength={255}
                   />
                 </div>
