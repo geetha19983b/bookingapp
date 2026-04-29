@@ -1,80 +1,34 @@
 import type { Vendor, CreateVendorPayload, UpdateVendorPayload } from '../types/vendor.types';
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5174/api/v1';
-
-export interface ApiError {
-  message: string;
-  errors?: Array<{ path: string; message: string }>;
-  detail?: string;
-}
+import { apiClient, type ApiResponse } from '../../../services/api';
 
 class VendorService {
-  private baseUrl = `${API_BASE_URL}/vendors`;
+  private readonly endpoint = '/vendors';
 
   async getAllVendors(): Promise<Vendor[]> {
-    const response = await fetch(this.baseUrl);
-    if (!response.ok) {
-      const error: ApiError = await response.json();
-      throw new Error(error.message || 'Failed to fetch vendors');
-    }
-    const result = await response.json();
-    // Return only the data array
-    return result.data;
+    const response = await apiClient.get<ApiResponse<Vendor[]>>(this.endpoint);
+    return response.data;
   }
 
   async getVendorById(id: number): Promise<Vendor> {
-    const response = await fetch(`${this.baseUrl}/${id}`);
-    if (!response.ok) {
-      const error: ApiError = await response.json();
-      throw new Error(error.message || 'Failed to fetch vendor');
-    }
-     const result = await response.json();
-     return result.data; ;
+    const response = await apiClient.get<ApiResponse<Vendor>>(`${this.endpoint}/${id}`);
+    return response.data;
   }
 
   async createVendor(payload: CreateVendorPayload): Promise<Vendor> {
-    const response = await fetch(this.baseUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
-
-    if (!response.ok) {
-      const error: ApiError = await response.json();
-      throw error;
-    }
-    const result = await response.json();
-    return result.data;
+    const response = await apiClient.post<ApiResponse<Vendor>>(this.endpoint, payload);
+    return response.data;
   }
 
   async updateVendor(id: number, payload: UpdateVendorPayload): Promise<Vendor> {
-    const response = await fetch(`${this.baseUrl}/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
-
-    if (!response.ok) {
-      const error: ApiError = await response.json();
-      throw error;
-    }
-    const result = await response.json();
-    return result.data;
+    const response = await apiClient.put<ApiResponse<Vendor>>(
+      `${this.endpoint}/${id}`,
+      payload
+    );
+    return response.data;
   }
 
   async deleteVendor(id: number): Promise<void> {
-    const response = await fetch(`${this.baseUrl}/${id}`, {
-      method: 'DELETE',
-    });
-
-    if (!response.ok) {
-      const error: ApiError = await response.json();
-      throw new Error(error.message || 'Failed to delete vendor');
-    }
+    await apiClient.delete(`${this.endpoint}/${id}`);
   }
 }
 

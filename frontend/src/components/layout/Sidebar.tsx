@@ -81,9 +81,9 @@ export default function Sidebar() {
       // Toggle the clicked section
       newState[section] = !wasExpanded;
       
-      // If expanding and firstChildPath is provided, navigate to first child
+      // Schedule navigation after render completes
       if (!wasExpanded && firstChildPath) {
-        navigate(firstChildPath);
+        setTimeout(() => navigate(firstChildPath), 0);
       }
       
       return newState;

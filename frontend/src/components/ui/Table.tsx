@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import {
   useReactTable,
   getCoreRowModel,
@@ -78,7 +78,7 @@ export function Table<TData>({
   });
 
   // Notify parent of row selection changes
-  useMemo(() => {
+  useEffect(() => {
     if (onRowSelectionChange) {
       const selectedRows = table.getSelectedRowModel().rows.map((row) => row.original);
       onRowSelectionChange(selectedRows);
