@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from './Sidebar.module.scss';
 
@@ -49,12 +49,45 @@ export default function Sidebar() {
   const location = useLocation();
   const navigate = useNavigate();
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({ 
-    items: true,
-    purchases: true,
+    items: false,
+    purchases: false,
   });
 
-  const toggleExpand = (section: string) => {
-    setExpandedItems((prev) => ({ ...prev, [section]: !prev[section] }));
+  // Auto-expand the section containing the current active route
+  useEffect(() => {
+    const path = location.pathname;
+    
+    // Determine which section should be expanded based on current route
+    if (path === '/' || path === '/add') {
+      setExpandedItems({ items: true, purchases: false });
+    } else if (path.startsWith('/vendors') || path.startsWith('/purchases')) {
+      setExpandedItems({ items: false, purchases: true });
+    } else {
+      // For all other routes (regular nav items), close all expandable sections
+      setExpandedItems({ items: false, purchases: false });
+    }
+  }, [location.pathname]);
+
+  const toggleExpand = (section: string, firstChildPath?: string) => {
+    setExpandedItems((prev) => {
+      const wasExpanded = prev[section];
+      
+      // Accordion behavior: close all other sections
+      const newState = Object.keys(prev).reduce((acc, key) => {
+        acc[key] = false;
+        return acc;
+      }, {} as Record<string, boolean>);
+      
+      // Toggle the clicked section
+      newState[section] = !wasExpanded;
+      
+      // If expanding and firstChildPath is provided, navigate to first child
+      if (!wasExpanded && firstChildPath) {
+        navigate(firstChildPath);
+      }
+      
+      return newState;
+    });
   };
 
   const isActive = (path: string) => location.pathname === path;
@@ -100,7 +133,7 @@ export default function Sidebar() {
           hasSubmenu
           onClick={(e) => {
             e.preventDefault();
-            toggleExpand('items');
+            toggleExpand('items', '/');
           }}
           isActive={(path) => isActive(path) || isParentActive(['/', '/add'])}
           expandedItems={expandedItems}
@@ -133,7 +166,7 @@ export default function Sidebar() {
           hasSubmenu
           onClick={(e) => {
             e.preventDefault();
-            toggleExpand('purchases');
+            toggleExpand('purchases', '/vendors');
           }}
           isActive={(path) => isActive(path) || isParentActive(['/vendors'])}
           expandedItems={expandedItems}
