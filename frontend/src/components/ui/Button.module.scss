@@ -1,0 +1,137 @@
+@use '../../styles/theme' as theme;
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: theme.$spacing-sm;
+  font-weight: theme.$font-weight-medium;
+  border-radius: theme.$radius-md;
+  transition: all theme.$transition-base;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  white-space: nowrap;
+
+  &:focus-visible {
+    outline: 2px solid theme.$color-theme-secondary;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .label {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .leftIcon,
+  .rightIcon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .spinner {
+    animation: spin 0.6s linear infinite;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  &.loading {
+    pointer-events: none;
+  }
+}
+
+// Sizes
+.sm {
+  padding: 0.375rem 0.75rem;
+  font-size: theme.$font-size-sm;
+  height: 2rem;
+}
+
+.md {
+  padding: 0.5rem 1rem;
+  font-size: theme.$font-size-sm;
+  height: 2.5rem;
+}
+
+.lg {
+  padding: 0.625rem 1.5rem;
+  font-size: theme.$font-size-base;
+  height: 3rem;
+}
+
+// Variants
+.primary {
+  background-color: theme.$color-button-primary;
+  color: theme.$color-button-primary-text;
+
+  &:hover:not(:disabled) {
+    background-color: theme.$color-button-primary-hover;
+    box-shadow: theme.$shadow-md;
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+}
+
+.secondary {
+  background-color: theme.$color-button-secondary;
+  color: theme.$color-button-secondary-text;
+
+  &:hover:not(:disabled) {
+    background-color: theme.$color-button-secondary-hover;
+    box-shadow: theme.$shadow-md;
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+}
+
+.outline {
+  background-color: transparent;
+  color: theme.$color-theme-primary;
+  border: 1px solid theme.$color-border-medium;
+
+  &:hover:not(:disabled) {
+    background-color: theme.$color-bg-hover;
+    border-color: theme.$color-theme-secondary;
+    color: theme.$color-text-white;
+  }
+}
+
+.ghost {
+  background-color: transparent;
+  color: theme.$color-theme-primary;
+
+  &:hover:not(:disabled) {
+    background-color: rgba(theme.$color-theme-secondary, 0.1);
+  }
+}
+
+.danger {
+  background-color: theme.$color-error;
+  color: theme.$color-text-pure-white;
+
+  &:hover:not(:disabled) {
+    background-color: darken(theme.$color-error, 8%);
+    box-shadow: theme.$shadow-md;
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+}

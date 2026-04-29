@@ -1,45 +1,79 @@
 @use '../../../styles/_theme.scss' as theme;
 
+.headerContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.backButton {
+  padding: 0.5rem !important;
+  border-radius: theme.$radius-md;
+  background-color: rgba(theme.$color-theme-secondary, 0.1) !important;
+  color: theme.$color-theme-primary !important;
+  transition: all theme.$transition-fast;
+
+  &:hover {
+    background-color: theme.$color-theme-secondary !important;
+    color: theme.$color-text-white !important;
+    transform: translateX(-2px);
+  }
+
+  svg {
+    display: block;
+  }
+}
+
 .formHeaderTabs {
   background: theme.$color-theme-primary;
-  border-bottom: 1px solid rgba(129, 178, 154, 0.3);
-  padding: theme.$spacing-sm theme.$spacing-md 0;
+  border-bottom: 2px solid rgba(129, 178, 154, 0.2);
+  padding: 0;
+  display: flex;
+  gap: 0;
 }
 
 .formBody {
-  background: theme.$color-bg-form;
+  background: theme.$color-bg-white;
   border-radius: theme.$radius-lg;
 }
 
 .formTabButton {
-  color: rgba(244, 241, 222, 0.8);
+  color: rgba(244, 241, 222, 0.7);
   background: transparent;
   font-weight: theme.$font-weight-medium;
   font-size: theme.$font-size-sm;
-  border-radius: theme.$radius-md theme.$radius-md 0 0;
-  padding: theme.$spacing-sm theme.$spacing-lg;
-  transition: background theme.$transition-fast, color theme.$transition-fast;
+  border-radius: 0;
+  padding: theme.$spacing-md theme.$spacing-lg;
+  transition: all theme.$transition-fast;
   border: none;
   outline: none;
   cursor: pointer;
   position: relative;
+  border-bottom: 3px solid transparent;
 
   &:hover:not(.active) {
-    background: rgba(129, 178, 154, 0.15);
-    color: theme.$color-text-white;
+    background: rgba(129, 178, 154, 0.12);
+    color: rgba(244, 241, 222, 0.95);
+    border-bottom-color: rgba(129, 178, 154, 0.4);
+  }
+
+  &:first-child {
+    border-top-left-radius: theme.$radius-lg;
   }
 }
 
 .formTabButton.active {
-  background: theme.$color-theme-accent;
-  color: #FFFFFF;
-  box-shadow: theme.$shadow-sm;
+  background: rgba(129, 178, 154, 0.2);
+  color: theme.$color-text-white;
   font-weight: theme.$font-weight-semibold;
+  border-bottom-color: theme.$color-theme-accent;
+  box-shadow: inset 0 -3px 0 0 theme.$color-theme-accent;
 }
 
 .formFooter {
   background: theme.$color-theme-primary;
-  border-top: 1px solid rgba(129, 178, 154, 0.3);
+  border-top: 2px solid rgba(129, 178, 154, 0.2);
   padding: theme.$spacing-md theme.$spacing-lg;
   display: flex;
   justify-content: flex-end;

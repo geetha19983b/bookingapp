@@ -12,6 +12,13 @@ $color-indigo: #3D405B;        // Twilight Indigo - dark surfaces, text
 $color-teal: #81B29A;          // Muted Teal - highlights, secondary
 $color-apricot: #F2CC8F;       // Apricot Cream - highlights, cards
 
+// Base Text Colors (defined early for reference)
+$color-text-primary: $color-indigo;
+$color-text-secondary: $color-teal;
+$color-text-muted: $color-apricot;
+$color-text-white: $color-eggshell;
+$color-text-pure-white: #FFFFFF; // Pure white for high contrast on dark backgrounds
+
 // Semantic Color Variables
 $color-theme-bg: $color-eggshell;
 $color-theme-primary: $color-indigo;
@@ -29,7 +36,7 @@ $color-sidebar-hover: rgba(129, 178, 154, 0.15);
 $color-sidebar-border: rgba(129, 178, 154, 0.3);
 $color-sidebar-submenu-bg: rgba(255, 255, 255, 0.08);
 $color-sidebar-submenu-active-bg: $color-peach;
-$color-sidebar-submenu-active-text: #FFFFFF;
+$color-sidebar-submenu-active-text: $color-text-pure-white;
 
 // Navbar Colors
 $color-navbar-bg: $color-indigo;
@@ -42,10 +49,10 @@ $color-navbar-hover: $color-teal;
 // Button Colors
 $color-button-primary: $color-peach;
 $color-button-primary-hover: darken($color-peach, 8%);
-$color-button-primary-text: #FFFFFF;
+$color-button-primary-text: $color-text-pure-white;
 $color-button-secondary: $color-teal;
 $color-button-secondary-hover: color.scale($color-teal, $lightness: -10%);
-$color-button-secondary-text: #FFFFFF;
+$color-button-secondary-text: $color-text-pure-white;
 
 // Background Colors
 
@@ -53,16 +60,13 @@ $color-button-secondary-text: #FFFFFF;
 $color-bg-main: $color-eggshell;
 $color-bg-card: $color-apricot;
 $color-bg-form: #FAF6EF; // Antique white for forms/tables
+$color-bg-white: #FFFFFF; // Clean white for tables and form bodies
+$color-bg-light: #F8F9FA; // Light gray for pagination and subtle backgrounds
 $color-bg-hover: $color-teal;
 $color-bg-input: #F5F8FB;
 
 // Text Colors - High Contrast for Readability
-
-// Text Colors
-$color-text-primary: $color-indigo;
-$color-text-secondary: $color-teal;
-$color-text-muted: $color-apricot;
-$color-text-white: $color-eggshell;
+// (Already defined above for early reference)
 
 // Border Colors - Refined and Softer
 $color-border-light: #D8E2EA;
@@ -186,8 +190,8 @@ $z-index-notification: 1090;
   &:focus {
     outline: none;
     border-color: $color-theme-secondary;
-    background-color: $color-bg-card;
-    box-shadow: 0 0 0 3px rgba($color-theme-secondary, 0.1);
+    background-color: $color-bg-white;
+    box-shadow: 0 0 0 3px rgba($color-theme-secondary, 0.15);
   }
   
   &::placeholder {

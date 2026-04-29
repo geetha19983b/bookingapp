@@ -33,6 +33,7 @@
       "@/*": ["./src/*"],
       "@features/*": ["./src/features/*"],
       "@components/*": ["./src/components/*"],
+      "@ui/*": ["./src/components/ui/*"],
       "@store/*": ["./src/store/*"],
       "@types/*": ["./src/types/*"],
       "@styles/*": ["./src/styles/*"]

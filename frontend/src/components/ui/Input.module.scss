@@ -1,0 +1,100 @@
+@use '../../styles/theme' as theme;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: theme.$spacing-xs;
+  width: 100%;
+}
+
+.label {
+  font-size: theme.$font-size-sm;
+  font-weight: theme.$font-weight-medium;
+  color: theme.$color-text-primary;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  .required {
+    color: theme.$color-error;
+  }
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid theme.$color-border-medium;
+  border-radius: theme.$radius-md;
+  font-size: theme.$font-size-sm;
+  background-color: theme.$color-bg-input;
+  color: theme.$color-text-primary;
+  transition: all theme.$transition-fast;
+  outline: none;
+
+  &:focus {
+    border-color: theme.$color-theme-secondary;
+    background-color: theme.$color-bg-white;
+    box-shadow: 0 0 0 3px rgba(theme.$color-theme-secondary, 0.15);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: theme.$color-border-light;
+  }
+
+  &::placeholder {
+    color: theme.$color-text-muted;
+  }
+
+  &.hasLeftIcon {
+    padding-left: 2.5rem;
+  }
+
+  &.hasRightIcon {
+    padding-right: 2.5rem;
+  }
+
+  &.error {
+    border-color: theme.$color-error;
+
+    &:focus {
+      box-shadow: 0 0 0 3px rgba(theme.$color-error, 0.1);
+    }
+  }
+}
+
+.leftIcon,
+.rightIcon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: theme.$color-text-secondary;
+  pointer-events: none;
+}
+
+.leftIcon {
+  left: 0.75rem;
+}
+
+.rightIcon {
+  right: 0.75rem;
+}
+
+.errorText {
+  font-size: theme.$font-size-xs;
+  color: theme.$color-error;
+  font-weight: theme.$font-weight-medium;
+}
+
+.helperText {
+  font-size: theme.$font-size-xs;
+  color: theme.$color-text-secondary;
+}

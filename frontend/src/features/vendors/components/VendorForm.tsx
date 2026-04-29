@@ -10,6 +10,7 @@ import {
   clearError,
   clearSuccessMessage,
 } from '../store/vendorSlice';
+import { Input, TextArea, Button, Alert } from '@components/ui';
 import type { VendorFormData } from '../types/vendor.types';
 
 const initialFormState: VendorFormData = {
@@ -163,20 +164,22 @@ export default function VendorForm() {
   };
 
   return (
-    <div className="p-6 max-h-full">
+    <div style={{ padding: '1.5rem', maxHeight: '100%' }}>
       {/* Header */}
-      <div className="mb-4">
-        <div className="flex items-center gap-3 mb-2">
-          <button
+      <div style={{ marginBottom: '1rem' }}>
+        <div className={styles.headerContainer}>
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={handleCancel}
-            className="text-accent-blue hover:text-accent-cyan transition"
             title="Back to vendors"
+            className={styles.backButton}
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-          </button>
-          <h2 className="text-2xl font-semibold text-primary">
+          </Button>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 600, margin: 0 }}>
             {isEditMode ? 'Edit Vendor' : 'New Vendor'}
           </h2>
         </div>
@@ -184,15 +187,19 @@ export default function VendorForm() {
 
       {/* Success Message */}
       {successMessage && (
-        <div className="mb-4 bg-success bg-opacity-10 border border-success toast-text-white text-success px-4 py-3 rounded-lg">
-          {successMessage}
+        <div style={{ marginBottom: '1rem' }}>
+          <Alert variant="success" onClose={() => dispatch(clearSuccessMessage())}>
+            {successMessage}
+          </Alert>
         </div>
       )}
 
       {/* Error Message */}
       {error && (
-        <div className="mb-4 bg-error bg-opacity-10 border border-error toast-text-white text-error px-4 py-3 rounded-lg">
-          {error}
+        <div style={{ marginBottom: '1rem' }}>
+          <Alert variant="error" onClose={() => dispatch(clearError())}>
+            {error}
+          </Alert>
         </div>
       )}
 
@@ -201,26 +208,24 @@ export default function VendorForm() {
         <div className={styles.formBody + " rounded-2xl shadow-lg border border-theme-light overflow-hidden flex flex-col"} style={{ maxHeight: '100%' }}>
           {/* Tabs */}
           <div className={styles.formHeaderTabs}>
-            <div className="flex gap-1 p-2">
-              {[
-                { key: 'basic', label: 'Basic Details' },
-                { key: 'address', label: 'Address' },
-                { key: 'tax', label: 'Tax & Compliance' },
-                { key: 'bank', label: 'Bank Details' },
-              ].map((tab) => (
-                <button
-                  key={tab.key}
-                  type="button"
-                  onClick={() => setActiveTab(tab.key as typeof activeTab)}
-                  className={
-                    styles.formTabButton +
-                    (activeTab === tab.key ? ' ' + styles.active : '')
-                  }
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
+            {[
+              { key: 'basic', label: 'Basic Details' },
+              { key: 'address', label: 'Address' },
+              { key: 'tax', label: 'Tax & Compliance' },
+              { key: 'bank', label: 'Bank Details' },
+            ].map((tab) => (
+              <button
+                key={tab.key}
+                type="button"
+                onClick={() => setActiveTab(tab.key as typeof activeTab)}
+                className={
+                  styles.formTabButton +
+                  (activeTab === tab.key ? ' ' + styles.active : '')
+                }
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
 
           {/* Form Content */}
@@ -228,115 +233,86 @@ export default function VendorForm() {
             {/* Basic Details Tab */}
             {activeTab === 'basic' && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-primary mb-2">
-                    Display Name <span className="text-error">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="displayName"
-                    value={formData.displayName}
-                    onChange={handleChange}
-                    required
-                    maxLength={255}
-                    className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
-                  />
-                </div>
+                <Input
+                  label="Display Name"
+                  name="displayName"
+                  value={formData.displayName}
+                  onChange={handleChange}
+                  required
+                  maxLength={255}
+                />
 
-                <div>
-                  <label className="block text-sm font-medium text-primary mb-2">Company Name</label>
-                  <input
-                    type="text"
-                    name="companyName"
-                    value={formData.companyName || ''}
-                    onChange={handleChange}
-                    maxLength={255}
-                    className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
-                  />
-                </div>
+                <Input
+                  label="Company Name"
+                  name="companyName"
+                  value={formData.companyName || ''}
+                  onChange={handleChange}
+                  maxLength={255}
+                />
 
-                <div>
-                  <label className="block text-sm font-medium text-primary mb-2">Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email || ''}
-                    onChange={handleChange}
-                    maxLength={255}
-                    className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
-                  />
-                </div>
+                <Input
+                  label="Email"
+                  type="email"
+                  name="email"
+                  value={formData.email || ''}
+                  onChange={handleChange}
+                  maxLength={255}
+                />
 
-                <div>
-                  <label className="block text-sm font-medium text-primary mb-2">Work Phone</label>
-                  <input
-                    type="tel"
-                    name="workPhone"
-                    value={formData.workPhone || ''}
-                    onChange={handleChange}
-                    maxLength={20}
-                    className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
-                  />
-                </div>
+                <Input
+                  label="Work Phone"
+                  type="tel"
+                  name="workPhone"
+                  value={formData.workPhone || ''}
+                  onChange={handleChange}
+                  maxLength={20}
+                />
 
-                <div>
-                  <label className="block text-sm font-medium text-primary mb-2">Mobile Phone</label>
-                  <input
-                    type="tel"
-                    name="mobilePhone"
-                    value={formData.mobilePhone || ''}
-                    onChange={handleChange}
-                    maxLength={20}
-                    className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
-                  />
-                </div>
+                <Input
+                  label="Mobile Phone"
+                  type="tel"
+                  name="mobilePhone"
+                  value={formData.mobilePhone || ''}
+                  onChange={handleChange}
+                  maxLength={20}
+                />
 
-                <div>
-                  <label className="block text-sm font-medium text-primary mb-2">Currency</label>
-                  <input
-                    type="text"
-                    name="currency"
-                    value={formData.currency || ''}
-                    onChange={handleChange}
-                    placeholder="INR (default)"
-                    maxLength={3}
-                    className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm uppercase"
-                  />
-                </div>
+                <Input
+                  label="Currency"
+                  name="currency"
+                  value={formData.currency || ''}
+                  onChange={handleChange}
+                  placeholder="INR (default)"
+                  maxLength={3}
+                  style={{ textTransform: 'uppercase' }}
+                />
 
-                <div>
-                  <label className="block text-sm font-medium text-primary mb-2">Opening Balance</label>
-                  <input
-                    type="number"
-                    name="openingBalance"
-                    value={formData.openingBalance}
-                    onChange={handleChange}
-                    step="0.01"
-                    className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
-                  />
-                </div>
+                <Input
+                  label="Opening Balance"
+                  type="number"
+                  name="openingBalance"
+                  value={formData.openingBalance}
+                  onChange={handleChange}
+                  step="0.01"
+                />
 
-                <div>
-                  <label className="block text-sm font-medium text-primary mb-2">Payment Terms</label>
-                  <input
-                    type="text"
-                    name="paymentTerms"
-                    value={formData.paymentTerms || ''}
-                    onChange={handleChange}
-                    placeholder="Due on Receipt (default)"
-                    maxLength={100}
-                    className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
-                  />
-                </div>
+                <Input
+                  label="Payment Terms"
+                  name="paymentTerms"
+                  value={formData.paymentTerms || ''}
+                  onChange={handleChange}
+                  placeholder="Due on Receipt (default)"
+                  maxLength={100}
+                />
 
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-primary mb-2">Remarks</label>
-                  <textarea
+                  <TextArea
+                    label="Remarks"
                     name="remarks"
                     value={formData.remarks || ''}
                     onChange={handleChange}
                     rows={3}
-                    className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm resize-none"
+                    resize="none"
                   />
                 </div>
 
@@ -361,76 +337,56 @@ export default function VendorForm() {
                   <h3 className="text-lg font-semibold text-primary mb-4">Billing Address</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-primary mb-2">Address Line 1</label>
-                      <input
-                        type="text"
+                      <Input
+                        label="Address Line 1"
                         name="billingAddressLine1"
                         value={formData.billingAddressLine1 || ''}
                         onChange={handleChange}
                         maxLength={255}
-                        className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                       />
                     </div>
 
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-primary mb-2">Address Line 2</label>
-                      <input
-                        type="text"
+                      <Input
+                        label="Address Line 2"
                         name="billingAddressLine2"
                         value={formData.billingAddressLine2 || ''}
                         onChange={handleChange}
                         maxLength={255}
-                        className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                       />
                     </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-primary mb-2">City</label>
-                      <input
-                        type="text"
-                        name="billingCity"
-                        value={formData.billingCity || ''}
-                        onChange={handleChange}
-                        maxLength={100}
-                        className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
-                      />
-                    </div>
+                    <Input
+                      label="City"
+                      name="billingCity"
+                      value={formData.billingCity || ''}
+                      onChange={handleChange}
+                      maxLength={100}
+                    />
 
-                    <div>
-                      <label className="block text-sm font-medium text-primary mb-2">State</label>
-                      <input
-                        type="text"
-                        name="billingState"
-                        value={formData.billingState || ''}
-                        onChange={handleChange}
-                        maxLength={100}
-                        className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
-                      />
-                    </div>
+                    <Input
+                      label="State"
+                      name="billingState"
+                      value={formData.billingState || ''}
+                      onChange={handleChange}
+                      maxLength={100}
+                    />
 
-                    <div>
-                      <label className="block text-sm font-medium text-primary mb-2">Country</label>
-                      <input
-                        type="text"
-                        name="billingCountry"
-                        value={formData.billingCountry || ''}
-                        onChange={handleChange}
-                        maxLength={100}
-                        className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
-                      />
-                    </div>
+                    <Input
+                      label="Country"
+                      name="billingCountry"
+                      value={formData.billingCountry || ''}
+                      onChange={handleChange}
+                      maxLength={100}
+                    />
 
-                    <div>
-                      <label className="block text-sm font-medium text-primary mb-2">Zip Code</label>
-                      <input
-                        type="text"
-                        name="billingZipCode"
-                        value={formData.billingZipCode || ''}
-                        onChange={handleChange}
-                        maxLength={20}
-                        className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
-                      />
-                    </div>
+                    <Input
+                      label="Zip Code"
+                      name="billingZipCode"
+                      value={formData.billingZipCode || ''}
+                      onChange={handleChange}
+                      maxLength={20}
+                    />
                   </div>
                 </div>
 
@@ -450,76 +406,56 @@ export default function VendorForm() {
                   <h3 className="text-lg font-semibold text-primary mb-4">Shipping Address</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-primary mb-2">Address Line 1</label>
-                      <input
-                        type="text"
+                      <Input
+                        label="Address Line 1"
                         name="shippingAddressLine1"
                         value={formData.shippingAddressLine1 || ''}
                         onChange={handleChange}
                         maxLength={255}
-                        className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                       />
                     </div>
 
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-primary mb-2">Address Line 2</label>
-                      <input
-                        type="text"
+                      <Input
+                        label="Address Line 2"
                         name="shippingAddressLine2"
                         value={formData.shippingAddressLine2 || ''}
                         onChange={handleChange}
                         maxLength={255}
-                        className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                       />
                     </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-primary mb-2">City</label>
-                      <input
-                        type="text"
-                        name="shippingCity"
-                        value={formData.shippingCity || ''}
-                        onChange={handleChange}
-                        maxLength={100}
-                        className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
-                      />
-                    </div>
+                    <Input
+                      label="City"
+                      name="shippingCity"
+                      value={formData.shippingCity || ''}
+                      onChange={handleChange}
+                      maxLength={100}
+                    />
 
-                    <div>
-                      <label className="block text-sm font-medium text-primary mb-2">State</label>
-                      <input
-                        type="text"
-                        name="shippingState"
-                        value={formData.shippingState || ''}
-                        onChange={handleChange}
-                        maxLength={100}
-                        className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
-                      />
-                    </div>
+                    <Input
+                      label="State"
+                      name="shippingState"
+                      value={formData.shippingState || ''}
+                      onChange={handleChange}
+                      maxLength={100}
+                    />
 
-                    <div>
-                      <label className="block text-sm font-medium text-primary mb-2">Country</label>
-                      <input
-                        type="text"
-                        name="shippingCountry"
-                        value={formData.shippingCountry || ''}
-                        onChange={handleChange}
-                        maxLength={100}
-                        className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
-                      />
-                    </div>
+                    <Input
+                      label="Country"
+                      name="shippingCountry"
+                      value={formData.shippingCountry || ''}
+                      onChange={handleChange}
+                      maxLength={100}
+                    />
 
-                    <div>
-                      <label className="block text-sm font-medium text-primary mb-2">Zip Code</label>
-                      <input
-                        type="text"
-                        name="shippingZipCode"
-                        value={formData.shippingZipCode || ''}
-                        onChange={handleChange}
-                        maxLength={20}
-                        className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
-                      />
-                    </div>
+                    <Input
+                      label="Zip Code"
+                      name="shippingZipCode"
+                      value={formData.shippingZipCode || ''}
+                      onChange={handleChange}
+                      maxLength={20}
+                    />
                   </div>
                 </div>
               </div>
@@ -528,55 +464,41 @@ export default function VendorForm() {
             {/* Tax & Compliance Tab */}
             {activeTab === 'tax' && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-primary mb-2">GST Treatment</label>
-                  <input
-                    type="text"
-                    name="gstTreatment"
-                    value={formData.gstTreatment || ''}
-                    onChange={handleChange}
-                    maxLength={100}
-                    className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
-                  />
-                </div>
+                <Input
+                  label="GST Treatment"
+                  name="gstTreatment"
+                  value={formData.gstTreatment || ''}
+                  onChange={handleChange}
+                  maxLength={100}
+                />
 
-                <div>
-                  <label className="block text-sm font-medium text-primary mb-2">GSTIN</label>
-                  <input
-                    type="text"
-                    name="gstin"
-                    value={formData.gstin || ''}
-                    onChange={handleChange}
-                    placeholder="22AAAAA0000A1Z5"
-                    maxLength={15}
-                    className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm uppercase"
-                  />
-                </div>
+                <Input
+                  label="GSTIN"
+                  name="gstin"
+                  value={formData.gstin || ''}
+                  onChange={handleChange}
+                  placeholder="22AAAAA0000A1Z5"
+                  maxLength={15}
+                  style={{ textTransform: 'uppercase' }}
+                />
 
-                <div>
-                  <label className="block text-sm font-medium text-primary mb-2">Source of Supply</label>
-                  <input
-                    type="text"
-                    name="sourceOfSupply"
-                    value={formData.sourceOfSupply || ''}
-                    onChange={handleChange}
-                    maxLength={100}
-                    className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
-                  />
-                </div>
+                <Input
+                  label="Source of Supply"
+                  name="sourceOfSupply"
+                  value={formData.sourceOfSupply || ''}
+                  onChange={handleChange}
+                  maxLength={100}
+                />
 
-                <div>
-                  <label className="block text-sm font-medium text-primary mb-2">PAN</label>
-                  <input
-                    type="text"
-                    name="pan"
-                    value={formData.pan || ''}
-                    onChange={handleChange}
-                    placeholder="AAAAA0000A"
-                    maxLength={10}
-                    className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm uppercase"
-                  />
-                </div>
+                <Input
+                  label="PAN"
+                  name="pan"
+                  value={formData.pan || ''}
+                  onChange={handleChange}
+                  placeholder="AAAAA0000A"
+                  maxLength={10}
+                  style={{ textTransform: 'uppercase' }}
+                />
 
                 <div className="flex items-center">
                   <input
@@ -595,51 +517,40 @@ export default function VendorForm() {
             {activeTab === 'bank' && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-primary mb-2">Bank Name</label>
-                  <input
-                    type="text"
+                  <Input
+                    label="Bank Name"
                     name="bankName"
                     value={formData.bankName || ''}
                     onChange={handleChange}
                     maxLength={255}
-                    className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                   />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-primary mb-2">Account Number</label>
-                  <input
-                    type="text"
-                    name="bankAccountNumber"
-                    value={formData.bankAccountNumber || ''}
-                    onChange={handleChange}
-                    maxLength={50}
-                    className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
-                  />
-                </div>
+                <Input
+                  label="Account Number"
+                  name="bankAccountNumber"
+                  value={formData.bankAccountNumber || ''}
+                  onChange={handleChange}
+                  maxLength={50}
+                />
 
-                <div>
-                  <label className="block text-sm font-medium text-primary mb-2">IFSC Code</label>
-                  <input
-                    type="text"
-                    name="bankIfscCode"
-                    value={formData.bankIfscCode || ''}
-                    onChange={handleChange}
-                    placeholder="ABCD0123456"
-                    maxLength={11}
-                    className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm uppercase"
-                  />
-                </div>
+                <Input
+                  label="IFSC Code"
+                  name="bankIfscCode"
+                  value={formData.bankIfscCode || ''}
+                  onChange={handleChange}
+                  placeholder="ABCD0123456"
+                  maxLength={11}
+                  style={{ textTransform: 'uppercase' }}
+                />
 
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-primary mb-2">Branch</label>
-                  <input
-                    type="text"
+                  <Input
+                    label="Branch"
                     name="bankBranch"
                     value={formData.bankBranch || ''}
                     onChange={handleChange}
                     maxLength={255}
-                    className="w-full px-3 py-2 border border-border-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-accent-cyan text-sm"
                   />
                 </div>
               </div>
@@ -648,20 +559,20 @@ export default function VendorForm() {
 
           {/* Form Actions */}
           <div className={styles.formFooter}>
-            <button
+            <Button
               type="button"
+              variant="secondary"
               onClick={handleCancel}
-              className="px-4 py-2 rounded-lg text-sm font-medium text-white bg-transparent border border-teal hover:bg-opacity-20 hover:bg-teal transition-all"
             >
               Cancel
-            </button>
-            <button
+            </Button>
+            <Button
               type="submit"
-              disabled={loading}
-              className="btn-theme-primary px-5 py-2 rounded-lg text-sm font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              variant="primary"
+              isLoading={loading}
             >
-              {loading ? 'Saving...' : isEditMode ? 'Update Vendor' : 'Create Vendor'}
-            </button>
+              {isEditMode ? 'Update Vendor' : 'Create Vendor'}
+            </Button>
           </div>
         </div>
       </form>

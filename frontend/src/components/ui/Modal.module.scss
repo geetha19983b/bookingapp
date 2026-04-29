@@ -1,0 +1,119 @@
+@use '../../styles/theme' as theme;
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: theme.$z-index-modal;
+  padding: theme.$spacing-lg;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal {
+  background-color: theme.$color-bg-main;
+  border-radius: theme.$radius-xl;
+  box-shadow: theme.$shadow-2xl;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(2rem);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: theme.$spacing-lg;
+  border-bottom: 1px solid theme.$color-border-light;
+}
+
+.title {
+  font-size: theme.$font-size-xl;
+  font-weight: theme.$font-weight-semibold;
+  color: theme.$color-text-primary;
+  margin: 0;
+}
+
+.closeButton {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: theme.$color-text-secondary;
+  cursor: pointer;
+  border-radius: theme.$radius-md;
+  transition: all theme.$transition-fast;
+
+  &:hover {
+    background-color: theme.$color-border-light;
+    color: theme.$color-text-primary;
+  }
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: theme.$spacing-lg;
+}
+
+// Sizes
+.sm {
+  width: 100%;
+  max-width: 28rem;
+}
+
+.md {
+  width: 100%;
+  max-width: 40rem;
+}
+
+.lg {
+  width: 100%;
+  max-width: 56rem;
+}
+
+.xl {
+  width: 100%;
+  max-width: 72rem;
+}
+
+.full {
+  width: 95vw;
+  height: 95vh;
+  max-height: 95vh;
+}

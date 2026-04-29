@@ -1,0 +1,43 @@
+@use '../../styles/theme' as theme;
+
+.card {
+  background-color: theme.$color-bg-card;
+  border-radius: theme.$radius-lg;
+  transition: all theme.$transition-base;
+}
+
+// Variants
+.default {
+  border: 1px solid theme.$color-border-light;
+}
+
+.bordered {
+  border: 2px solid theme.$color-border-medium;
+}
+
+.elevated {
+  border: 1px solid theme.$color-border-light;
+  box-shadow: theme.$shadow-lg;
+
+  &:hover {
+    box-shadow: theme.$shadow-xl;
+    transform: translateY(-2px);
+  }
+}
+
+// Padding
+.padding-none {
+  padding: 0;
+}
+
+.padding-sm {
+  padding: theme.$spacing-md;
+}
+
+.padding-md {
+  padding: theme.$spacing-lg;
+}
+
+.padding-lg {
+  padding: theme.$spacing-xl;
+}

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { Button } from '@components/ui';
 import styles from './TopNavbar.module.scss';
 
 export default function TopNavbar() {
@@ -83,15 +84,18 @@ export default function TopNavbar() {
         </div>
 
         {/* New Button - Dynamic based on current page */}
-        <button
+        <Button
+          variant="primary"
+          size="sm"
           onClick={() => navigate(pageInfo.newButtonPath)}
-          className={styles.newButton}
+          leftIcon={
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+            </svg>
+          }
         >
-          <svg className={styles.newButtonIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
-          </svg>
           {pageInfo.newButtonLabel}
-        </button>
+        </Button>
 
         {/* More Actions */}
         <button className={styles.iconButton}>
