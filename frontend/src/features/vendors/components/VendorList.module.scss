@@ -25,6 +25,15 @@ tbody {
   letter-spacing: 0.05em;
   padding: theme.$spacing-md theme.$spacing-lg;
   text-align: left;
+  
+  @media (max-width: theme.$breakpoint-tablet) {
+    padding: theme.$spacing-sm theme.$spacing-md;
+  }
+  
+  @media (max-width: theme.$breakpoint-mobile) {
+    padding: theme.$spacing-xs theme.$spacing-sm;
+    font-size: 0.65rem;
+  }
 }
 
 

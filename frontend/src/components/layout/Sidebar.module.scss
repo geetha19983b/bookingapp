@@ -13,16 +13,55 @@
   position: sticky;
   top: 0;
   overflow: hidden; // Prevent body scroll
+
+  @media (max-width: $breakpoint-desktop) {
+    width: 16rem;
+    min-width: 16rem;
+    max-width: 16rem;
+  }
+
+  @media (max-width: $breakpoint-tablet) {
+    position: fixed;
+    left: -18rem; // Hide off-screen by default
+    transition: left 0.3s ease-in-out;
+    z-index: 100;
+    width: 16rem;
+    min-width: 16rem;
+    max-width: 16rem;
+
+    &.open {
+      left: 0; // Slide in when open
+    }
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    width: 14rem;
+    min-width: 14rem;
+    max-width: 14rem;
+    left: -14rem;
+  }
 }
 
 .logoSection {
   padding: $spacing-lg $spacing-lg;
   border-bottom: 1px solid $color-sidebar-border;
 
+  @media (max-width: $breakpoint-desktop) {
+    padding: $spacing-md $spacing-md;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: $spacing-sm $spacing-md;
+  }
+
   .logoContainer {
     display: flex;
     align-items: center;
     gap: $spacing-md;
+
+    @media (max-width: $breakpoint-mobile) {
+      gap: $spacing-sm;
+    }
   }
 
   .logoIcon {
@@ -32,6 +71,10 @@
     box-shadow: $shadow-lg;
     transition: transform 0.3s ease;
 
+    @media (max-width: $breakpoint-mobile) {
+      padding: $spacing-sm;
+    }
+
     &:hover {
       transform: scale(1.05);
     }
@@ -40,6 +83,11 @@
       width: 1.5rem;
       height: 1.5rem;
       color: $color-sidebar-text;
+
+      @media (max-width: $breakpoint-mobile) {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
     }
   }
 
@@ -50,11 +98,19 @@
       font-size: $font-size-xl;
       letter-spacing: -0.025em;
       display: block;
+
+      @media (max-width: $breakpoint-mobile) {
+        font-size: $font-size-lg;
+      }
     }
 
     .subtitle {
       color: $color-eggshell;
       font-size: $font-size-xs;
+
+      @media (max-width: $breakpoint-mobile) {
+        font-size: 0.65rem;
+      }
     }
   }
 }
@@ -101,6 +157,15 @@
   color: $color-eggshell;
   text-decoration: none;
 
+  @media (max-width: $breakpoint-desktop) {
+    padding: $spacing-sm $spacing-md;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: $spacing-sm $spacing-sm;
+    font-size: $font-size-xs;
+  }
+
   &:hover {
     background-color: $color-sidebar-hover;
     color: $color-sidebar-text;
@@ -119,11 +184,19 @@
     display: flex;
     align-items: center;
     gap: $spacing-md;
+
+    @media (max-width: $breakpoint-mobile) {
+      gap: $spacing-sm;
+    }
   }
 
   .navIcon {
     font-size: $font-size-lg;
     transition: transform 0.3s ease;
+
+    @media (max-width: $breakpoint-mobile) {
+      font-size: $font-size-base;
+    }
   }
 
   .navLabel {
@@ -134,6 +207,11 @@
     width: 1rem;
     height: 1rem;
     transition: transform 0.3s ease-in-out;
+
+    @media (max-width: $breakpoint-mobile) {
+      width: 0.85rem;
+      height: 0.85rem;
+    }
 
     &.expanded {
       transform: rotate(180deg);
@@ -194,6 +272,11 @@
   text-decoration: none;
   position: relative;
   margin: 2px $spacing-xs;
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: $spacing-xs $spacing-md;
+    font-size: $font-size-xs;
+  }
 
   &:hover {
     color: $color-sidebar-text;
@@ -385,6 +468,44 @@
       margin-left: auto;
       font-size: $font-size-xs;
       transition: transform 0.3s ease;
+    }
+  }
+}
+
+// Mobile/Tablet Overlay
+.sidebarOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+
+  @media (max-width: $breakpoint-tablet) {
+    display: block;
+
+    &.visible {
+      opacity: 1;
+    }
+  }
+}
+
+// Responsive adjustments for configure section
+.configureSection {
+  @media (max-width: $breakpoint-mobile) {
+    padding: $spacing-sm;
+
+    .configureButton {
+      padding: $spacing-sm $spacing-md;
+      font-size: $font-size-xs;
+
+      .configureIcon {
+        font-size: $font-size-base;
+      }
     }
   }
 }

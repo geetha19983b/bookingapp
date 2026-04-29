@@ -4,6 +4,10 @@
   background-color: theme.$color-bg-card;
   border-radius: theme.$radius-lg;
   transition: all theme.$transition-base;
+  
+  @media (max-width: theme.$breakpoint-mobile) {
+    border-radius: theme.$radius-md;
+  }
 }
 
 // Variants

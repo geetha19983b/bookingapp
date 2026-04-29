@@ -58,18 +58,36 @@
   padding: 0.375rem 0.75rem;
   font-size: theme.$font-size-sm;
   height: 2rem;
+  
+  @media (max-width: theme.$breakpoint-mobile) {
+    padding: 0.3rem 0.6rem;
+    font-size: theme.$font-size-xs;
+    height: 1.75rem;
+  }
 }
 
 .md {
   padding: 0.5rem 1rem;
   font-size: theme.$font-size-sm;
   height: 2.5rem;
+  
+  @media (max-width: theme.$breakpoint-mobile) {
+    padding: 0.4rem 0.8rem;
+    font-size: theme.$font-size-xs;
+    height: 2.25rem;
+  }
 }
 
 .lg {
   padding: 0.625rem 1.5rem;
   font-size: theme.$font-size-base;
   height: 3rem;
+  
+  @media (max-width: theme.$breakpoint-mobile) {
+    padding: 0.5rem 1rem;
+    font-size: theme.$font-size-sm;
+    height: 2.5rem;
+  }
 }
 
 // Variants

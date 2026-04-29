@@ -31,11 +31,21 @@
   padding: 0;
   display: flex;
   gap: 0;
+  overflow-x: auto;
+  overflow-y: visible;
+  min-height: 3.5rem;
+  align-items: stretch;
+  
+  @media (max-width: theme.$breakpoint-mobile) {
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 .formBody {
   background: theme.$color-bg-white;
-  border-radius: theme.$radius-lg;
+  border-radius: 0;
+  overflow: visible;
 }
 
 .formTabButton {
@@ -51,6 +61,18 @@
   cursor: pointer;
   position: relative;
   border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  
+  @media (max-width: theme.$breakpoint-tablet) {
+    padding: theme.$spacing-sm theme.$spacing-md;
+    font-size: theme.$font-size-xs;
+  }
+  
+  @media (max-width: theme.$breakpoint-mobile) {
+    padding: theme.$spacing-sm theme.$spacing-sm;
+  }
 
   &:hover:not(.active) {
     background: rgba(129, 178, 154, 0.12);
@@ -59,7 +81,7 @@
   }
 
   &:first-child {
-    border-top-left-radius: theme.$radius-lg;
+    border-top-left-radius: 0;
   }
 }
 
@@ -78,4 +100,20 @@
   display: flex;
   justify-content: flex-end;
   gap: theme.$spacing-md;
+  flex-wrap: wrap;
+  
+  @media (max-width: theme.$breakpoint-tablet) {
+    padding: theme.$spacing-sm theme.$spacing-md;
+  }
+  
+  @media (max-width: theme.$breakpoint-mobile) {
+    padding: theme.$spacing-sm;
+    gap: theme.$spacing-sm;
+    justify-content: center;
+    
+    button {
+      flex: 1;
+      min-width: 120px;
+    }
+  }
 }

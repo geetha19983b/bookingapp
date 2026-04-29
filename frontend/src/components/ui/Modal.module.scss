@@ -13,6 +13,15 @@
   z-index: theme.$z-index-modal;
   padding: theme.$spacing-lg;
   animation: fadeIn 0.2s ease-out;
+  
+  @media (max-width: theme.$breakpoint-tablet) {
+    padding: theme.$spacing-md;
+  }
+  
+  @media (max-width: theme.$breakpoint-mobile) {
+    padding: theme.$spacing-sm;
+    align-items: flex-end;
+  }
 }
 
 @keyframes fadeIn {
@@ -32,6 +41,13 @@
   display: flex;
   flex-direction: column;
   animation: slideUp 0.3s ease-out;
+  
+  @media (max-width: theme.$breakpoint-mobile) {
+    max-height: 95vh;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    width: 100%;
+  }
 }
 
 @keyframes slideUp {
@@ -51,6 +67,14 @@
   justify-content: space-between;
   padding: theme.$spacing-lg;
   border-bottom: 1px solid theme.$color-border-light;
+  
+  @media (max-width: theme.$breakpoint-tablet) {
+    padding: theme.$spacing-md;
+  }
+  
+  @media (max-width: theme.$breakpoint-mobile) {
+    padding: theme.$spacing-sm theme.$spacing-md;
+  }
 }
 
 .title {
@@ -58,6 +82,14 @@
   font-weight: theme.$font-weight-semibold;
   color: theme.$color-text-primary;
   margin: 0;
+  
+  @media (max-width: theme.$breakpoint-tablet) {
+    font-size: theme.$font-size-lg;
+  }
+  
+  @media (max-width: theme.$breakpoint-mobile) {
+    font-size: theme.$font-size-base;
+  }
 }
 
 .closeButton {
@@ -89,6 +121,14 @@
   flex: 1;
   overflow-y: auto;
   padding: theme.$spacing-lg;
+  
+  @media (max-width: theme.$breakpoint-tablet) {
+    padding: theme.$spacing-md;
+  }
+  
+  @media (max-width: theme.$breakpoint-mobile) {
+    padding: theme.$spacing-sm theme.$spacing-md;
+  }
 }
 
 // Sizes
