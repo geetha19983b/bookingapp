@@ -1,8 +1,16 @@
 
-
 @use '../../../styles/_theme.scss' as theme;
 
+/**
+ * VendorList Component Styles
+ * 
+ * Following STYLING_GUIDE.md:
+ * - This component uses CSS Modules for table-specific styling
+ * - Keep complex table theming here (header colors, body backgrounds)
+ * - Simple layout/spacing moved to Tailwind utilities in VendorList.tsx
+ */
 
+// Table theming - complex enough to warrant CSS Modules
 .tableHeader {
   background: theme.$color-theme-primary;
 }
@@ -10,12 +18,6 @@
 .tableBody {
   background: theme.$color-bg-white;
 }
-
-// Ensure table rows use a clean white background
-tbody {
-  background: theme.$color-bg-white;
-}
-
 
 .tableHeaderCell {
   color: theme.$color-text-white;
@@ -35,7 +37,6 @@ tbody {
     font-size: 0.65rem;
   }
 }
-
 
 .tableHeaderCheckbox {
   padding-left: theme.$spacing-md;

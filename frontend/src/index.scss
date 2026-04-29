@@ -1,5 +1,19 @@
 @use './styles/theme' as theme;
 
+/**
+ * Global Styles & Tailwind Imports
+ * 
+ * STYLING APPROACH: Tailwind CSS + CSS Modules
+ * See STYLING_GUIDE.md for complete documentation and best practices
+ * 
+ * Font sizes have been reduced for better readability:
+ * - text-xs: 11px (was 12px)
+ * - text-sm: 13px (was 14px)
+ * - text-base: 15px (was 16px)
+ * - text-lg: 16px (was 18px)
+ * See _theme.scss and tailwind.config.js for complete typography scale
+ */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

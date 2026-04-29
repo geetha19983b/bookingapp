@@ -11,41 +11,49 @@ import {
   clearSuccessMessage,
 } from '../store/vendorSlice';
 import { Input, TextArea, Button, Alert } from '@components/ui';
-import type { VendorFormData } from '../types/vendor.types';
+import type { VendorFormData, Vendor } from '../types/vendor.types';
 
-const initialFormState: VendorFormData = {
-  displayName: '',
-  companyName: '',
-  email: '',
-  workPhone: '',
-  mobilePhone: '',
-  billingAddressLine1: '',
-  billingAddressLine2: '',
-  billingCity: '',
-  billingState: '',
-  billingCountry: '',
-  billingZipCode: '',
-  shippingAddressLine1: '',
-  shippingAddressLine2: '',
-  shippingCity: '',
-  shippingState: '',
-  shippingCountry: '',
-  shippingZipCode: '',
-  gstTreatment: '',
-  gstin: '',
-  sourceOfSupply: '',
-  pan: '',
-  isMsmeRegistered: false,
-  currency: 'INR',
-  openingBalance: 0,
-  paymentTerms: '',
-  bankName: '',
-  bankAccountNumber: '',
-  bankIfscCode: '',
-  bankBranch: '',
-  remarks: '',
-  isActive: true,
+/**
+ * Helper function to convert vendor data to form data with defaults
+ * This eliminates repetition between initialFormState and setFormData calls
+ */
+const getFormDataFromVendor = (vendor?: Partial<Vendor>): VendorFormData => {
+  return {
+    displayName: vendor?.displayName || '',
+    companyName: vendor?.companyName || '',
+    email: vendor?.email || '',
+    workPhone: vendor?.workPhone || '',
+    mobilePhone: vendor?.mobilePhone || '',
+    billingAddressLine1: vendor?.billingAddressLine1 || '',
+    billingAddressLine2: vendor?.billingAddressLine2 || '',
+    billingCity: vendor?.billingCity || '',
+    billingState: vendor?.billingState || '',
+    billingCountry: vendor?.billingCountry || '',
+    billingZipCode: vendor?.billingZipCode || '',
+    shippingAddressLine1: vendor?.shippingAddressLine1 || '',
+    shippingAddressLine2: vendor?.shippingAddressLine2 || '',
+    shippingCity: vendor?.shippingCity || '',
+    shippingState: vendor?.shippingState || '',
+    shippingCountry: vendor?.shippingCountry || '',
+    shippingZipCode: vendor?.shippingZipCode || '',
+    gstTreatment: vendor?.gstTreatment || '',
+    gstin: vendor?.gstin || '',
+    sourceOfSupply: vendor?.sourceOfSupply || '',
+    pan: vendor?.pan || '',
+    isMsmeRegistered: vendor?.isMsmeRegistered || false,
+    currency: vendor?.currency || 'INR',
+    openingBalance: vendor?.openingBalance || 0,
+    paymentTerms: vendor?.paymentTerms || '',
+    bankName: vendor?.bankName || '',
+    bankAccountNumber: vendor?.bankAccountNumber || '',
+    bankIfscCode: vendor?.bankIfscCode || '',
+    bankBranch: vendor?.bankBranch || '',
+    remarks: vendor?.remarks || '',
+    isActive: vendor?.isActive ?? true,
+  };
 };
+
+const initialFormState: VendorFormData = getFormDataFromVendor();
 
 export default function VendorForm() {
   const navigate = useNavigate();
@@ -72,39 +80,7 @@ export default function VendorForm() {
 
   useEffect(() => {
     if (selectedVendor && isEditMode) {
-      setFormData({
-        displayName: selectedVendor.displayName || '',
-        companyName: selectedVendor.companyName || '',
-        email: selectedVendor.email || '',
-        workPhone: selectedVendor.workPhone || '',
-        mobilePhone: selectedVendor.mobilePhone || '',
-        billingAddressLine1: selectedVendor.billingAddressLine1 || '',
-        billingAddressLine2: selectedVendor.billingAddressLine2 || '',
-        billingCity: selectedVendor.billingCity || '',
-        billingState: selectedVendor.billingState || '',
-        billingCountry: selectedVendor.billingCountry || '',
-        billingZipCode: selectedVendor.billingZipCode || '',
-        shippingAddressLine1: selectedVendor.shippingAddressLine1 || '',
-        shippingAddressLine2: selectedVendor.shippingAddressLine2 || '',
-        shippingCity: selectedVendor.shippingCity || '',
-        shippingState: selectedVendor.shippingState || '',
-        shippingCountry: selectedVendor.shippingCountry || '',
-        shippingZipCode: selectedVendor.shippingZipCode || '',
-        gstTreatment: selectedVendor.gstTreatment || '',
-        gstin: selectedVendor.gstin || '',
-        sourceOfSupply: selectedVendor.sourceOfSupply || '',
-        pan: selectedVendor.pan || '',
-        isMsmeRegistered: selectedVendor.isMsmeRegistered || false,
-        currency: selectedVendor.currency || 'INR',
-        openingBalance: selectedVendor.openingBalance || 0,
-        paymentTerms: selectedVendor.paymentTerms || '',
-        bankName: selectedVendor.bankName || '',
-        bankAccountNumber: selectedVendor.bankAccountNumber || '',
-        bankIfscCode: selectedVendor.bankIfscCode || '',
-        bankBranch: selectedVendor.bankBranch || '',
-        remarks: selectedVendor.remarks || '',
-        isActive: selectedVendor.isActive ?? true,
-      });
+      setFormData(getFormDataFromVendor(selectedVendor));
     }
   }, [selectedVendor, isEditMode]);
 
@@ -164,9 +140,9 @@ export default function VendorForm() {
   };
 
   return (
-    <div style={{ padding: '1.5rem', maxHeight: '100%' }}>
+    <div className="p-6 max-h-full">
       {/* Header */}
-      <div style={{ marginBottom: '1rem' }}>
+      <div className="mb-4">
         <div className={styles.headerContainer}>
           <Button
             variant="ghost"
@@ -179,7 +155,7 @@ export default function VendorForm() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </Button>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 600, margin: 0 }}>
+          <h2 className="text-2xl font-semibold m-0">
             {isEditMode ? 'Edit Vendor' : 'New Vendor'}
           </h2>
         </div>
@@ -187,7 +163,7 @@ export default function VendorForm() {
 
       {/* Success Message */}
       {successMessage && (
-        <div style={{ marginBottom: '1rem' }}>
+        <div className="mb-4">
           <Alert variant="success" onClose={() => dispatch(clearSuccessMessage())}>
             {successMessage}
           </Alert>
@@ -196,7 +172,7 @@ export default function VendorForm() {
 
       {/* Error Message */}
       {error && (
-        <div style={{ marginBottom: '1rem' }}>
+        <div className="mb-4">
           <Alert variant="error" onClose={() => dispatch(clearError())}>
             {error}
           </Alert>
@@ -204,8 +180,8 @@ export default function VendorForm() {
       )}
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="flex flex-col" style={{ maxHeight: 'calc(100vh - 10rem)' }}>
-        <div className={styles.formBody + " rounded-2xl shadow-lg border border-theme-light overflow-hidden flex flex-col"} style={{ maxHeight: '100%' }}>
+      <form onSubmit={handleSubmit} className="flex flex-col max-h-[calc(100vh-10rem)]">
+        <div className={`${styles.formBody} rounded-2xl shadow-lg border border-theme-light overflow-hidden flex flex-col max-h-full`}>
           {/* Tabs */}
           <div className={styles.formHeaderTabs}>
             {[
@@ -284,7 +260,7 @@ export default function VendorForm() {
                   onChange={handleChange}
                   placeholder="INR (default)"
                   maxLength={3}
-                  style={{ textTransform: 'uppercase' }}
+                  className="uppercase"
                 />
 
                 <Input
@@ -479,7 +455,7 @@ export default function VendorForm() {
                   onChange={handleChange}
                   placeholder="22AAAAA0000A1Z5"
                   maxLength={15}
-                  style={{ textTransform: 'uppercase' }}
+                  className="uppercase"
                 />
 
                 <Input
@@ -497,7 +473,7 @@ export default function VendorForm() {
                   onChange={handleChange}
                   placeholder="AAAAA0000A"
                   maxLength={10}
-                  style={{ textTransform: 'uppercase' }}
+                  className="uppercase"
                 />
 
                 <div className="flex items-center">
@@ -541,7 +517,7 @@ export default function VendorForm() {
                   onChange={handleChange}
                   placeholder="ABCD0123456"
                   maxLength={11}
-                  style={{ textTransform: 'uppercase' }}
+                  className="uppercase"
                 />
 
                 <div className="md:col-span-2">

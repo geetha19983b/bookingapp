@@ -1,6 +1,25 @@
 @use 'sass:color';
 @use './styles/theme' as theme;
 
+/**
+ * App-level Global Styles
+ * 
+ * STYLING APPROACH: We use Tailwind CSS + CSS Modules
+ * - See STYLING_GUIDE.md for complete documentation
+ * - Use Tailwind utilities for layout, spacing, and simple styling
+ * - Use CSS Modules for complex component-specific styles
+ * 
+ * THIS FILE should only contain:
+ * - App-level layout styles (.app-grid-layout)
+ * - Global utility classes needed across the entire app
+ * - Minimal global overrides
+ * 
+ * TODO: Gradually migrate component-specific styles below to:
+ * - Tailwind utilities in components (for simple cases)
+ * - CSS Modules (for complex components)
+ * - UI component library (components/ui/)
+ */
+
 /* App-specific styles */
 .app-container {
   min-height: 100vh;

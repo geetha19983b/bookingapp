@@ -38,7 +38,7 @@ export default function VendorList() {
           type="checkbox"
           checked={table.getIsAllRowsSelected()}
           onChange={table.getToggleAllRowsSelectedHandler()}
-          style={{ cursor: 'pointer' }}
+          className="cursor-pointer"
         />
       ),
       cell: ({ row }) => (
@@ -46,7 +46,7 @@ export default function VendorList() {
           type="checkbox"
           checked={row.getIsSelected()}
           onChange={row.getToggleSelectedHandler()}
-          style={{ cursor: 'pointer' }}
+          className="cursor-pointer"
         />
       ),
       enableSorting: false,
@@ -57,15 +57,7 @@ export default function VendorList() {
       cell: (info) => (
         <button
           onClick={() => handleEdit(info.row.original.id)}
-          style={{
-            color: '#81B29A',
-            fontWeight: 500,
-            cursor: 'pointer',
-            background: 'none',
-            border: 'none',
-            textDecoration: 'underline',
-            padding: 0,
-          }}
+          className="text-teal font-medium cursor-pointer bg-transparent border-none underline p-0 hover:text-opacity-80"
         >
           {info.getValue()}
         </button>
@@ -99,7 +91,7 @@ export default function VendorList() {
       id: 'actions',
       header: 'Actions',
       cell: ({ row }) => (
-        <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
+        <div className="flex gap-2 justify-center">
           <Button size="sm" variant="outline" onClick={() => handleEdit(row.original.id)}>
             Edit
           </Button>
@@ -114,10 +106,10 @@ export default function VendorList() {
   ];
 
   return (
-    <div style={{ padding: '1.5rem', maxWidth: '100%' }}>
+    <div className="p-6 max-w-full">
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
-        <h1 style={{ fontSize: '1.5rem', fontWeight: 600, margin: 0 }}>Vendors</h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-semibold m-0">Vendors</h1>
         <Button
           variant="primary"
           leftIcon={
@@ -133,7 +125,7 @@ export default function VendorList() {
 
       {/* Success Alert */}
       {successMessage && (
-        <div style={{ marginBottom: '1rem' }}>
+        <div className="mb-4">
           <Alert variant="success" onClose={() => dispatch(clearSuccessMessage())}>
             {successMessage}
           </Alert>
@@ -142,7 +134,7 @@ export default function VendorList() {
 
       {/* Error Alert */}
       {error && (
-        <div style={{ marginBottom: '1rem' }}>
+        <div className="mb-4">
           <Alert variant="error" onClose={() => dispatch(clearError())}>
             {error}
           </Alert>
@@ -151,7 +143,7 @@ export default function VendorList() {
 
       {/* Selected Vendors Info */}
       {selectedVendors.length > 0 && (
-        <div style={{ marginBottom: '1rem' }}>
+        <div className="mb-4">
           <Badge variant="primary">{selectedVendors.length} vendor{selectedVendors.length !== 1 ? 's' : ''} selected</Badge>
         </div>
       )}
