@@ -114,7 +114,7 @@ export default function VendorList() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 m-0">Vendors</h1>
+          <h1 className="text-xl font-bold text-gray-900 m-0">Vendors</h1>
           <p className="text-gray-600 mt-1">Manage your vendor relationships and contact information</p>
         </div>
         <Button
