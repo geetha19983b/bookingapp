@@ -9,6 +9,7 @@ import prisma from './db';
 import { requestLogger } from './middleware/requestLogger';
 import { errorHandler } from './middleware/errorHandler';
 import vendorRoutes from './routes/vendors';
+import itemRoutes from './routes/items';
 
 const app = express();
 
@@ -62,41 +63,11 @@ app.get('/health', async (_req: Request, res: Response) => {
 
 // API v1 routes
 app.use('/api/v1/vendors', vendorRoutes);
+app.use('/api/v1/items', itemRoutes);
 
 // Legacy routes (deprecated - consider removing in future)
 app.use('/api/vendors', vendorRoutes);
-
-// Legacy routes (deprecated - consider removing in future)
-app.use('/api/vendors', vendorRoutes);
-
-// Legacy file-based endpoints (deprecated - will be removed in future versions)
-app.post('/api/items', (req: Request, res: Response) => {
-  logger.warn('Using deprecated /api/items endpoint - please migrate to new API');
-  const item = req.body;
-  let items: unknown[] = [];
-
-  if (fs.existsSync(config.dataFile)) {
-    items = JSON.parse(fs.readFileSync(config.dataFile, 'utf8')) as unknown[];
-  }
-
-  items.push(item);
-  fs.writeFileSync(config.dataFile, JSON.stringify(items, null, 2));
-  res.status(201).json({ success: true });
-});
-
-app.get('/api/items', (_req: Request, res: Response) => {
-  logger.warn('Using deprecated /api/items endpoint - please migrate to new API');
-  let items: unknown[] = [];
-
-  if (fs.existsSync(config.dataFile)) {
-    items = JSON.parse(fs.readFileSync(config.dataFile, 'utf8')) as unknown[];
-  }
-
-  res.json(items);
-});
-
-// Error handling middleware (must be last)
-app.use(errorHandler);
+app.use('/api/items', itemRoutes);
 
 // Error handling middleware (must be last)
 app.use(errorHandler);

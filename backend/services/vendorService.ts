@@ -1,17 +1,7 @@
 import prisma from '../db';
 import logger from '../utils/logger';
 import type { CreateVendorBody, UpdateVendorBody } from '../schemas/vendorSchemas';
-
-// After running 'npx prisma generate', you can import the Vendor type:
-// import type { Vendor } from '@prisma/client';
-// Then replace the type definition below with: export type VendorRecord = Vendor;
-
-// Temporary type definition (replace after Prisma Client is generated)
-type Vendor = {
-  id: number;
-  displayName: string;
-  [key: string]: unknown;
-};
+import type { Vendor } from '@prisma/client';
 
 export type VendorRecord = Vendor;
 
