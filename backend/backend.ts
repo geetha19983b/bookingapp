@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import fs from 'fs';
+import path from 'path';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import config from './config';
@@ -40,6 +41,9 @@ app.use(requestLogger);
 // Body parsing
 // Body parsing
 app.use(express.json());
+
+// Serve uploaded files statically
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Health check endpoint
 app.get('/health', async (_req: Request, res: Response) => {

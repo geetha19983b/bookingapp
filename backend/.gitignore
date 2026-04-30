@@ -21,3 +21,10 @@ Thumbs.db
 
 # Legacy data files
 items.json
+
+# Uploaded files (keep directory structure with .gitkeep)
+uploads/*
+!uploads/.gitkeep
+!uploads/items/
+uploads/items/*
+!uploads/items/.gitkeep

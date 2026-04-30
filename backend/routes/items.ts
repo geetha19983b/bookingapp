@@ -13,6 +13,7 @@ import {
   parseBody,
   parseParams,
 } from '../schemas/itemSchemas';
+import { uploadItemImage, getFileUrl } from '../utils/fileUpload';
 
 const router = Router();
 
@@ -69,6 +70,54 @@ router.post(
     res.status(201).json({
       message: 'Item created successfully',
       data: createdItem,
+    });
+  })
+);
+
+// POST /upload-image - Upload item image
+router.post(
+  '/upload-image',
+  uploadItemImage.single('image'),
+  asyncHandler(async (req, res) => {
+    if (!req.file) {
+      res.status(400).json({ message: 'No image file provided' });
+      return;
+    }
+
+    const imageUrl = getFileUrl(req.file.filename);
+
+    res.status(200).json({
+      message: 'Image uploaded successfully',
+      data: {
+        filename: req.file.filename,
+        url: imageUrl,
+        size: req.file.size,
+        mimetype: req.file.mimetype,
+      },
+    });
+  })
+);
+
+// POST /upload-images - Upload multiple item images
+router.post(
+  '/upload-images',
+  uploadItemImage.array('images', 5), // Max 5 images
+  asyncHandler(async (req, res) => {
+    if (!req.files || !Array.isArray(req.files) || req.files.length === 0) {
+      res.status(400).json({ message: 'No image files provided' });
+      return;
+    }
+
+    const uploadedFiles = req.files.map((file) => ({
+      filename: file.filename,
+      url: getFileUrl(file.filename),
+      size: file.size,
+      mimetype: file.mimetype,
+    }));
+
+    res.status(200).json({
+      message: 'Images uploaded successfully',
+      data: uploadedFiles,
     });
   })
 );
