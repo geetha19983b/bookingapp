@@ -56,8 +56,8 @@ export const itemFormSchema = z.object({
   hsnCode: hsnCodeSchema,
   
   // Tax Information
-  taxPreference: z.enum(['taxable', 'non-taxable'], {
-    message: 'Tax preference must be either "taxable" or "non-taxable"',
+  taxPreference: z.enum(['taxable', 'non-taxable', 'out-of-scope', 'non-gst-supply'], {
+    message: 'Tax preference must be one of: "taxable", "non-taxable", "out-of-scope", or "non-gst-supply"',
   }).optional(),
   intraStateTaxRate: nullableTrimmedString(50),
   intraStateTaxPercentage: z.coerce.number().min(0).max(100).optional().nullable(),

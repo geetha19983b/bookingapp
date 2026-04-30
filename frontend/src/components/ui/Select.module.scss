@@ -58,6 +58,37 @@
       box-shadow: 0 0 0 3px rgba(theme.$color-error, 0.1);
     }
   }
+
+  // Style for option elements
+  option {
+    padding: 0.625rem 0.75rem;
+    font-family: theme.$font-family-base;
+    line-height: 1.5;
+    
+    // Parent accounts (disabled) - make them stand out
+    &:disabled {
+      color: theme.$color-indigo;
+      font-weight: theme.$font-weight-bold;
+      background-color: theme.$color-bg-light;
+      font-size: 0.95em;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+    
+    // Child accounts (enabled) - normal styling with indentation
+    &:not(:disabled) {
+      color: theme.$color-text-secondary;
+      font-weight: theme.$font-weight-normal;
+      padding-left: 1rem;
+      font-size: 0.9em;
+      
+      &:hover {
+        background-color: theme.$color-teal-alpha-15;
+      }
+    }
+  }
 }
 
 .chevron {

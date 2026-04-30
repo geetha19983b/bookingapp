@@ -88,3 +88,51 @@
   border-top: 1px solid theme.$color-border-light;
   flex-shrink: 0;
 }
+
+// Currency Input Styling
+.currencyInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  
+  .currencyCode {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: theme.$color-text-secondary;
+    font-size: theme.$font-size-sm;
+    font-weight: theme.$font-weight-medium;
+    pointer-events: none;
+    background-color: theme.$color-bg-light;
+    padding: 0.25rem 0.5rem;
+    border-radius: theme.$radius-sm;
+    border: 1px solid theme.$color-border-light;
+    z-index: 1;
+  }
+}
+
+// Hierarchical Select Options
+.hierarchicalSelect {
+  select {
+    option {
+      &.parentOption {
+        font-weight: theme.$font-weight-bold;
+        color: theme.$color-indigo;
+        background-color: theme.$color-bg-light;
+        padding-top: 0.75rem;
+        padding-bottom: 0.5rem;
+      }
+      
+      &.childOption {
+        padding-left: 2rem;
+        color: theme.$color-text-secondary;
+        
+        &::before {
+          content: '→ ';
+          margin-right: 0.5rem;
+        }
+      }
+    }
+  }
+}

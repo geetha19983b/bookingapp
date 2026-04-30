@@ -14,15 +14,22 @@ import {
 } from '../store/itemSlice';
 import { fetchVendors } from '@features/vendors/store/vendorSlice';
 import { fetchActiveUnits } from '@features/units/store/unitSlice';
-import { Input, TextArea, Button, Alert, Spinner } from '@components/ui';
+import { fetchIncomeAccounts, fetchPurchaseAccounts } from '@features/accounts/store/accountSlice';
+import { Input, TextArea, Button, Alert, Spinner, Select } from '@components/ui';
 import { itemFormSchema } from '../schemas/itemValidation';
 import type { CreateItemPayload } from '../types/item.types';
 import { itemService } from '../services/itemService';
 import UnitsConfigModal from '@features/units/components/UnitsConfigModal';
+import {
+  TAX_PREFERENCE_OPTIONS,
+  INTRA_STATE_TAX_RATES,
+  INTER_STATE_TAX_RATES,
+  CURRENCY_CODE,
+} from '../constants/taxConstants';
 
 // Use CreateItemPayload as form data type to avoid Zod preprocessing type issues
 type ItemFormData = CreateItemPayload & {
-  taxPreference?: 'taxable' | 'non-taxable';
+  taxPreference?: 'taxable' | 'non-taxable' | 'out-of-scope' | 'non-gst-supply';
   itemType: 'goods' | 'service';
 };
 
@@ -69,6 +76,7 @@ export default function ItemForm() {
   const { selectedItem, loading, error, successMessage } = useAppSelector((state) => state.items);
   const { vendors } = useAppSelector((state) => state.vendors);
   const { activeUnits } = useAppSelector((state) => state.units);
+  const { incomeAccounts, purchaseAccounts } = useAppSelector((state) => state.accounts);
 
   const isEditMode = Boolean(id);
 
@@ -100,9 +108,11 @@ export default function ItemForm() {
   const taxPreference = watch('taxPreference');
 
   useEffect(() => {
-    // Fetch vendors and units for dropdowns
+    // Fetch vendors, units, and accounts for dropdowns
     dispatch(fetchVendors());
     dispatch(fetchActiveUnits());
+    dispatch(fetchIncomeAccounts());
+    dispatch(fetchPurchaseAccounts());
 
     if (isEditMode && id) {
       dispatch(fetchItemById(Number(id)));
@@ -284,6 +294,54 @@ export default function ItemForm() {
     value: vendor.id.toString(),
   }));
 
+  // Format account options with hierarchy
+  // Parent accounts (with children) are disabled from selection
+  const incomeAccountOptions = incomeAccounts.map((account) => {
+    const depth = account.depth || 0;
+    const isParent = account.isRootAccountWithChild || false;
+    
+    // Create visual hierarchy
+    if (depth === 0) {
+      // Parent account - add clear indicator
+      const prefix = isParent ? '▼ ' : '';
+      return {
+        label: `${prefix}${account.accountName}`,
+        value: account.accountName,
+        disabled: isParent,
+      };
+    } else {
+      // Child account - indentation handled by CSS
+      return {
+        label: `→ ${account.accountName}`,
+        value: account.accountName,
+        disabled: isParent,
+      };
+    }
+  });
+
+  const purchaseAccountOptions = purchaseAccounts.map((account) => {
+    const depth = account.depth || 0;
+    const isParent = account.isRootAccountWithChild || false;
+    
+    // Create visual hierarchy
+    if (depth === 0) {
+      // Parent account - add clear indicator
+      const prefix = isParent ? '▼ ' : '';
+      return {
+        label: `${prefix}${account.accountName}`,
+        value: account.accountName,
+        disabled: isParent,
+      };
+    } else {
+      // Child account - indentation handled by CSS
+      return {
+        label: `→ ${account.accountName}`,
+        value: account.accountName,
+        disabled: isParent,
+      };
+    }
+  });
+
   return (
     <div className="p-3 max-h-full bg-gray-50">
       {/* Header */}
@@ -428,21 +486,13 @@ export default function ItemForm() {
                   placeholder="4-8 digits"
                 />
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Tax Preference
-                  </label>
-                  <select
-                    {...register('taxPreference')}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
-                  >
-                    <option value="taxable">Taxable</option>
-                    <option value="non-taxable">Non-Taxable</option>
-                  </select>
-                  {errors.taxPreference && (
-                    <p className="text-red-500 text-sm mt-1">{errors.taxPreference.message}</p>
-                  )}
-                </div>
+                <Select
+                  label="Tax Preference"
+                  {...register('taxPreference')}
+                  error={errors.taxPreference?.message}
+                  options={TAX_PREFERENCE_OPTIONS}
+                  required
+                />
               </div>
 
               {/* Image Upload Section */}
@@ -507,12 +557,12 @@ export default function ItemForm() {
               <div className={styles.formSection}>
                 <h3 className={styles.sectionHeader}>Default Tax Rates</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Input
+                  <Select
                     label="Intra State Tax Rate"
                     {...register('intraStateTaxRate')}
                     error={errors.intraStateTaxRate?.message}
-                    maxLength={50}
-                    placeholder="e.g., GST18 [18 %]"
+                    options={INTRA_STATE_TAX_RATES}
+                    placeholder="Select tax rate"
                   />
 
                   <Input
@@ -524,12 +574,12 @@ export default function ItemForm() {
                     placeholder="e.g., 18.00"
                   />
 
-                  <Input
+                  <Select
                     label="Inter State Tax Rate"
                     {...register('interStateTaxRate')}
                     error={errors.interStateTaxRate?.message}
-                    maxLength={50}
-                    placeholder="e.g., IGST18 [18 %]"
+                    options={INTER_STATE_TAX_RATES}
+                    placeholder="Select tax rate"
                   />
 
                   <Input
@@ -560,21 +610,33 @@ export default function ItemForm() {
 
               {isSellable && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Input
-                    label="Selling Price"
-                    type="number"
-                    step="0.01"
-                    {...register('sellingPrice')}
-                    error={errors.sellingPrice?.message}
-                    placeholder="0.00"
-                  />
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Selling Price
+                    </label>
+                    <div className={styles.currencyInputWrapper}>
+                      <span className={styles.currencyCode}>{CURRENCY_CODE}</span>
+                      <input
+                        type="number"
+                        step="0.01"
+                        {...register('sellingPrice')}
+                        className={`w-full pl-16 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 ${
+                          errors.sellingPrice ? 'border-red-500' : ''
+                        }`}
+                        placeholder="0.00"
+                      />
+                    </div>
+                    {errors.sellingPrice && (
+                      <p className="text-red-500 text-sm mt-1">{errors.sellingPrice.message}</p>
+                    )}
+                  </div>
 
-                  <Input
+                  <Select
                     label="Sales Account"
                     {...register('salesAccount')}
                     error={errors.salesAccount?.message}
-                    maxLength={100}
-                    placeholder="e.g., Sales"
+                    options={incomeAccountOptions}
+                    placeholder="Select sales account"
                   />
 
                   <div className="md:col-span-2">
@@ -606,21 +668,33 @@ export default function ItemForm() {
 
               {isPurchasable && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Input
-                    label="Cost Price"
-                    type="number"
-                    step="0.01"
-                    {...register('costPrice')}
-                    error={errors.costPrice?.message}
-                    placeholder="0.00"
-                  />
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Cost Price
+                    </label>
+                    <div className={styles.currencyInputWrapper}>
+                      <span className={styles.currencyCode}>{CURRENCY_CODE}</span>
+                      <input
+                        type="number"
+                        step="0.01"
+                        {...register('costPrice')}
+                        className={`w-full pl-16 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 ${
+                          errors.costPrice ? 'border-red-500' : ''
+                        }`}
+                        placeholder="0.00"
+                      />
+                    </div>
+                    {errors.costPrice && (
+                      <p className="text-red-500 text-sm mt-1">{errors.costPrice.message}</p>
+                    )}
+                  </div>
 
-                  <Input
+                  <Select
                     label="Purchase Account"
                     {...register('purchaseAccount')}
                     error={errors.purchaseAccount?.message}
-                    maxLength={100}
-                    placeholder="e.g., GST Payable"
+                    options={purchaseAccountOptions}
+                    placeholder="Select purchase account"
                   />
 
                   <div className="md:col-span-2">

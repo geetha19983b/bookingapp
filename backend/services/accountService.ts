@@ -151,6 +151,7 @@ export class AccountService {
         depth: true,
         parentAccountId: true,
         isTaxAccount: true,
+        isRootAccountWithChild: true,
       },
       orderBy: [{ depth: 'asc' }, { accountName: 'asc' }],
     });
@@ -182,6 +183,7 @@ export class AccountService {
         depth: true,
         parentAccountId: true,
         isTaxAccount: true,
+        isRootAccountWithChild: true,
       },
       orderBy: [{ accountType: 'asc' }, { depth: 'asc' }, { accountName: 'asc' }],
     });
