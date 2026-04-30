@@ -35,14 +35,14 @@
   }
 
   ::-webkit-scrollbar-track {
-    background-color: #E8EEF3;
+    background-color: theme.$color-scrollbar-track;
     border-radius: theme.$radius-md;
   }
 
   ::-webkit-scrollbar-thumb {
     background: theme.$color-theme-secondary;
     border-radius: theme.$radius-md;
-    border: 2px solid #E8EEF3;
+    border: 2px solid theme.$color-scrollbar-track;
     transition: background 0.2s ease;
     
     &:hover {
@@ -163,7 +163,7 @@
 /* Button colors - Modern and Polished */
 .btn-theme-primary {
   background: theme.$color-theme-accent;
-  color: #FFFFFF;
+  color: theme.$color-white-pure;
   transition: all 0.2s ease-in-out;
   box-shadow: 0 2px 8px rgba(theme.$color-theme-accent, 0.25);
   border: none;
@@ -252,6 +252,6 @@
 
 @layer utilities {
   .toast-text-white {
-    color: #fff !important;
+    color: theme.$color-white-pure !important;
   }
 }

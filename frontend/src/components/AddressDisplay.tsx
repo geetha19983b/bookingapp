@@ -13,6 +13,7 @@ export interface AddressDisplayProps {
   countryCode?: string | null;
   zipCode?: string | null;
   className?: string;
+  textClassName?: string;
   label?: string;
 }
 
@@ -24,13 +25,14 @@ export function AddressDisplay({
   countryCode,
   zipCode,
   className = '',
+  textClassName = 'text-secondary',
   label,
 }: AddressDisplayProps) {
   // Check if address has any data
   const hasAddress = addressLine1 || addressLine2 || city || stateCode || countryCode || zipCode;
 
   if (!hasAddress) {
-    return <span className={`text-secondary ${className}`}>-</span>;
+    return <span className={textClassName}>-</span>;
   }
 
   // Convert codes to names
@@ -40,7 +42,7 @@ export function AddressDisplay({
   return (
     <div className={className}>
       {label && <div className="font-medium text-primary mb-1">{label}</div>}
-      <div className="text-secondary">
+      <div className={textClassName}>
         {addressLine1 && <div>{addressLine1}</div>}
         {addressLine2 && <div>{addressLine2}</div>}
         <div>
@@ -61,11 +63,12 @@ export function InlineAddressDisplay({
   countryCode,
   zipCode,
   className = '',
+  textClassName = 'text-secondary',
 }: Omit<AddressDisplayProps, 'addressLine2' | 'label'>) {
   const hasAddress = addressLine1 || city || stateCode || countryCode || zipCode;
 
   if (!hasAddress) {
-    return <span className={`text-secondary ${className}`}>-</span>;
+    return <span className={textClassName}>-</span>;
   }
 
   const stateName = getStateName(stateCode, countryCode);
@@ -73,5 +76,5 @@ export function InlineAddressDisplay({
 
   const parts = [addressLine1, city, stateName, countryName, zipCode].filter(Boolean);
 
-  return <span className={className}>{parts.join(', ')}</span>;
+  return <span className={`${textClassName} ${className}`}>{parts.join(', ')}</span>;
 }

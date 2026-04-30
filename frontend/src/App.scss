@@ -30,7 +30,7 @@
 
 .app-grid-layout {
   display: grid;
-  grid-template-columns: 18rem 1fr; // Sidebar width + remaining space
+  grid-template-columns: 15rem 1fr; // Sidebar width + remaining space
   grid-template-rows: 3.75rem 1fr; // TopNavbar fixed height + remaining space
   grid-template-areas:
     "sidebar topnav"
@@ -41,7 +41,7 @@
   background: theme.$color-bg-main;
 
   @media (max-width: theme.$breakpoint-desktop) {
-    grid-template-columns: 16rem 1fr;
+    grid-template-columns: 14rem 1fr;
   }
 
   @media (max-width: theme.$breakpoint-tablet) {
@@ -112,15 +112,15 @@
   }
 
   &::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.05);
+    background: theme.$color-black-alpha-05;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.2);
+    background: theme.$color-black-alpha-20;
     border-radius: 4px;
 
     &:hover {
-      background: rgba(0, 0, 0, 0.3);
+      background: theme.$color-black-alpha-30;
     }
   }
 }
@@ -137,7 +137,7 @@
   
   &__logo {
     padding: theme.$spacing-lg theme.$spacing-md;
-    border-bottom: 1px solid theme.$color-sidebar-border;
+    // border-bottom: 1px solid theme.$color-sidebar-border;
   }
   
   &__nav-item {
@@ -161,7 +161,7 @@
 
 .topnav {
   background-color: theme.$color-bg-card;
-  border-bottom: 1px solid theme.$color-border-light;
+  // border-bottom: 1px solid theme.$color-border-light;
   box-shadow: theme.$shadow-sm;
   
   &__search {

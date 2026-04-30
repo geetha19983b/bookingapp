@@ -8,6 +8,7 @@ import Sidebar from '@components/layout/Sidebar';
 import TopNavbar from '@components/layout/TopNavbar';
 import VendorList from '@features/vendors/components/VendorList';
 import VendorForm from '@features/vendors/components/VendorForm';
+import VendorDetail from '@features/vendors/components/VendorDetail';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
                 <Route path="/vendors" element={<VendorList />} />
                 <Route path="/vendors/new" element={<VendorForm />} />
                 <Route path="/vendors/edit/:id" element={<VendorForm />} />
+                <Route path="/vendors/:id" element={<VendorDetail />} />
 
                 {/* Other Routes */}
                 <Route

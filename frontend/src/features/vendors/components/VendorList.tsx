@@ -19,6 +19,10 @@ export default function VendorList() {
     dispatch(fetchVendors());
   }, [dispatch]);
 
+  const handleView = (vendorId: number) => {
+    navigate(`/vendors/${vendorId}`);
+  };
+
   const handleEdit = (vendorId: number) => {
     navigate(`/vendors/edit/${vendorId}`);
   };
@@ -56,7 +60,7 @@ export default function VendorList() {
       header: 'Name',
       cell: (info) => (
         <button
-          onClick={() => handleEdit(info.row.original.id)}
+          onClick={() => handleView(info.row.original.id)}
           className="text-teal font-medium cursor-pointer bg-transparent border-none underline p-0 hover:text-opacity-80"
         >
           {info.getValue()}
@@ -106,12 +110,16 @@ export default function VendorList() {
   ];
 
   return (
-    <div className="p-6 max-w-full">
+    <div className="p-6 max-w-full bg-gray-50 min-h-screen">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold m-0">Vendors</h1>
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900 m-0">Vendors</h1>
+          <p className="text-gray-600 mt-1">Manage your vendor relationships and contact information</p>
+        </div>
         <Button
-          variant="primary"
+          variant="secondary"
+          size="md"
           leftIcon={
             <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
@@ -144,24 +152,28 @@ export default function VendorList() {
       {/* Selected Vendors Info */}
       {selectedVendors.length > 0 && (
         <div className="mb-4">
-          <Badge variant="primary">{selectedVendors.length} vendor{selectedVendors.length !== 1 ? 's' : ''} selected</Badge>
+          <Badge variant="primary" size="md">
+            {selectedVendors.length} vendor{selectedVendors.length !== 1 ? 's' : ''} selected
+          </Badge>
         </div>
       )}
 
       {/* Data Table */}
-      <Table
-        data={vendors}
-        columns={columns}
-        isLoading={loading}
-        error={error || undefined}
-        emptyMessage="No vendors found. Create your first vendor to get started."
-        enableSorting
-        enablePagination
-        enableRowSelection
-        pageSize={25}
-        pageSizeOptions={[10, 25, 50, 100]}
-        onRowSelectionChange={setSelectedVendors}
-      />
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+        <Table
+          data={vendors}
+          columns={columns}
+          isLoading={loading}
+          error={error || undefined}
+          emptyMessage="No vendors found. Create your first vendor to get started."
+          enableSorting
+          enablePagination
+          enableRowSelection
+          pageSize={25}
+          pageSizeOptions={[10, 25, 50, 100]}
+          onRowSelectionChange={setSelectedVendors}
+        />
+      </div>
     </div>
   );
 }

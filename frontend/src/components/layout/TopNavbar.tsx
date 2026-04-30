@@ -85,7 +85,7 @@ export default function TopNavbar() {
 
         {/* New Button - Dynamic based on current page */}
         <Button
-          variant="primary"
+          variant="secondary"
           size="sm"
           onClick={() => navigate(pageInfo.newButtonPath)}
           leftIcon={

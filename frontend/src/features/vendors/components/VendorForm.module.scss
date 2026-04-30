@@ -4,19 +4,18 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin-bottom: 0.5rem;
 }
 
 .backButton {
   padding: 0.5rem !important;
   border-radius: theme.$radius-md;
-  background-color: rgba(theme.$color-theme-secondary, 0.1) !important;
-  color: theme.$color-theme-primary !important;
+  background-color: theme.$color-bg-light !important;
+  color: theme.$color-text-secondary !important;
   transition: all theme.$transition-fast;
 
   &:hover {
-    background-color: theme.$color-theme-secondary !important;
-    color: theme.$color-text-white !important;
+    background-color: darken(theme.$color-bg-light, 5%) !important;
+    color: theme.$color-text-primary !important;
     transform: translateX(-2px);
   }
 
@@ -26,15 +25,16 @@
 }
 
 .formHeaderTabs {
-  background: theme.$color-theme-primary;
-  border-bottom: 2px solid rgba(129, 178, 154, 0.2);
+  background: theme.$color-bg-white;
+  border-bottom: 2px solid theme.$color-border-light;
   padding: 0;
   display: flex;
   gap: 0;
   overflow-x: auto;
   overflow-y: visible;
-  min-height: 3.5rem;
+  min-height: 2.75rem;
   align-items: stretch;
+  flex-shrink: 0;
   
   @media (max-width: theme.$breakpoint-mobile) {
     flex-wrap: nowrap;
@@ -44,17 +44,89 @@
 
 .formBody {
   background: theme.$color-bg-white;
-  border-radius: 0;
-  overflow: visible;
+  border-radius: theme.$radius-md;
+  overflow: hidden;
+  box-shadow: theme.$shadow-sm;
+  border: 1px solid theme.$color-border-light;
+  display: flex;
+  flex-direction: column;
+}
+
+.formContent {
+  padding: theme.$spacing-md;
+  overflow-y: auto;
+  flex: 1;
+  background-color: transparent;
+  min-height: 0; // Important for flex children with overflow
+  
+  // Smooth scrolling
+  -webkit-overflow-scrolling: touch;
+  
+  // Custom scrollbar styling
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: theme.$color-bg-light;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: theme.$color-border-medium;
+    border-radius: theme.$radius-full;
+    
+    &:hover {
+      background: theme.$color-border-dark;
+    }
+  }
+}
+
+.formSection {
+  background: theme.$color-bg-white;
+  border-radius: theme.$radius-md;
+  box-shadow: theme.$shadow-sm;
+  border: 1px solid theme.$color-border-light;
+  padding: theme.$spacing-md;
+  margin-bottom: theme.$spacing-sm;
+}
+
+.sectionHeader {
+  font-size: theme.$font-size-sm;
+  font-weight: theme.$font-weight-semibold;
+  color: theme.$color-text-primary;
+  margin-bottom: theme.$spacing-sm;
+  padding-bottom: theme.$spacing-xs;
+  border-bottom: 1px solid theme.$color-border-light;
+}
+
+.copyAddressBox {
+  background-color: theme.$color-card-secondary;
+  border-radius: theme.$radius-md;
+  padding: theme.$spacing-sm;
+  display: flex;
+  align-items: center;
+  margin-bottom: theme.$spacing-sm;
+  
+  input[type="checkbox"] {
+    margin-right: theme.$spacing-sm;
+    height: 1rem;
+    width: 1rem;
+  }
+  
+  label {
+    font-size: theme.$font-size-sm;
+    font-weight: theme.$font-weight-medium;
+    color: theme.$color-text-primary;
+  }
 }
 
 .formTabButton {
-  color: rgba(244, 241, 222, 0.7);
+  color: theme.$color-text-secondary;
   background: transparent;
   font-weight: theme.$font-weight-medium;
   font-size: theme.$font-size-sm;
   border-radius: 0;
-  padding: theme.$spacing-md theme.$spacing-lg;
+  padding: theme.$spacing-sm theme.$spacing-md;
   transition: all theme.$transition-fast;
   border: none;
   outline: none;
@@ -66,49 +138,66 @@
   align-items: center;
   
   @media (max-width: theme.$breakpoint-tablet) {
-    padding: theme.$spacing-sm theme.$spacing-md;
+    padding: theme.$spacing-xs theme.$spacing-sm;
     font-size: theme.$font-size-xs;
   }
   
   @media (max-width: theme.$breakpoint-mobile) {
-    padding: theme.$spacing-sm theme.$spacing-sm;
+    padding: theme.$spacing-xs theme.$spacing-xs;
   }
 
   &:hover:not(.active) {
-    background: rgba(129, 178, 154, 0.12);
-    color: rgba(244, 241, 222, 0.95);
-    border-bottom-color: rgba(129, 178, 154, 0.4);
+    background: theme.$color-bg-light;
+    color: theme.$color-text-primary;
+    border-bottom-color: theme.$color-border-medium;
   }
 
   &:first-child {
-    border-top-left-radius: 0;
+    border-top-left-radius: theme.$radius-md;
+  }
+
+  &:last-child {
+    border-top-right-radius: theme.$radius-md;
   }
 }
 
 .formTabButton.active {
-  background: rgba(129, 178, 154, 0.2);
-  color: theme.$color-text-white;
+  background: transparent;
+  color: theme.$color-theme-accent;
   font-weight: theme.$font-weight-semibold;
   border-bottom-color: theme.$color-theme-accent;
-  box-shadow: inset 0 -3px 0 0 theme.$color-theme-accent;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: theme.$color-theme-accent;
+  }
 }
 
 .formFooter {
-  background: theme.$color-theme-primary;
-  border-top: 2px solid rgba(129, 178, 154, 0.2);
-  padding: theme.$spacing-md theme.$spacing-lg;
+  background: theme.$color-bg-light;
+  border-top: 1px solid theme.$color-border-light;
+  padding: theme.$spacing-sm theme.$spacing-md;
   display: flex;
   justify-content: flex-end;
-  gap: theme.$spacing-md;
+  gap: theme.$spacing-sm;
   flex-wrap: wrap;
+  flex-shrink: 0;
+  border-bottom-left-radius: theme.$radius-md;
+  border-bottom-right-radius: theme.$radius-md;
   
   @media (max-width: theme.$breakpoint-tablet) {
-    padding: theme.$spacing-sm theme.$spacing-md;
+    padding: theme.$spacing-xs theme.$spacing-sm;
   }
   
   @media (max-width: theme.$breakpoint-mobile) {
-    padding: theme.$spacing-sm;
-    gap: theme.$spacing-sm;
+    padding: theme.$spacing-xs;
+    gap: theme.$spacing-xs;
     justify-content: center;
     
     button {

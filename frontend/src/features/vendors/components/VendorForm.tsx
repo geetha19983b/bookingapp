@@ -114,7 +114,7 @@ export default function VendorForm() {
     };
   }, [id, isEditMode, dispatch]);
 
-  // Populate form when editing
+  // Populate form when editing or reset when creating new
   useEffect(() => {
     if (selectedVendor && isEditMode) {
       reset({
@@ -150,6 +150,9 @@ export default function VendorForm() {
         remarks: selectedVendor.remarks || '',
         isActive: selectedVendor.isActive ?? true,
       });
+    } else if (!isEditMode) {
+      // Reset form to default values when creating a new vendor
+      reset(defaultValues);
     }
   }, [selectedVendor, isEditMode, reset]);
 
@@ -201,9 +204,9 @@ export default function VendorForm() {
   };
 
   return (
-    <div className="p-6 max-h-full">
+    <div className="p-3 max-h-full bg-gray-50">
       {/* Header */}
-      <div className="mb-4">
+      <div className="mb-3 flex items-center justify-between">
         <div className={styles.headerContainer}>
           <Button
             variant="ghost"
@@ -212,19 +215,19 @@ export default function VendorForm() {
             title="Back to vendors"
             className={styles.backButton}
           >
-            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </Button>
-          <h2 className="text-2xl font-semibold m-0">
+          <h1 className="text-xl font-semibold text-gray-900 m-0">
             {isEditMode ? 'Edit Vendor' : 'New Vendor'}
-          </h2>
+          </h1>
         </div>
       </div>
 
       {/* Success Message */}
       {successMessage && (
-        <div className="mb-4">
+        <div className="mb-2">
           <Alert variant="success" onClose={() => dispatch(clearSuccessMessage())}>
             {successMessage}
           </Alert>
@@ -233,7 +236,7 @@ export default function VendorForm() {
 
       {/* Error Message */}
       {error && (
-        <div className="mb-4">
+        <div className="mb-2">
           <Alert variant="error" onClose={() => dispatch(clearError())}>
             {error}
           </Alert>
@@ -241,8 +244,8 @@ export default function VendorForm() {
       )}
 
       {/* Form */}
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col max-h-[calc(100vh-10rem)]">
-        <div className={`${styles.formBody} rounded-2xl shadow-lg border border-theme-light overflow-hidden flex flex-col max-h-full`}>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-[calc(100vh-8rem)]">
+        <div className={`${styles.formBody} flex flex-col h-full`}>
           {/* Tabs */}
           <div className={styles.formHeaderTabs}>
             {[
@@ -266,38 +269,46 @@ export default function VendorForm() {
           </div>
 
           {/* Form Content */}
-          <div className="p-6 overflow-y-auto flex-1">
+          <div className={styles.formContent}>
             {/* Basic Details Tab */}
             {activeTab === 'basic' && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Input
-                  label="Display Name"
-                  {...register('displayName')}
-                  error={errors.displayName?.message}
-                  maxLength={255}
-                />
+              <div className={styles.formSection}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="md:col-span-2">
+                    <h3 className={styles.sectionHeader}>
+                      Contact Information
+                    </h3>
+                  </div>
+                  
+                  <Input
+                    label="Display Name"
+                    {...register('displayName')}
+                    error={errors.displayName?.message}
+                    maxLength={255}
+                    required
+                  />
 
-                <Input
-                  label="Company Name"
-                  {...register('companyName')}
-                  error={errors.companyName?.message}
-                  maxLength={255}
-                />
+                  <Input
+                    label="Company Name"
+                    {...register('companyName')}
+                    error={errors.companyName?.message}
+                    maxLength={255}
+                  />
 
-                <Input
-                  label="Email"
-                  type="email"
-                  {...register('email')}
-                  error={errors.email?.message}
-                  maxLength={255}
-                />
+                  <Input
+                    label="Email"
+                    type="email"
+                    {...register('email')}
+                    error={errors.email?.message}
+                    maxLength={255}
+                  />
 
-                <Input
-                  label="Work Phone"
-                  type="tel"
-                  {...register('workPhone')}
-                  error={errors.workPhone?.message}
-                  maxLength={20}
+                  <Input
+                    label="Work Phone"
+                    type="tel"
+                    {...register('workPhone')}
+                    error={errors.workPhone?.message}
+                    maxLength={20}
                 />
 
                 <Input
@@ -308,11 +319,26 @@ export default function VendorForm() {
                   maxLength={20}
                 />
 
+                <div className="flex items-center pt-8">
+                  <input
+                    type="checkbox"
+                    {...register('isActive')}
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-2 h-4 w-4"
+                  />
+                  <label className="text-sm font-medium text-gray-700">Active Vendor</label>
+                </div>
+
+                <div className="md:col-span-2 mt-4">
+                  <h3 className={styles.sectionHeader}>
+                    Financial Details
+                  </h3>
+                </div>
+
                 <Input
                   label="Currency"
                   {...register('currency')}
                   error={errors.currency?.message}
-                  placeholder="INR (default)"
+                  placeholder="INR"
                   maxLength={3}
                   className="uppercase"
                 />
@@ -323,13 +349,14 @@ export default function VendorForm() {
                   {...register('openingBalance', { valueAsNumber: true })}
                   error={errors.openingBalance?.message}
                   step="0.01"
+                  placeholder="0.00"
                 />
 
                 <Input
                   label="Payment Terms"
                   {...register('paymentTerms')}
                   error={errors.paymentTerms?.message}
-                  placeholder="Due on Receipt (default)"
+                  placeholder="Due on Receipt"
                   maxLength={100}
                 />
 
@@ -339,28 +366,23 @@ export default function VendorForm() {
                     {...register('remarks')}
                     error={errors.remarks?.message}
                     rows={3}
-                    resize="none"
+                    resize="vertical"
+                    placeholder="Add any additional notes or remarks about this vendor..."
                   />
                 </div>
-
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    {...register('isActive')}
-                    className="rounded border-theme-medium text-accent-blue focus:ring-accent-cyan mr-2"
-                  />
-                  <label className="text-sm font-medium text-primary">Active</label>
-                </div>
+              </div>
               </div>
             )}
 
             {/* Address Tab */}
             {activeTab === 'address' && (
-              <div className="space-y-8">
+              <div>
                 {/* Billing Address */}
-                <div>
-                  <h3 className="text-lg font-semibold text-primary mb-4">Billing Address</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className={styles.formSection}>
+                  <h3 className={styles.sectionHeader}>
+                    Billing Address
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="md:col-span-2">
                       <Input
                         label="Address Line 1"
@@ -415,20 +437,21 @@ export default function VendorForm() {
                 </div>
 
                 {/* Copy to Shipping */}
-                <div className="flex items-center">
+                <div className={styles.copyAddressBox}>
                   <input
                     type="checkbox"
                     checked={copyBillingToShipping}
                     onChange={(e) => setCopyBillingToShipping(e.target.checked)}
-                    className="rounded border-theme-medium text-accent-blue focus:ring-accent-cyan mr-2"
                   />
-                  <label className="text-sm font-medium text-primary">Copy billing address to shipping</label>
+                  <label>Copy billing address to shipping</label>
                 </div>
 
                 {/* Shipping Address */}
-                <div>
-                  <h3 className="text-lg font-semibold text-primary mb-4">Shipping Address</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className={styles.formSection}>
+                  <h3 className={styles.sectionHeader}>
+                    Shipping Address
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="md:col-span-2">
                       <Input
                         label="Address Line 1"
@@ -486,85 +509,95 @@ export default function VendorForm() {
 
             {/* Tax & Compliance Tab */}
             {activeTab === 'tax' && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Input
-                  label="GST Treatment"
-                  {...register('gstTreatment')}
-                  error={errors.gstTreatment?.message}
-                  maxLength={100}
-                />
-
-                <Input
-                  label="GSTIN"
-                  {...register('gstin')}
-                  error={errors.gstin?.message}
-                  placeholder="22AAAAA0000A1Z5"
-                  maxLength={15}
-                  className="uppercase"
-                />
-
-                <Input
-                  label="Source of Supply"
-                  {...register('sourceOfSupply')}
-                  error={errors.sourceOfSupply?.message}
-                  maxLength={100}
-                />
-
-                <Input
-                  label="PAN"
-                  {...register('pan')}
-                  error={errors.pan?.message}
-                  placeholder="AAAAA0000A"
-                  maxLength={10}
-                  className="uppercase"
-                />
-
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    {...register('isMsmeRegistered')}
-                    className="rounded border-theme-medium text-accent-blue focus:ring-accent-cyan mr-2"
+              <div className={styles.formSection}>
+                <h3 className={styles.sectionHeader}>
+                  GST & Tax Information
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Input
+                    label="GST Treatment"
+                    {...register('gstTreatment')}
+                    error={errors.gstTreatment?.message}
+                    maxLength={100}
                   />
-                  <label className="text-sm font-medium text-primary">MSME Registered</label>
+
+                  <Input
+                    label="GSTIN"
+                    {...register('gstin')}
+                    error={errors.gstin?.message}
+                    placeholder="22AAAAA0000A1Z5"
+                    maxLength={15}
+                    className="uppercase"
+                  />
+
+                  <Input
+                    label="Source of Supply"
+                    {...register('sourceOfSupply')}
+                    error={errors.sourceOfSupply?.message}
+                    maxLength={100}
+                  />
+
+                  <Input
+                    label="PAN"
+                    {...register('pan')}
+                    error={errors.pan?.message}
+                    placeholder="AAAAA0000A"
+                    maxLength={10}
+                    className="uppercase"
+                  />
+
+                  <div className="flex items-center pt-8">
+                    <input
+                      type="checkbox"
+                      {...register('isMsmeRegistered')}
+                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-2 h-4 w-4"
+                    />
+                    <label className="text-sm font-medium text-gray-700">MSME Registered</label>
+                  </div>
                 </div>
               </div>
             )}
 
             {/* Bank Details Tab */}
             {activeTab === 'bank' && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="md:col-span-2">
+              <div className={styles.formSection}>
+                <h3 className={styles.sectionHeader}>
+                  Bank Account Information
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="md:col-span-2">
+                    <Input
+                      label="Bank Name"
+                      {...register('bankName')}
+                      error={errors.bankName?.message}
+                      maxLength={255}
+                    />
+                  </div>
+
                   <Input
-                    label="Bank Name"
-                    {...register('bankName')}
-                    error={errors.bankName?.message}
-                    maxLength={255}
+                    label="Account Number"
+                    {...register('bankAccountNumber')}
+                    error={errors.bankAccountNumber?.message}
+                    maxLength={50}
                   />
-                </div>
 
-                <Input
-                  label="Account Number"
-                  {...register('bankAccountNumber')}
-                  error={errors.bankAccountNumber?.message}
-                  maxLength={50}
-                />
-
-                <Input
-                  label="IFSC Code"
-                  {...register('bankIfscCode')}
-                  error={errors.bankIfscCode?.message}
-                  placeholder="ABCD0123456"
-                  maxLength={11}
-                  className="uppercase"
-                />
-
-                <div className="md:col-span-2">
                   <Input
-                    label="Branch"
-                    {...register('bankBranch')}
-                    error={errors.bankBranch?.message}
-                    maxLength={255}
+                    label="IFSC Code"
+                    {...register('bankIfscCode')}
+                    error={errors.bankIfscCode?.message}
+                    placeholder="ABCD0123456"
+                    maxLength={11}
+                    className="uppercase"
                   />
+
+                  <div className="md:col-span-2">
+                    <Input
+                      label="Branch"
+                      {...register('bankBranch')}
+                      error={errors.bankBranch?.message}
+                      maxLength={255}
+                    />
+                  </div>
                 </div>
               </div>
             )}
