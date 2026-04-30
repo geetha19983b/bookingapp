@@ -14,8 +14,13 @@ import itemRoutes from './routes/items';
 
 const app = express();
 
-// Security middleware
-app.use(helmet());
+// Security middleware - Configure Helmet to allow cross-origin resource loading
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+    contentSecurityPolicy: false, // Disable CSP or configure it properly for development
+  })
+);
 
 // Rate limiting
 const limiter = rateLimit({
@@ -27,10 +32,15 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-// CORS configuration
+// CORS configuration - Allow both common development ports
 app.use(
   cors({
-    origin: config.corsOrigin,
+    origin: [
+      config.corsOrigin,
+      'http://localhost:5173',
+      'http://localhost:5174',
+      'http://localhost:3000',
+    ],
     credentials: true,
   })
 );
@@ -39,10 +49,9 @@ app.use(
 app.use(requestLogger);
 
 // Body parsing
-// Body parsing
 app.use(express.json());
 
-// Serve uploaded files statically
+// Serve uploaded files statically with CORS headers
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Health check endpoint

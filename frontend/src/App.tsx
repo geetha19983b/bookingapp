@@ -2,8 +2,9 @@ import './App.scss';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from '@store/store';
-import NewItemForm from '@features/items/components/NewItemForm';
 import ItemList from '@features/items/components/ItemList';
+import ItemForm from '@features/items/components/ItemForm';
+import ItemDetail from '@features/items/components/ItemDetail';
 import Sidebar from '@components/layout/Sidebar';
 import TopNavbar from '@components/layout/TopNavbar';
 import VendorList from '@features/vendors/components/VendorList';
@@ -26,7 +27,10 @@ function App() {
               <Routes>
                 {/* Items Routes */}
                 <Route path="/" element={<ItemList />} />
-                <Route path="/add" element={<NewItemForm />} />
+                <Route path="/items" element={<ItemList />} />
+                <Route path="/items/new" element={<ItemForm />} />
+                <Route path="/items/edit/:id" element={<ItemForm />} />
+                <Route path="/items/:id" element={<ItemDetail />} />
 
                 {/* Vendor Routes */}
                 <Route path="/vendors" element={<VendorList />} />

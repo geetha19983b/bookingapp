@@ -1,0 +1,90 @@
+@use '../../../styles/_theme.scss' as theme;
+
+.headerContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.backButton {
+  padding: 0.5rem !important;
+  border-radius: theme.$radius-md;
+  background-color: theme.$color-bg-light !important;
+  color: theme.$color-text-secondary !important;
+  transition: all theme.$transition-fast;
+
+  &:hover {
+    background-color: darken(theme.$color-bg-light, 5%) !important;
+    color: theme.$color-text-primary !important;
+    transform: translateX(-2px);
+  }
+
+  svg {
+    display: block;
+  }
+}
+
+.formBody {
+  background: theme.$color-bg-white;
+  border-radius: theme.$radius-md;
+  overflow: hidden;
+  box-shadow: theme.$shadow-sm;
+  border: 1px solid theme.$color-border-light;
+  display: flex;
+  flex-direction: column;
+}
+
+.formContent {
+  padding: theme.$spacing-md;
+  overflow-y: auto;
+  flex: 1;
+  background-color: transparent;
+  min-height: 0;
+  
+  -webkit-overflow-scrolling: touch;
+  
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: theme.$color-bg-light;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: theme.$color-border-medium;
+    border-radius: theme.$radius-full;
+    
+    &:hover {
+      background: theme.$color-border-dark;
+    }
+  }
+}
+
+.formSection {
+  background: theme.$color-bg-white;
+  border-radius: theme.$radius-md;
+  box-shadow: theme.$shadow-sm;
+  border: 1px solid theme.$color-border-light;
+  padding: theme.$spacing-md;
+  margin-bottom: theme.$spacing-sm;
+}
+
+.sectionHeader {
+  font-size: theme.$font-size-sm;
+  font-weight: theme.$font-weight-semibold;
+  color: theme.$color-text-primary;
+  margin-bottom: theme.$spacing-sm;
+  padding-bottom: theme.$spacing-xs;
+  border-bottom: 1px solid theme.$color-border-light;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: theme.$spacing-sm;
+  padding: theme.$spacing-md;
+  background: theme.$color-bg-light;
+  border-top: 1px solid theme.$color-border-light;
+  flex-shrink: 0;
+}

@@ -1,0 +1,43 @@
+@use '../../../styles/_theme.scss' as theme;
+
+/**
+ * ItemList Component Styles
+ * 
+ * Following STYLING_GUIDE.md:
+ * - This component uses CSS Modules for table-specific styling
+ * - Keep complex table theming here (header colors, body backgrounds)
+ * - Simple layout/spacing moved to Tailwind utilities in ItemList.tsx
+ */
+
+// Table theming - complex enough to warrant CSS Modules
+.tableHeader {
+  background: theme.$color-theme-primary;
+}
+
+.tableBody {
+  background: theme.$color-bg-white;
+}
+
+.tableHeaderCell {
+  color: theme.$color-text-white;
+  font-weight: theme.$font-weight-semibold;
+  text-transform: uppercase;
+  font-size: theme.$font-size-xs;
+  letter-spacing: 0.05em;
+  padding: theme.$spacing-md theme.$spacing-lg;
+  text-align: left;
+  
+  @media (max-width: theme.$breakpoint-tablet) {
+    padding: theme.$spacing-sm theme.$spacing-md;
+  }
+  
+  @media (max-width: theme.$breakpoint-mobile) {
+    padding: theme.$spacing-xs theme.$spacing-sm;
+    font-size: 0.65rem;
+  }
+}
+
+.tableHeaderCheckbox {
+  padding-left: theme.$spacing-md;
+  padding-right: theme.$spacing-md;
+}

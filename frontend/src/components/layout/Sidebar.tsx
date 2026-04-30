@@ -58,7 +58,7 @@ export default function Sidebar() {
     const path = location.pathname;
     
     // Determine which section should be expanded based on current route
-    if (path === '/' || path === '/add') {
+    if (path === '/' || path.startsWith('/items')) {
       setExpandedItems({ items: true, purchases: false });
     } else if (path.startsWith('/vendors') || path.startsWith('/purchases')) {
       setExpandedItems({ items: false, purchases: true });
@@ -127,31 +127,38 @@ export default function Sidebar() {
 
         {/* Items Section */}
         <NavItem
-          to="/"
+          to="/items"
           icon="📦"
           label="Items"
           hasSubmenu
           onClick={(e) => {
             e.preventDefault();
-            toggleExpand('items', '/');
+            toggleExpand('items', '/items');
           }}
-          isActive={(path) => isActive(path) || isParentActive(['/', '/add'])}
+          isActive={(path) => isActive(path) || isParentActive(['/items', '/items/new', '/items/edit'])}
           expandedItems={expandedItems}
         />
         <div className={`${styles.submenuContainer} ${expandedItems.items ? styles.expanded : styles.collapsed}`}>
           <div className={styles.submenuWrapper}>
-            <Link
-              to="/"
-              className={`${styles.submenuItem} ${isActive('/') ? styles.active : ''}`}
-            >
-              <span className={styles.submenuLabel}>Items</span>
-            </Link>
-            <Link
-              to="/add"
-              className={`${styles.submenuItem} ${isActive('/add') ? styles.active : ''}`}
-            >
-              <span className={styles.submenuLabel}>New Item</span>
-            </Link>
+            <div className={styles.submenuItemWithButton}>
+              <Link
+                to="/items"
+                className={`${styles.submenuItem} ${
+                  isActive('/items') || (location.pathname.startsWith('/items') && location.pathname !== '/items/new') ? styles.active : ''
+                }`}
+              >
+                <span className={styles.submenuLabel}>Items</span>
+              </Link>
+              <button
+                onClick={() => navigate('/items/new')}
+                className={styles.addButton}
+                title="Add New Item"
+              >
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
 

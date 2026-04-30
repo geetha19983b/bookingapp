@@ -14,6 +14,7 @@ import {
   parseParams,
 } from '../schemas/itemSchemas';
 import { uploadItemImage, getFileUrl } from '../utils/fileUpload';
+import { deleteImageFile } from '../utils/fileUpload';
 
 const router = Router();
 
@@ -119,6 +120,41 @@ router.post(
       message: 'Images uploaded successfully',
       data: uploadedFiles,
     });
+  })
+);
+
+// DELETE /delete-image - Delete an item image
+router.delete(
+  '/delete-image',
+  asyncHandler(async (req, res) => {
+    const { imageUrl } = req.body;
+
+    if (!imageUrl || typeof imageUrl !== 'string') {
+      res.status(400).json({ message: 'Image URL is required' });
+      return;
+    }
+
+    // Extract filename from URL (e.g., /uploads/items/filename.jpg -> filename.jpg)
+    const urlParts = imageUrl.split('/');
+    const filename = urlParts[urlParts.length - 1];
+
+    if (!filename) {
+      res.status(400).json({ message: 'Invalid image URL' });
+      return;
+    }
+
+    try {
+      deleteImageFile(filename);
+      res.status(200).json({
+        message: 'Image deleted successfully',
+        data: { imageUrl },
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: 'Failed to delete image',
+        error: error instanceof Error ? error.message : 'Unknown error',
+      });
+    }
   })
 );
 

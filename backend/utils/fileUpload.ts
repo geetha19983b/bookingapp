@@ -64,6 +64,22 @@ export const deleteFile = (filePath: string): void => {
   }
 };
 
+// Helper to delete an item image by filename
+export const deleteImageFile = (filename: string): void => {
+  try {
+    const fullPath = path.join(itemsDir, filename);
+    if (fs.existsSync(fullPath)) {
+      fs.unlinkSync(fullPath);
+      console.log(`Deleted image file: ${filename}`);
+    } else {
+      console.warn(`Image file not found: ${filename}`);
+    }
+  } catch (error) {
+    console.error('Error deleting image file:', error);
+    throw error;
+  }
+};
+
 // Helper to get relative URL path
 export const getFileUrl = (filename: string): string => {
   return `/uploads/items/${filename}`;
