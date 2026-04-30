@@ -9,7 +9,8 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "types": ["node"]
   },
   "include": [
     "backend.ts",
@@ -19,7 +20,8 @@
     "routes/**/*.ts",
     "services/**/*.ts",
     "schemas/**/*.ts",
-    "utils/**/*.ts"
+    "utils/**/*.ts",
+    "prisma/**/*.ts"
   ],
   "exclude": [
     "node_modules",

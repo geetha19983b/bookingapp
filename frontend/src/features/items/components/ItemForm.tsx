@@ -13,10 +13,12 @@ import {
   clearSuccessMessage,
 } from '../store/itemSlice';
 import { fetchVendors } from '@features/vendors/store/vendorSlice';
+import { fetchActiveUnits } from '@features/units/store/unitSlice';
 import { Input, TextArea, Button, Alert, Spinner } from '@components/ui';
 import { itemFormSchema } from '../schemas/itemValidation';
 import type { CreateItemPayload } from '../types/item.types';
 import { itemService } from '../services/itemService';
+import UnitsConfigModal from '@features/units/components/UnitsConfigModal';
 
 // Use CreateItemPayload as form data type to avoid Zod preprocessing type issues
 type ItemFormData = CreateItemPayload & {
@@ -66,6 +68,7 @@ export default function ItemForm() {
   const dispatch = useAppDispatch();
   const { selectedItem, loading, error, successMessage } = useAppSelector((state) => state.items);
   const { vendors } = useAppSelector((state) => state.vendors);
+  const { activeUnits } = useAppSelector((state) => state.units);
 
   const isEditMode = Boolean(id);
 
@@ -73,6 +76,9 @@ export default function ItemForm() {
   const [imagePreview, setImagePreview] = useState<string>('');
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [uploadError, setUploadError] = useState<string>('');
+  
+  // Units config modal state
+  const [isUnitsModalOpen, setIsUnitsModalOpen] = useState(false);
 
   // Initialize React Hook Form
   const methods = useForm<ItemFormData>({
@@ -94,8 +100,9 @@ export default function ItemForm() {
   const taxPreference = watch('taxPreference');
 
   useEffect(() => {
-    // Fetch vendors for dropdown
+    // Fetch vendors and units for dropdowns
     dispatch(fetchVendors());
+    dispatch(fetchActiveUnits());
 
     if (isEditMode && id) {
       dispatch(fetchItemById(Number(id)));
@@ -370,13 +377,48 @@ export default function ItemForm() {
                   maxLength={100}
                 />
 
-                <Input
-                  label="Unit"
-                  {...register('unit')}
-                  error={errors.unit?.message}
-                  maxLength={50}
-                  placeholder="e.g., Nos, Kg, Meter"
-                />
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Unit
+                  </label>
+                  <div className="flex gap-2">
+                    <select
+                      {...register('unit')}
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    >
+                      <option value="">Select a unit</option>
+                      {activeUnits.map((unit) => (
+                        <option key={unit.id} value={unit.code}>
+                          {unit.code} - {unit.name}
+                        </option>
+                      ))}
+                    </select>
+                    <button
+                      type="button"
+                      onClick={() => setIsUnitsModalOpen(true)}
+                      className="px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                      title="Configure Units"
+                    >
+                      <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                  {errors.unit && (
+                    <p className="text-red-500 text-sm mt-1">{errors.unit.message}</p>
+                  )}
+                </div>
 
                 <Input
                   label="HSN Code"
@@ -643,6 +685,16 @@ export default function ItemForm() {
           </div>
         </div>
       </form>
+
+      {/* Units Configuration Modal */}
+      <UnitsConfigModal
+        isOpen={isUnitsModalOpen}
+        onClose={() => {
+          setIsUnitsModalOpen(false);
+          // Refresh active units after closing modal
+          dispatch(fetchActiveUnits());
+        }}
+      />
     </div>
   );
 }

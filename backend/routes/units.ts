@@ -24,7 +24,7 @@ router.get('/', async (req: Request, res: Response) => {
     if (error instanceof ZodError) {
       res.status(400).json({
         error: 'Validation error',
-        details: error.errors,
+        details: error.issues,
       });
     } else {
       res.status(500).json({
@@ -57,7 +57,7 @@ router.get('/active', async (req: Request, res: Response) => {
  */
 router.get('/:id', async (req: Request, res: Response) => {
   try {
-    const id = parseInt(req.params.id);
+    const id = parseInt(Array.isArray(req.params.id) ? req.params.id[0] : req.params.id);
     if (isNaN(id)) {
       return res.status(400).json({ error: 'Invalid unit ID' });
     }
@@ -89,7 +89,7 @@ router.post('/', async (req: Request, res: Response) => {
     if (error instanceof ZodError) {
       res.status(400).json({
         error: 'Validation error',
-        details: error.errors,
+        details: error.issues,
       });
     } else if (error instanceof Error && error.message.includes('already exists')) {
       res.status(409).json({
@@ -111,7 +111,7 @@ router.post('/', async (req: Request, res: Response) => {
  */
 router.put('/:id', async (req: Request, res: Response) => {
   try {
-    const id = parseInt(req.params.id);
+    const id = parseInt(Array.isArray(req.params.id) ? req.params.id[0] : req.params.id);
     if (isNaN(id)) {
       return res.status(400).json({ error: 'Invalid unit ID' });
     }
@@ -123,7 +123,7 @@ router.put('/:id', async (req: Request, res: Response) => {
     if (error instanceof ZodError) {
       res.status(400).json({
         error: 'Validation error',
-        details: error.errors,
+        details: error.issues,
       });
     } else if (error instanceof Error && error.message === 'Unit not found') {
       res.status(404).json({ error: 'Unit not found' });
@@ -147,7 +147,7 @@ router.put('/:id', async (req: Request, res: Response) => {
  */
 router.delete('/:id', async (req: Request, res: Response) => {
   try {
-    const id = parseInt(req.params.id);
+    const id = parseInt(Array.isArray(req.params.id) ? req.params.id[0] : req.params.id);
     if (isNaN(id)) {
       return res.status(400).json({ error: 'Invalid unit ID' });
     }
@@ -188,7 +188,7 @@ router.delete('/:id', async (req: Request, res: Response) => {
  */
 router.patch('/:id/reactivate', async (req: Request, res: Response) => {
   try {
-    const id = parseInt(req.params.id);
+    const id = parseInt(Array.isArray(req.params.id) ? req.params.id[0] : req.params.id);
     if (isNaN(id)) {
       return res.status(400).json({ error: 'Invalid unit ID' });
     }

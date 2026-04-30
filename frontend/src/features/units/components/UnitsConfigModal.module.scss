@@ -1,0 +1,188 @@
+.unitsConfigModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.modalTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.closeButton:hover {
+  color: #111827;
+}
+
+.modalBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.unitsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.unitRow {
+  display: grid;
+  grid-template-columns: 1fr 2fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+}
+
+.unitRow.editing {
+  background: #fff;
+  border-color: #14b8a6;
+}
+
+.unitCode {
+  font-family: monospace;
+  font-weight: 600;
+  color: #111827;
+  font-size: 14px;
+}
+
+.unitName {
+  color: #4b5563;
+  font-size: 14px;
+}
+
+.unitInput {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.unitInput:focus {
+  outline: none;
+  border-color: #14b8a6;
+  ring: 2px;
+  ring-color: rgba(20, 184, 166, 0.2);
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.iconButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  transition: color 0.2s;
+  border-radius: 4px;
+}
+
+.iconButton:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.iconButton.delete:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.iconButton.save:hover {
+  background: #d1fae5;
+  color: #10b981;
+}
+
+.addNewButton {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: white;
+  border: 1px dashed #d1d5db;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #14b8a6;
+  font-weight: 500;
+  width: 100%;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.addNewButton:hover {
+  border-color: #14b8a6;
+  background: #f0fdfa;
+}
+
+.modalFooter {
+  padding: 16px 20px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6b7280;
+}
+
+.errorMessage {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
