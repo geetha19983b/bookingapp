@@ -12,6 +12,7 @@ async function main() {
   await prisma.item.deleteMany();
   await prisma.vendor.deleteMany();
   await prisma.unit.deleteMany();
+  // Note: Accounts should be seeded separately using accountSeed.ts before running this seed
 
   // Seed Units (UQC - Unique Quantity Codes for GST)
   console.log('Seeding units...');
@@ -152,6 +153,33 @@ async function main() {
 
   console.log(`Created ${3} contact persons`);
 
+  // Look up accounts for item creation
+  console.log('Looking up accounts...');
+  const salesAccount = await prisma.account.findFirst({
+    where: { accountName: 'Sales', isActive: true },
+  });
+  const serviceRevenueAccount = await prisma.account.findFirst({
+    where: { accountName: 'Service Income', isActive: true },
+  });
+  const cogsAccount = await prisma.account.findFirst({
+    where: { 
+      OR: [
+        { accountName: 'Cost of Goods Sold' },
+        { accountName: 'COGS' }
+      ],
+      isActive: true 
+    },
+  });
+
+  // Use fallback if specific accounts not found
+  const fallbackSalesAccountId = salesAccount?.id;
+  const fallbackServiceAccountId = serviceRevenueAccount?.id || salesAccount?.id;
+  const fallbackPurchaseAccountId = cogsAccount?.id;
+
+  if (!fallbackSalesAccountId) {
+    console.warn('⚠️  Warning: Sales account not found. Run accountSeed.ts first. Items will be created without account references.');
+  }
+
   // Seed Items
   console.log('Seeding items...');
   const item1 = await prisma.item.create({
@@ -160,7 +188,6 @@ async function main() {
       name: 'Laptop - Dell Latitude 5420',
       sku: 'LAP-DELL-5420',
       unitId: unitPcs?.id,
-      unit: 'pcs',  // Kept for backward compatibility
       hsnCode: '84713010',
       taxPreference: 'taxable',
       intraStateTaxRate: 'GST18 (18%)',
@@ -169,11 +196,11 @@ async function main() {
       interStateTaxPercentage: 18.00,
       isSellable: true,
       sellingPrice: 65000.00,
-      salesAccount: 'Sales',
+      salesAccountId: fallbackSalesAccountId,
       salesDescription: 'Dell Latitude 5420 Business Laptop',
       isPurchasable: true,
       costPrice: 55000.00,
-      purchaseAccount: 'Cost of Goods Sold',
+      purchaseAccountId: fallbackPurchaseAccountId,
       purchaseDescription: 'Dell Latitude Business Laptop for resale',
       preferredVendorId: vendor1.id,
       trackInventory: true,
@@ -191,7 +218,6 @@ async function main() {
       name: 'IT Consulting Services',
       sku: 'IT-CONS',
       unitId: unitHrs?.id,
-      unit: 'hrs',  // Kept for backward compatibility
       hsnCode: '998314',
       taxPreference: 'taxable',
       intraStateTaxRate: 'GST18 (18%)',
@@ -200,7 +226,7 @@ async function main() {
       interStateTaxPercentage: 18.00,
       isSellable: true,
       sellingPrice: 2500.00,
-      salesAccount: 'Service Revenue',
+      salesAccountId: fallbackServiceAccountId,
       salesDescription: 'Professional IT consulting and advisory services',
       isPurchasable: false,
       trackInventory: false,
@@ -221,7 +247,6 @@ async function main() {
         purchasePrice: 55000.00,
         quantity: 12,
         unitId: unitPcs?.id,
-        unit: 'pcs',  // Kept for backward compatibility
         purchaseOrderNumber: 'PO-2024-001',
         invoiceNumber: 'INV-ACME-001',
         purchaseDate: new Date('2024-01-15'),
@@ -233,7 +258,6 @@ async function main() {
         purchasePrice: 54500.00,
         quantity: 10,
         unitId: unitPcs?.id,
-        unit: 'pcs',  // Kept for backward compatibility
         purchaseOrderNumber: 'PO-2024-002',
         invoiceNumber: 'INV-ACME-002',
         purchaseDate: new Date('2024-02-20'),

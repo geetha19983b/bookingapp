@@ -15,6 +15,27 @@ export const getAllItems = async (): Promise<ItemRecord[]> => {
           displayName: true,
         },
       },
+      salesAccountRef: {
+        select: {
+          id: true,
+          accountName: true,
+          accountType: true,
+        },
+      },
+      purchaseAccountRef: {
+        select: {
+          id: true,
+          accountName: true,
+          accountType: true,
+        },
+      },
+      unitRef: {
+        select: {
+          id: true,
+          code: true,
+          name: true,
+        },
+      },
     },
   });
 };
@@ -27,6 +48,27 @@ export const getItemById = async (itemId: number): Promise<ItemRecord | null> =>
         select: {
           id: true,
           displayName: true,
+        },
+      },
+      salesAccountRef: {
+        select: {
+          id: true,
+          accountName: true,
+          accountType: true,
+        },
+      },
+      purchaseAccountRef: {
+        select: {
+          id: true,
+          accountName: true,
+          accountType: true,
+        },
+      },
+      unitRef: {
+        select: {
+          id: true,
+          code: true,
+          name: true,
         },
       },
     },
@@ -43,6 +85,27 @@ export const createItem = async (payload: CreateItemBody): Promise<ItemRecord> =
           select: {
             id: true,
             displayName: true,
+          },
+        },
+        salesAccountRef: {
+          select: {
+            id: true,
+            accountName: true,
+            accountType: true,
+          },
+        },
+        purchaseAccountRef: {
+          select: {
+            id: true,
+            accountName: true,
+            accountType: true,
+          },
+        },
+        unitRef: {
+          select: {
+            id: true,
+            code: true,
+            name: true,
           },
         },
       },
@@ -69,6 +132,27 @@ export const updateItem = async (itemId: number, payload: UpdateItemBody): Promi
           select: {
             id: true,
             displayName: true,
+          },
+        },
+        salesAccountRef: {
+          select: {
+            id: true,
+            accountName: true,
+            accountType: true,
+          },
+        },
+        purchaseAccountRef: {
+          select: {
+            id: true,
+            accountName: true,
+            accountType: true,
+          },
+        },
+        unitRef: {
+          select: {
+            id: true,
+            code: true,
+            name: true,
           },
         },
       },

@@ -61,13 +61,15 @@ const itemBaseSchema = z.object({
   // Sales Information
   isSellable: z.boolean().optional(),
   sellingPrice: z.coerce.number().min(0).finite().optional(),
-  salesAccount: nullableTrimmedString(100),
+  salesAccountId: z.coerce.number().int().positive().nullable().optional(),
+  salesAccount: nullableTrimmedString(100),  // Deprecated: kept for backward compatibility
   salesDescription: nullableTrimmedString(10000),
   
   // Purchase Information
   isPurchasable: z.boolean().optional(),
   costPrice: z.coerce.number().min(0).finite().optional(),
-  purchaseAccount: nullableTrimmedString(100),
+  purchaseAccountId: z.coerce.number().int().positive().nullable().optional(),
+  purchaseAccount: nullableTrimmedString(100),  // Deprecated: kept for backward compatibility
   purchaseDescription: nullableTrimmedString(10000),
   preferredVendorId: z.coerce.number().int().positive().nullable().optional(),
   

@@ -12,6 +12,7 @@ import { errorHandler } from './middleware/errorHandler';
 import vendorRoutes from './routes/vendors';
 import itemRoutes from './routes/items';
 import unitRoutes from './routes/units';
+import accountRoutes from './routes/accounts';
 
 const app = express();
 
@@ -79,11 +80,13 @@ app.get('/health', async (_req: Request, res: Response) => {
 app.use('/api/v1/vendors', vendorRoutes);
 app.use('/api/v1/items', itemRoutes);
 app.use('/api/v1/units', unitRoutes);
+app.use('/api/v1/accounts', accountRoutes);
 
 // Legacy routes (deprecated - consider removing in future)
 app.use('/api/vendors', vendorRoutes);
 app.use('/api/items', itemRoutes);
 app.use('/api/units', unitRoutes);
+app.use('/api/accounts', accountRoutes);
 
 // Error handling middleware (must be last)
 app.use(errorHandler);

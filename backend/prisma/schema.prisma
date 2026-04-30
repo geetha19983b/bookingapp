@@ -10,6 +10,53 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Master Data: Chart of Accounts
+model Account {
+  id                      Int       @id @default(autoincrement())
+  accountId               String?   @unique @map("account_id") @db.VarChar(50)  // External system ID (e.g., Zoho ID)
+  accountType             String    @map("account_type") @db.VarChar(50)        // income, expense, asset, liability, equity
+  accountName             String    @map("account_name") @db.VarChar(200)
+  accountCode             String?   @map("account_code") @db.VarChar(20)
+  parentAccountId         Int?      @map("parent_account_id")                    // For hierarchical accounts
+  
+  // Account Details
+  description             String?   @db.Text
+  accountHint             String?   @map("account_hint") @db.Text               // User-friendly description
+  depth                   Int       @default(0)                                  // Hierarchy depth (0 = root)
+  
+  // Classification
+  accountTypeInt          Int?      @map("account_type_int")                     // Numeric type code
+  scheduleBalanceSheetCategory String? @map("schedule_balancesheet_category") @db.VarChar(100)
+  scheduleProfitAndLossCategory String? @map("schedule_profit_and_loss_category") @db.VarChar(100)
+  
+  // Flags
+  isTaxAccount            Boolean   @default(false) @map("is_tax_account")
+  isDefault               Boolean   @default(false) @map("is_default")
+  isPrimaryAccount        Boolean   @default(false) @map("is_primary_account")
+  isRootAccountWithChild  Boolean   @default(false) @map("is_root_account_with_child")
+  
+  // Status and Metadata
+  isActive                Boolean   @default(true) @map("is_active")
+  createdAt               DateTime  @default(now()) @map("created_at")
+  updatedAt               DateTime  @updatedAt @map("updated_at")
+  createdBy               String?   @map("created_by") @db.VarChar(100)
+  updatedBy               String?   @map("updated_by") @db.VarChar(100)
+  
+  // Relations
+  parentAccount           Account?  @relation("AccountHierarchy", fields: [parentAccountId], references: [id], onDelete: Restrict)
+  childAccounts           Account[] @relation("AccountHierarchy")
+  itemsSales              Item[]    @relation("SalesAccount")
+  itemsPurchase           Item[]    @relation("PurchaseAccount")
+  
+  @@map("accounts")
+  @@index([accountId])
+  @@index([accountType])
+  @@index([accountName])
+  @@index([parentAccountId])
+  @@index([isActive])
+  @@index([isTaxAccount])
+}
+
 // Master Data: Units of Measurement (UQC - Unique Quantity Code)
 model Unit {
   id          Int       @id @default(autoincrement())
@@ -122,13 +169,15 @@ model Item {
   // Sales Information
   isSellable                Boolean   @default(true) @map("is_sellable")
   sellingPrice              Decimal?  @map("selling_price") @db.Decimal(15, 2)
-  salesAccount              String?   @map("sales_account") @db.VarChar(100)
+  salesAccountId            Int?      @map("sales_account_id")
+  salesAccount              String?   @map("sales_account") @db.VarChar(100)    // Deprecated: kept for backward compatibility
   salesDescription          String?   @map("sales_description") @db.Text
   
   // Purchase Information
   isPurchasable             Boolean   @default(true) @map("is_purchasable")
   costPrice                 Decimal?  @map("cost_price") @db.Decimal(15, 2)
-  purchaseAccount           String?   @map("purchase_account") @db.VarChar(100)
+  purchaseAccountId         Int?      @map("purchase_account_id")
+  purchaseAccount           String?   @map("purchase_account") @db.VarChar(100) // Deprecated: kept for backward compatibility
   purchaseDescription       String?   @map("purchase_description") @db.Text
   preferredVendorId         Int?      @map("preferred_vendor_id")
   
@@ -156,6 +205,8 @@ model Item {
   // Relations
   preferredVendor           Vendor?   @relation("PreferredVendor", fields: [preferredVendorId], references: [id], onDelete: SetNull)
   unitRef                   Unit?     @relation(fields: [unitId], references: [id], onDelete: SetNull)
+  salesAccountRef           Account?  @relation("SalesAccount", fields: [salesAccountId], references: [id], onDelete: SetNull)
+  purchaseAccountRef        Account?  @relation("PurchaseAccount", fields: [purchaseAccountId], references: [id], onDelete: SetNull)
   vendorItemsHistory        VendorItemHistory[]
   
   @@map("items")
@@ -164,6 +215,8 @@ model Item {
   @@index([itemType])
   @@index([hsnCode])
   @@index([unitId])
+  @@index([salesAccountId])
+  @@index([purchaseAccountId])
   @@index([preferredVendorId])
   @@index([isActive])
   @@index([isSellable])
