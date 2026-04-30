@@ -11,6 +11,35 @@ async function main() {
   await prisma.contactPerson.deleteMany();
   await prisma.item.deleteMany();
   await prisma.vendor.deleteMany();
+  await prisma.unit.deleteMany();
+
+  // Seed Units (UQC - Unique Quantity Codes for GST)
+  console.log('Seeding units...');
+  const units = await prisma.unit.createMany({
+    data: [
+      { code: 'BOX', name: 'Box', description: 'Box', isActive: true, createdBy: 'system' },
+      { code: 'CMS', name: 'Centimeters', description: 'Centimeters', isActive: true, createdBy: 'system' },
+      { code: 'FTS', name: 'Feet', description: 'Feet', isActive: true, createdBy: 'system' },
+      { code: 'GMS', name: 'Grams', description: 'Grams', isActive: true, createdBy: 'system' },
+      { code: 'HRS', name: 'Hours', description: 'Hours', isActive: true, createdBy: 'system' },
+      { code: 'KGS', name: 'Kilograms', description: 'Kilograms', isActive: true, createdBy: 'system' },
+      { code: 'KME', name: 'Kilometers', description: 'Kilometers', isActive: true, createdBy: 'system' },
+      { code: 'LBS', name: 'Pounds', description: 'Pounds', isActive: true, createdBy: 'system' },
+      { code: 'MGS', name: 'Milligrams', description: 'Milligrams', isActive: true, createdBy: 'system' },
+      { code: 'MLT', name: 'Milliliters', description: 'Milliliters', isActive: true, createdBy: 'system' },
+      { code: 'MTR', name: 'Meters', description: 'Meters', isActive: true, createdBy: 'system' },
+      { code: 'PCS', name: 'Pieces', description: 'Pieces', isActive: true, createdBy: 'system' },
+      { code: 'SQF', name: 'Square Feet', description: 'Square Feet', isActive: true, createdBy: 'system' },
+      { code: 'SQM', name: 'Square Meters', description: 'Square Meters', isActive: true, createdBy: 'system' },
+      { code: 'NOS', name: 'Numbers', description: 'Numbers', isActive: true, createdBy: 'system' },
+    ],
+  });
+
+  console.log(`Created ${15} units`);
+
+  // Get units for reference
+  const unitPcs = await prisma.unit.findUnique({ where: { code: 'PCS' } });
+  const unitHrs = await prisma.unit.findUnique({ where: { code: 'HRS' } });
 
   // Seed Vendors
   console.log('Seeding vendors...');
@@ -130,7 +159,8 @@ async function main() {
       itemType: 'goods',
       name: 'Laptop - Dell Latitude 5420',
       sku: 'LAP-DELL-5420',
-      unit: 'pcs',
+      unitId: unitPcs?.id,
+      unit: 'pcs',  // Kept for backward compatibility
       hsnCode: '84713010',
       taxPreference: 'taxable',
       intraStateTaxRate: 'GST18 (18%)',
@@ -159,8 +189,9 @@ async function main() {
     data: {
       itemType: 'service',
       name: 'IT Consulting Services',
-      sku: 'SVC-IT-CONS',
-      unit: 'hrs',
+      sku: 'IT-CONS',
+      unitId: unitHrs?.id,
+      unit: 'hrs',  // Kept for backward compatibility
       hsnCode: '998314',
       taxPreference: 'taxable',
       intraStateTaxRate: 'GST18 (18%)',
@@ -188,8 +219,9 @@ async function main() {
         vendorId: vendor1.id,
         itemId: item1.id,
         purchasePrice: 55000.00,
-        quantity: 5,
-        unit: 'pcs',
+        quantity: 12,
+        unitId: unitPcs?.id,
+        unit: 'pcs',  // Kept for backward compatibility
         purchaseOrderNumber: 'PO-2024-001',
         invoiceNumber: 'INV-ACME-001',
         purchaseDate: new Date('2024-01-15'),
@@ -200,7 +232,8 @@ async function main() {
         itemId: item1.id,
         purchasePrice: 54500.00,
         quantity: 10,
-        unit: 'pcs',
+        unitId: unitPcs?.id,
+        unit: 'pcs',  // Kept for backward compatibility
         purchaseOrderNumber: 'PO-2024-002',
         invoiceNumber: 'INV-ACME-002',
         purchaseDate: new Date('2024-02-20'),

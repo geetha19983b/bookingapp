@@ -11,6 +11,7 @@ import { requestLogger } from './middleware/requestLogger';
 import { errorHandler } from './middleware/errorHandler';
 import vendorRoutes from './routes/vendors';
 import itemRoutes from './routes/items';
+import unitRoutes from './routes/units';
 
 const app = express();
 
@@ -77,10 +78,12 @@ app.get('/health', async (_req: Request, res: Response) => {
 // API v1 routes
 app.use('/api/v1/vendors', vendorRoutes);
 app.use('/api/v1/items', itemRoutes);
+app.use('/api/v1/units', unitRoutes);
 
 // Legacy routes (deprecated - consider removing in future)
 app.use('/api/vendors', vendorRoutes);
 app.use('/api/items', itemRoutes);
+app.use('/api/units', unitRoutes);
 
 // Error handling middleware (must be last)
 app.use(errorHandler);
