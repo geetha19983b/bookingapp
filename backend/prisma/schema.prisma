@@ -23,17 +23,17 @@ model Vendor {
   // Billing Address
   billingAddressLine1     String?   @map("billing_address_line1") @db.VarChar(255)
   billingAddressLine2     String?   @map("billing_address_line2") @db.VarChar(255)
-  billingCity             String?   @map("billing_city") @db.VarChar(100)
-  billingState            String?   @map("billing_state") @db.VarChar(100)
-  billingCountry          String?   @map("billing_country") @db.VarChar(100)
+  billingCity             String?   @map("billing_city") @db.VarChar(100)      // City name (no standard code)
+  billingState            String?   @map("billing_state") @db.VarChar(10)      // State ISO code (e.g., "NY", "MH")
+  billingCountry          String?   @map("billing_country") @db.VarChar(2)     // Country ISO2 code (e.g., "US", "IN")
   billingZipCode          String?   @map("billing_zip_code") @db.VarChar(20)
   
   // Shipping Address
   shippingAddressLine1    String?   @map("shipping_address_line1") @db.VarChar(255)
   shippingAddressLine2    String?   @map("shipping_address_line2") @db.VarChar(255)
-  shippingCity            String?   @map("shipping_city") @db.VarChar(100)
-  shippingState           String?   @map("shipping_state") @db.VarChar(100)
-  shippingCountry         String?   @map("shipping_country") @db.VarChar(100)
+  shippingCity            String?   @map("shipping_city") @db.VarChar(100)     // City name (no standard code)
+  shippingState           String?   @map("shipping_state") @db.VarChar(10)     // State ISO code (e.g., "NY", "MH")
+  shippingCountry         String?   @map("shipping_country") @db.VarChar(2)    // Country ISO2 code (e.g., "US", "IN")
   shippingZipCode         String?   @map("shipping_zip_code") @db.VarChar(20)
   
   // GST & Tax Information

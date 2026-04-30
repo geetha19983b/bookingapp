@@ -12,8 +12,9 @@ import {
   clearError,
   clearSuccessMessage,
 } from '../store/vendorSlice';
-import { Input, TextArea, Button, Alert } from '@components/ui';
+import { Input, TextArea, Button, Alert, Select } from '@components/ui';
 import { vendorFormSchema, type VendorFormValues } from '../schemas/vendorValidation';
+import { useLocationData } from '@/hooks/useLocationData';
 
 /**
  * Default form values
@@ -83,6 +84,24 @@ export default function VendorForm() {
   const billingState = watch('billingState');
   const billingCountry = watch('billingCountry');
   const billingZipCode = watch('billingZipCode');
+
+  // Cascading location data for billing address
+  const billingLocation = useLocationData<VendorFormValues>({
+    watch,
+    setValue,
+    countryField: 'billingCountry',
+    stateField: 'billingState',
+    cityField: 'billingCity',
+  });
+
+  // Cascading location data for shipping address
+  const shippingLocation = useLocationData<VendorFormValues>({
+    watch,
+    setValue,
+    countryField: 'shippingCountry',
+    stateField: 'shippingState',
+    cityField: 'shippingCity',
+  });
 
   useEffect(() => {
     if (isEditMode && id) {
@@ -360,25 +379,30 @@ export default function VendorForm() {
                       />
                     </div>
 
-                    <Input
-                      label="City"
-                      {...register('billingCity')}
-                      error={errors.billingCity?.message}
-                      maxLength={100}
-                    />
-
-                    <Input
-                      label="State"
-                      {...register('billingState')}
-                      error={errors.billingState?.message}
-                      maxLength={100}
-                    />
-
-                    <Input
+                    <Select
                       label="Country"
                       {...register('billingCountry')}
                       error={errors.billingCountry?.message}
-                      maxLength={100}
+                      options={billingLocation.countryOptions}
+                      placeholder="Select country"
+                    />
+
+                    <Select
+                      label="State"
+                      {...register('billingState')}
+                      error={errors.billingState?.message}
+                      options={billingLocation.stateOptions}
+                      placeholder={watch('billingCountry') ? 'Select state' : 'Select country first'}
+                      disabled={!watch('billingCountry')}
+                    />
+
+                    <Select
+                      label="City"
+                      {...register('billingCity')}
+                      error={errors.billingCity?.message}
+                      options={billingLocation.cityOptions}
+                      placeholder={watch('billingState') ? 'Select city' : 'Select state first'}
+                      disabled={!watch('billingState')}
                     />
 
                     <Input
@@ -423,25 +447,30 @@ export default function VendorForm() {
                       />
                     </div>
 
-                    <Input
-                      label="City"
-                      {...register('shippingCity')}
-                      error={errors.shippingCity?.message}
-                      maxLength={100}
-                    />
-
-                    <Input
-                      label="State"
-                      {...register('shippingState')}
-                      error={errors.shippingState?.message}
-                      maxLength={100}
-                    />
-
-                    <Input
+                    <Select
                       label="Country"
                       {...register('shippingCountry')}
                       error={errors.shippingCountry?.message}
-                      maxLength={100}
+                      options={shippingLocation.countryOptions}
+                      placeholder="Select country"
+                    />
+
+                    <Select
+                      label="State"
+                      {...register('shippingState')}
+                      error={errors.shippingState?.message}
+                      options={shippingLocation.stateOptions}
+                      placeholder={watch('shippingCountry') ? 'Select state' : 'Select country first'}
+                      disabled={!watch('shippingCountry')}
+                    />
+
+                    <Select
+                      label="City"
+                      {...register('shippingCity')}
+                      error={errors.shippingCity?.message}
+                      options={shippingLocation.cityOptions}
+                      placeholder={watch('shippingState') ? 'Select city' : 'Select state first'}
+                      disabled={!watch('shippingState')}
                     />
 
                     <Input

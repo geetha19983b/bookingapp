@@ -16,16 +16,16 @@ export const vendorFormSchema = z.object({
   billingAddressLine1: z.string().max(255).optional().nullable(),
   billingAddressLine2: z.string().max(255).optional().nullable(),
   billingCity: z.string().max(100).optional().nullable(),
-  billingState: z.string().max(100).optional().nullable(),
-  billingCountry: z.string().max(100).optional().nullable(),
+  billingState: z.string().max(10).optional().nullable(),      // State ISO code
+  billingCountry: z.string().max(2).optional().nullable(),     // Country ISO2 code
   billingZipCode: z.string().max(20).optional().nullable(),
   
   // Shipping Address
   shippingAddressLine1: z.string().max(255).optional().nullable(),
   shippingAddressLine2: z.string().max(255).optional().nullable(),
   shippingCity: z.string().max(100).optional().nullable(),
-  shippingState: z.string().max(100).optional().nullable(),
-  shippingCountry: z.string().max(100).optional().nullable(),
+  shippingState: z.string().max(10).optional().nullable(),     // State ISO code
+  shippingCountry: z.string().max(2).optional().nullable(),    // Country ISO2 code
   shippingZipCode: z.string().max(20).optional().nullable(),
   
   // Tax & Compliance

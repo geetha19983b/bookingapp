@@ -121,14 +121,14 @@ const vendorBaseSchema = z.object({
   billingAddressLine1: nullableTrimmedString(255),
   billingAddressLine2: nullableTrimmedString(255),
   billingCity: nullableTrimmedString(100),
-  billingState: nullableTrimmedString(100),
-  billingCountry: nullableTrimmedString(100),
+  billingState: nullableTrimmedString(10),    // State ISO code (e.g., "NY", "MH")
+  billingCountry: nullableTrimmedString(2),   // Country ISO2 code (e.g., "US", "IN")
   billingZipCode: nullableTrimmedString(20),
   shippingAddressLine1: nullableTrimmedString(255),
   shippingAddressLine2: nullableTrimmedString(255),
   shippingCity: nullableTrimmedString(100),
-  shippingState: nullableTrimmedString(100),
-  shippingCountry: nullableTrimmedString(100),
+  shippingState: nullableTrimmedString(10),   // State ISO code (e.g., "NY", "MH")
+  shippingCountry: nullableTrimmedString(2),  // Country ISO2 code (e.g., "US", "IN")
   shippingZipCode: nullableTrimmedString(20),
   gstTreatment: nullableTrimmedString(100),
   gstin: gstinSchema,

@@ -23,13 +23,13 @@ async function main() {
       mobilePhone: '+1-555-0101',
       billingAddressLine1: '123 Business St',
       billingCity: 'New York',
-      billingState: 'NY',
-      billingCountry: 'USA',
+      billingState: 'NY',              // State ISO code
+      billingCountry: 'US',            // Country ISO2 code
       billingZipCode: '10001',
       shippingAddressLine1: '123 Business St',
       shippingCity: 'New York',
-      shippingState: 'NY',
-      shippingCountry: 'USA',
+      shippingState: 'NY',             // State ISO code
+      shippingCountry: 'US',           // Country ISO2 code
       shippingZipCode: '10001',
       gstTreatment: 'Registered Business',
       gstin: '29ABCDE1234F1Z5',
@@ -52,13 +52,13 @@ async function main() {
       mobilePhone: '+91-9876543210',
       billingAddressLine1: 'Plot 456, Industrial Area',
       billingCity: 'Mumbai',
-      billingState: 'Maharashtra',
-      billingCountry: 'India',
+      billingState: 'MH',              // State ISO code (Maharashtra)
+      billingCountry: 'IN',            // Country ISO2 code (India)
       billingZipCode: '400001',
       shippingAddressLine1: 'Plot 456, Industrial Area',
       shippingCity: 'Mumbai',
-      shippingState: 'Maharashtra',
-      shippingCountry: 'India',
+      shippingState: 'MH',             // State ISO code (Maharashtra)
+      shippingCountry: 'IN',           // Country ISO2 code (India)
       shippingZipCode: '400001',
       gstTreatment: 'Registered Business',
       gstin: '27XYZAB5678C1ZD',
