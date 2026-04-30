@@ -112,24 +112,140 @@ const currencySchema = z
     z.string().regex(/^[A-Z]{3}$/, 'currency must be a 3-letter ISO code').nullable().optional()
   );
 
+const zipCodeSchema = z
+  .preprocess(
+    (value) => {
+      if (value === undefined) {
+        return undefined;
+      }
+      if (value === null) {
+        return null;
+      }
+      if (typeof value === 'string') {
+        const trimmed = value.trim();
+        return trimmed.length === 0 ? null : trimmed;
+      }
+      return value;
+    },
+    z
+      .string()
+      .regex(
+        /^[A-Z0-9][A-Z0-9\s-]{0,18}[A-Z0-9]$/i,
+        'zip_code must be alphanumeric with optional spaces or hyphens (e.g., 12345, 12345-6789, 400001, SW1A 1AA)'
+      )
+      .nullable()
+      .optional()
+  );
+
+const phoneSchema = z
+  .preprocess(
+    (value) => {
+      if (value === undefined) {
+        return undefined;
+      }
+      if (value === null) {
+        return null;
+      }
+      if (typeof value === 'string') {
+        const trimmed = value.trim();
+        return trimmed.length === 0 ? null : trimmed;
+      }
+      return value;
+    },
+    z
+      .string()
+      .regex(
+        /^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,4}[-\s.]?[0-9]{1,9}$/,
+        'phone must be a valid phone number (e.g., 1234567890, +91-1234567890, (123) 456-7890)'
+      )
+      .nullable()
+      .optional()
+  );
+
+const stateCodeSchema = z
+  .preprocess(
+    (value) => {
+      if (value === undefined) {
+        return undefined;
+      }
+      if (value === null) {
+        return null;
+      }
+      if (typeof value === 'string') {
+        const trimmed = value.trim();
+        return trimmed.length === 0 ? null : trimmed.toUpperCase();
+      }
+      return value;
+    },
+    z
+      .string()
+      .regex(/^[A-Z0-9]{2,10}$/, 'state must be a valid ISO code (e.g., NY, CA, MH, DL)')
+      .nullable()
+      .optional()
+  );
+
+const countryCodeSchema = z
+  .preprocess(
+    (value) => {
+      if (value === undefined) {
+        return undefined;
+      }
+      if (value === null) {
+        return null;
+      }
+      if (typeof value === 'string') {
+        const trimmed = value.trim();
+        return trimmed.length === 0 ? null : trimmed.toUpperCase();
+      }
+      return value;
+    },
+    z
+      .string()
+      .regex(/^[A-Z]{2}$/, 'country must be a 2-letter ISO code (e.g., US, IN, GB)')
+      .nullable()
+      .optional()
+  );
+
+const bankAccountSchema = z
+  .preprocess(
+    (value) => {
+      if (value === undefined) {
+        return undefined;
+      }
+      if (value === null) {
+        return null;
+      }
+      if (typeof value === 'string') {
+        const trimmed = value.trim();
+        return trimmed.length === 0 ? null : trimmed;
+      }
+      return value;
+    },
+    z
+      .string()
+      .regex(/^[A-Z0-9]{6,34}$/i, 'bank_account_number must be alphanumeric, 6-34 characters')
+      .nullable()
+      .optional()
+  );
+
 const vendorBaseSchema = z.object({
   companyName: nullableTrimmedString(255),
   displayName: nullableTrimmedString(255),
   email: emailSchema,
-  workPhone: nullableTrimmedString(20),
-  mobilePhone: nullableTrimmedString(20),
+  workPhone: phoneSchema,
+  mobilePhone: phoneSchema,
   billingAddressLine1: nullableTrimmedString(255),
   billingAddressLine2: nullableTrimmedString(255),
   billingCity: nullableTrimmedString(100),
-  billingState: nullableTrimmedString(10),    // State ISO code (e.g., "NY", "MH")
-  billingCountry: nullableTrimmedString(2),   // Country ISO2 code (e.g., "US", "IN")
-  billingZipCode: nullableTrimmedString(20),
+  billingState: stateCodeSchema,
+  billingCountry: countryCodeSchema,
+  billingZipCode: zipCodeSchema,
   shippingAddressLine1: nullableTrimmedString(255),
   shippingAddressLine2: nullableTrimmedString(255),
   shippingCity: nullableTrimmedString(100),
-  shippingState: nullableTrimmedString(10),   // State ISO code (e.g., "NY", "MH")
-  shippingCountry: nullableTrimmedString(2),  // Country ISO2 code (e.g., "US", "IN")
-  shippingZipCode: nullableTrimmedString(20),
+  shippingState: stateCodeSchema,
+  shippingCountry: countryCodeSchema,
+  shippingZipCode: zipCodeSchema,
   gstTreatment: nullableTrimmedString(100),
   gstin: gstinSchema,
   sourceOfSupply: nullableTrimmedString(100),
@@ -139,7 +255,7 @@ const vendorBaseSchema = z.object({
   openingBalance: z.coerce.number().finite().optional(),
   paymentTerms: nullableTrimmedString(100),
   bankName: nullableTrimmedString(255),
-  bankAccountNumber: nullableTrimmedString(50),
+  bankAccountNumber: bankAccountSchema,
   bankIfscCode: ifscSchema,
   bankBranch: nullableTrimmedString(255),
   remarks: nullableTrimmedString(10000),
